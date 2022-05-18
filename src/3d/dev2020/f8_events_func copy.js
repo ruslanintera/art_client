@@ -273,12 +273,6 @@ class i3d_Events_func {
       );
 
       console.log("CLICK vc3d_glob.curr_obj = ", vc3d_glob.curr_obj);
-      console.log(
-        "CLICK intersects_0 = ",
-        Math.ceil(intersects_0.point.x),
-        Math.ceil(intersects_0.point.y),
-        Math.ceil(intersects_0.point.z)
-      );
 
       if (vc3d_glob.curr_obj.wtype === "gltf") {
         const active3dElement = {
@@ -288,6 +282,167 @@ class i3d_Events_func {
         };
 
         vc3d_glob.device.setActive3dElement(active3dElement);
+      }
+
+      if (vc3d_glob.curr_obj.RACK) {
+        // !!!!!!!!!!!!
+        vc3d_glob.device.setActiveObject(vc3d_glob.curr_obj); // activate / deactivate
+        if (vc3d_glob.curr_obj.RACK.rt > 0 && vc3d_glob.device.getRacktype3d) {
+          const RT = vc3d_glob.device.getRacktype3d.find((obj, index) => {
+            return obj.id === vc3d_glob.curr_obj.RACK.rt;
+          });
+          if (RT) {
+            vc3d_glob.curr_obj.RACK.name = RT.name; //console.log(RT.name, "RT =============", RT);
+
+            console.log("78787 RT =============", RT);
+
+            vc3d_glob.device.setActive3dModel({
+              dc: vc3d_glob.curr_obj.RACK.dc.id,
+              name: vc3d_glob.curr_obj.RACK.name,
+
+              x: vc3d_glob.curr_obj.RACK.x,
+              z: vc3d_glob.curr_obj.RACK.z,
+              rt: vc3d_glob.curr_obj.RACK.rt,
+              type: vc3d_glob.curr_obj.RACK.type, //type:  0 - empty, 1 - rack, 2 - ремонт, 3 - замена, rt - RACKTYPE
+              p: vc3d_glob.curr_obj.RACK.p,
+            });
+            //console.log("7667 vc3d_glob.curr_obj.RACK =============", vc3d_glob.curr_obj.RACK);
+          } else {
+            vc3d_glob.device.setActive3dModel({});
+          }
+          // vc3d_glob.device.getRacktype3d
+        } else {
+          vc3d_glob.device.setActive3dModel({});
+        }
+
+        // getActiveRackType - значит мы активировали один тип стеллажа и хотим назначить его другим стеллажам
+        //let delete_previous_cube = true;
+        if (
+          vc3d_glob.device.getActiveRackType != undefined &&
+          vc3d_glob.device.getActiveRackType.id
+        ) {
+          // то есть один из RackType = activated, а значит его будем назначать стеллажам-кубикам на 3Д модели РЦ
+          if (vc3d_glob.dc_params1 && vc3d_glob.dc_params1.racks) {
+            if (vc3d_glob.curr_obj.RACK && vc3d_glob.curr_obj.RACK.type === 1) {
+              // RACK.type === 1 то есть это обычный стеллаж без ремонта и замены
+              vc3d_glob.curr_obj.RACK.rt =
+                vc3d_glob.device.getActiveRackType.id; // проставим RackType у кубика
+              vc3d_glob.curr_obj.RACK.color =
+                vc3d_glob.device.getActiveRackType.color; // проставим RackType у кубика
+
+              // теперь проставим RackType в списке всех стеллажей vc3d_glob.dc_params1.racks
+              if (
+                vc3d_glob.curr_obj.RACK.x != undefined &&
+                vc3d_glob.curr_obj.RACK.z != undefined
+              ) {
+                // найдем нужный элемент массива vc3d_glob.dc_params1.racks
+                const rackElem = vc3d_glob.dc_params1.racks.find(
+                  (elem) =>
+                    elem.x === vc3d_glob.curr_obj.RACK.x &&
+                    elem.z === vc3d_glob.curr_obj.RACK.z
+                );
+                if (rackElem) {
+                  rackElem.rt = vc3d_glob.device.getActiveRackType.id; // у него проставим RackType
+                  rackElem.color = vc3d_glob.device.getActiveRackType.color; // у него проставим RackType
+                  //vc3d_glob.delete_previous_cube = false;
+                  //console.log("677 vc3d_glob.device.getActiveRackType.color = ", vc3d_glob.device.getActiveRackType.color)
+                }
+              }
+            }
+          }
+        }
+        /**/
+        // RED CUBE !
+        if (vc3d_glob.red_cube && vc3d_glob.delete_previous_cube) {
+          vc3d_glob.SCENE.remove(vc3d_glob.red_cube);
+        }
+        //if(vc3d_glob.red_cube) { vc3d_glob.SCENE.remove(vc3d_glob.red_cube); }
+        // 0 - empty, 1 - rack, 2 - ремонт, 3 - замена
+
+        // НЕ УДАЛЯТЬ !! это старый но быстрый способ выбора цвета кубика стеллажа !!!
+        // if(vc3d_glob.curr_obj.RACK.type === 0) { this.addCubeNew(vc3d_glob.curr_obj, vc3d_glob.rack_empty_DARK_color); }
+        // else if(vc3d_glob.curr_obj.RACK.type === 1) {
+        //     if(vc3d_glob.curr_obj.RACK.color) { this.addCubeNew(vc3d_glob.curr_obj, vc3d_glob.curr_obj.RACK.color); }
+        //     else { this.addCubeNew(vc3d_glob.curr_obj, vc3d_glob.rack_BLUE_color); }
+        // }
+        // else if(vc3d_glob.curr_obj.RACK.type === 2) { this.addCubeNew(vc3d_glob.curr_obj, vc3d_glob.rack_repair_color); }
+        // else if(vc3d_glob.curr_obj.RACK.type === 3) { this.addCubeNew(vc3d_glob.curr_obj, vc3d_glob.rack_change_color); }
+
+        //console.log("vc3d_glob.curr_obj.RACK.type = ", vc3d_glob.curr_obj.RACK.type)
+        // rack_repair2_color: "#f40",
+        // rack_repair22_color: "#ff0",
+        // rack_change3_color: "#f04",
+        // rack_change33_color: "#a02",
+        // rack_repair_change23_color: "#f00",
+
+        if (vc3d_glob.curr_obj.RACK.rt === 0) {
+          this.addCubeNew(vc3d_glob.curr_obj, vc3d_glob.rack_empty_DARK_color);
+        } else if (vc3d_glob.curr_obj.RACK.rt > 0) {
+          let rack_type = 1;
+          rack_type = common.def_rack_type(
+            rack_type,
+            vc3d_glob.curr_obj.RACK.p
+          );
+          //console.log("!!===================================================! rack_type = ", rack_type)
+
+          if (rack_type === 1) {
+            if (vc3d_glob.curr_obj.RACK.color) {
+              this.addCubeNew(
+                vc3d_glob.curr_obj,
+                vc3d_glob.curr_obj.RACK.color
+              );
+            } else {
+              this.addCubeNew(vc3d_glob.curr_obj, vc3d_glob.rack_BLUE_color);
+            }
+          } else if (rack_type === 2) {
+            this.addCubeNew(vc3d_glob.curr_obj, vc3d_glob.rack_repair2_color);
+          } else if (rack_type === 22) {
+            this.addCubeNew(vc3d_glob.curr_obj, vc3d_glob.rack_repair22_color);
+          } else if (rack_type === 3) {
+            this.addCubeNew(vc3d_glob.curr_obj, vc3d_glob.rack_change3_color);
+          } else if (rack_type === 33) {
+            this.addCubeNew(vc3d_glob.curr_obj, vc3d_glob.rack_change33_color);
+          } else if (rack_type === 23) {
+            this.addCubeNew(
+              vc3d_glob.curr_obj,
+              vc3d_glob.rack_repair_change23_color
+            );
+          }
+        }
+      }
+
+      //!!! ЭТО ДЛЯ ОКОН - СПЕЦИАЛЬНЫХ ЭКРАНОВ ДЛЯ ИМИТАЦИИ ПАНЕЛЕЙ ПРИБОРОВ
+      if (vc3d_glob.i3d_windows) {
+        windArray.forEach((element) => {
+          if (element.area1.model_unid == vc3d_glob.curr_obj.model_unid) {
+            if (vc3d_glob.curr_obj.f == "turnCurrentRightInArea") {
+              element.turnCurrentRightInArea(1);
+            } else if (vc3d_glob.curr_obj.f == "turnCurrentLeftInArea") {
+              element.turnCurrentLeftInArea(1);
+              //c("turnCurrentLeftInArea");
+            }
+          } else if (
+            element.area2.model_unid == vc3d_glob.curr_obj.model_unid
+          ) {
+            if (vc3d_glob.curr_obj.f == "turnCurrentRightInArea") {
+              element.turnCurrentRightInArea(1);
+            } else if (vc3d_glob.curr_obj.f == "turnCurrentLeftInArea") {
+              element.turnCurrentLeftInArea(1);
+            }
+          }
+        });
+        //i3d_windows.turnCurrentLeftInArea(1); //c("turnCurrentLeftInArea");
+        //i3d_windows.turnCurrentRightInAreaWithStopper(1); //c("turnCurrentRightInAreaWithStopper");
+        //i3d_windows.turnCurrentLeftInAreaWithStopper(1); //c("turnCurrentLeftInAreaWithStopper");
+        //coi(vc3d_glob.curr_obj, "vc3d_glob.curr_obj = ")
+
+        ////////////////////////// !!! ////////////////////////////////////
+        //!!! ЭТО ДЛЯ ОКОН - СПЕЦИАЛЬНЫХ ЭКРАНОВ ДЛЯ ИМИТАЦИИ ПАНЕЛЕЙ ПРИБОРОВ
+        vc3d_glob.timer = setTimeout(
+          i3d_down_up.onlongtouch_reg_iter_WIND,
+          vc3d_glob.touchduration_reg_iter
+        );
+        //i3d_down_up.onlongtouch_reg_iter_WIND();
       }
 
       var bf = true; // найдем главного родителя объекта, но не сцену. Другими словами найдем комнату при щелчке на стену

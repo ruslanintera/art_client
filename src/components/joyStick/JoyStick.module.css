@@ -1,0 +1,14 @@
+.columnLateral {
+  float: left;
+  position: fixed;
+
+  /* width: 15%; */
+  width: 200px;
+  z-index: 1;
+  background-color: aqua;
+}
+.joy2Div {
+  width: 200px;
+  height: 200px;
+  /* margin: 50px; */
+}

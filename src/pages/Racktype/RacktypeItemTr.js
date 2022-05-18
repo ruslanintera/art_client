@@ -17,7 +17,7 @@ import { vc3d_glob } from "../../3d/dev2020/f5_vc3d_glob";
 // import objLoaders from "../../3d/obj-loaders.js";
 
 const RacktypeItem = observer(({ obj, short }) => {
-  //console.log("objobjobjobjobjobjobjobjobjobjobjobjobjobjobjobjobjobjobjobjobjobjobjobjobjobj ", obj);
+  //console.log("objobjobjobjobjobjobjo ", obj);
   const history = useHistory();
   const { device } = useContext(Context);
 
@@ -43,16 +43,16 @@ const RacktypeItem = observer(({ obj, short }) => {
           vc3d_glob.device = device;
           //common.clear3dscene();
 
-          device.setActive3dModel({
-            dc: vc3d_glob.currentRT.DC.dc,
-            name: vc3d_glob.currentRT.name,
+          // device.setActive3dModel({
+          //   dc: vc3d_glob.currentRT.DC.dc,
+          //   name: vc3d_glob.currentRT.name,
 
-            x: 1, // vc3d_glob.currentDCRack.x,
-            z: 1, // vc3d_glob.currentDCRack.z,
-            rt: 1, // vc3d_glob.currentDCRack.rt,
-            type: 1, // vc3d_glob.currentDCRack.type, //type:  0 - empty, 1 - rack, 2 - ремонт, 3 - замена, rt - RACKTYPE
-            p: 1, // vc3d_glob.currentDCRack.p,
-          });
+          //   x: 1, // vc3d_glob.currentDCRack.x,
+          //   z: 1, // vc3d_glob.currentDCRack.z,
+          //   rt: 1, // vc3d_glob.currentDCRack.rt,
+          //   type: 1, // vc3d_glob.currentDCRack.type, //type:  0 - empty, 1 - rack, 2 - ремонт, 3 - замена, rt - RACKTYPE
+          //   p: 1, // vc3d_glob.currentDCRack.p,
+          // });
 
           let x = 0;
           let y = 0;
@@ -136,7 +136,7 @@ const RacktypeItem = observer(({ obj, short }) => {
         className={"mt-3 comm_num"}
         onClick={() => {
           //device.setRacktypeOne({ ...obj });
-          //console.log("obj", obj, "obj.id = ", obj.id)
+          console.log("obj", obj, "obj.id = ", obj.id);
 
           if (obj.id == device.getActiveRackType.id) {
             device.setActiveRackType({});

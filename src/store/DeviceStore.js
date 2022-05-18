@@ -57,7 +57,7 @@ export default class DeviceStore {
 
     this._activeObject = {}; // selected RACK
     this._activeRackType = {}; // selected RACK TYPE - activated
-    this._active3dModel = {}; // selected 3d Model of RACK
+    //this._active3dModel = {}; // selected 3d Model of RACK
     this._active3dElement = {}; // selected 3d Element
 
     /**************************************************************************************** */
@@ -89,12 +89,12 @@ export default class DeviceStore {
   // тут полное описание текущего RACK === CUBE !!!
   //setActiveRackType3d(obj) { this._activeRackType3d = obj } get getActiveRackType3d() { return this._activeRackType3d }
   // тут полное описание текущего RACK === 3D RACK MODEL !!!
-  setActive3dModel(obj) {
-    this._active3dModel = obj;
-  }
-  get getActive3dModel() {
-    return this._active3dModel;
-  }
+  // setActive3dModel(obj) {
+  //   this._active3dModel = obj;
+  // }
+  // get getActive3dModel() {
+  //   return this._active3dModel;
+  // }
   // тут полное описание текущего элемента
   setActive3dElement(obj) {
     this._active3dElement = obj;

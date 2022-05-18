@@ -1,4 +1,11 @@
-import React, { Component, useContext, useState, useEffect } from "react";
+import React, {
+  Component,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+  useMemo,
+} from "react";
 import { Link } from "react-router-dom";
 
 import { observer } from "mobx-react-lite";
@@ -11,10 +18,32 @@ import PagesRacktype from "../../pages/Racktype/PagesRacktype";
 import { useHistory } from "react-router-dom";
 import { vc3d_glob } from "../../3d/dev2020/f5_vc3d_glob";
 
+import JoyStick from "../joyStick/joyStick";
+import RangeSlider from "../rangeSlider/rangeSlider";
+
 const SideBar = observer((props) => {
   let rootElement = props.rootElement;
   const { device } = useContext(Context);
   const history = useHistory();
+
+  const [parentVal, setParentVal] = useState(10);
+
+  const sliderValueChanged = useCallback((val) => {
+    console.log("NEW VALUE", val);
+    setParentVal(val);
+  });
+
+  const sliderProps = useMemo(
+    () => ({
+      min: 0,
+      max: 100,
+      value: parentVal,
+      step: 2,
+      label: "This is a reusable slider",
+      onChange: (e) => sliderValueChanged(e),
+    }),
+    [parentVal]
+  );
 
   useEffect(() => {
     fetchRacktype({
@@ -251,6 +280,13 @@ const SideBar = observer((props) => {
             SAVE
           </Button>
         </div>
+
+        <div>
+          <h1>PARENT VALUE: {parentVal}</h1>
+          <RangeSlider {...sliderProps} classes="additional-css-classes" />
+        </div>
+
+        <JoyStick />
       </div>
     </nav>
   );

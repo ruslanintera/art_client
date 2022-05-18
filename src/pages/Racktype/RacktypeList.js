@@ -6,16 +6,9 @@ import RacktypeItemTr from "./RacktypeItemTr";
 
 //import DataGrid from 'react-data-grid';
 
-const CommunityList = observer((short) => {
+const CommunityList = observer(({ short }) => {
   const { device } = useContext(Context);
 
-  //console.log("short = ", short);
-
-  const onClickRow = (rowInfo) => {
-    //console.log("row info is: ", rowInfo);
-  };
-
-  //device.getRacktype.map(obj => { obj.active = 1;})
   if (short) {
     return (
       <>

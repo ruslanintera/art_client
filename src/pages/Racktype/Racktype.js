@@ -50,8 +50,8 @@ const Racktype = observer(() => {
             </h4>
 
             <Row className="mt-2">
-              <Col md={3}></Col>
-              <Col md={9}>
+              {/* <Col md={3}></Col> */}
+              <Col md={12}>
                 <PagesRacktype />
                 <RacktypeList />
               </Col>

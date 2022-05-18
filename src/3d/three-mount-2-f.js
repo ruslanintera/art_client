@@ -1,6 +1,6 @@
 import React, { Component, useState, useContext, useEffect } from "react";
-import {observer} from "mobx-react-lite";
-import {Context} from "../index";
+import { observer } from "mobx-react-lite";
+import { Context } from "../index";
 
 // import * as THREE from "three";
 // import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
@@ -8,9 +8,6 @@ import {Context} from "../index";
 // import {FBXLoader} from "three/examples/jsm/loaders/FBXLoader";
 // import {MTLLoader } from 'three/examples/jsm/loaders/MTLLoader.js';
 // import {OBJLoader} from "three/examples/jsm/loaders/OBJLoader";
-
-//let vc3d_glob = {} // vc3d_glob.
-
 /*===========================================================================================*/
 // import { i3d_all } from "./dev2020/f7_assist.js";
 // import { app } from "./dev2020/f9_appvue.js";
@@ -26,40 +23,20 @@ import objLoaders from "./obj-loaders";
 /*===========================================================================================*/
 import { fetchRacktype } from "../http/commAPI";
 
-
 const ThreeMount2 = observer(() => {
-    const {device} = useContext(Context)
-
+  const { device } = useContext(Context);
 
   useEffect((props) => {
-
     // fetchRacktype(null, null, null, null, null, null, null, null, 1, 999).then(data => {
     //   device.setRacktype3d(data.rows)
     //   //device.setRacktypeTotal(data.count)
-
     // })
 
-      vc3d_glob.device = device;
-      objLoaders.sceneSetup_ThreeJS("ALL");
-
+    vc3d_glob.device = device;
+    objLoaders.sceneSetup_ThreeJS("ALL");
   });
 
-  return (
-      <div 
-      // id="ThreeJS" style={{ margin: 0, overflow:hidden, position:absolute, padding: 0, zIndex: 5, top: 0, left: 0 }}
-      
-      // style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, justifyContent: 'center', alignItems: 'center'
-      //     , zIndex:5, border: '0px solid #f00' }}
-      //      ref={ref => (this.mount = ref)} 
-           
-      />
-    )
+  return <></>;
 });
-//
-
-{/* <div style={{position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, justifyContent: 'center', alignItems: 'center'
-, zIndex:4, border: '0px solid #f00' }}
- ref={ref => (this.mount = ref)} /> */}
-
 
 export default ThreeMount2;

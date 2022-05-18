@@ -1,14 +1,14 @@
-import React, {useContext} from 'react';
-import {Switch, Route, Redirect} from 'react-router-dom'
-import {authRoutes, publicRoutes} from "./routes";
-import {COMM_ROUTE} from "./utils/consts";
-import {HOME_ROUTE} from "./utils/consts";
-import {Context} from "./index";
-import {observer} from "mobx-react-lite";
+import React, { useContext } from "react";
+import { Switch, Route, Redirect } from "react-router-dom";
+import { authRoutes, publicRoutes } from "./routes";
+import { COMM_ROUTE } from "./utils/consts";
+import { HOME_ROUTE } from "./utils/consts";
+import { Context } from "./index";
+import { observer } from "mobx-react-lite";
 
-import SideBar from "./components/sidebar01/sidebar01"
+import SideBar from "./components/sidebar01/sidebar01";
 //<SideBar />
-import NavBar from "./components/sidebar01/navbar01"
+import NavBar from "./components/sidebar01/navbar01";
 //<NavBar />
 
 //!!!!!!!!!!!!   3 варианта: 1, 2 - CLASS,  3-й вариант - функция
@@ -18,42 +18,37 @@ import ThreeMount2 from "./3d/three-mount-2-f"; // 3 - function, для функ
 //<ThreeMount2 rootElement={rootElement} />
 
 const AppRouter = observer((props) => {
-    const {user} = useContext(Context)
-    let rootElement=props.rootElement
+  const { user } = useContext(Context);
+  let rootElement = props.rootElement;
 
-    //console.log("AppRouter    props ==============================", props)
-    //console.log("AppRouter    rootElement ==============================", rootElement)
+  //console.log("AppRouter    props ==============================", props)
+  console.log(
+    "AppRouter    rootElement ==============================",
+    rootElement
+  );
 
-    //console.log(user)
-    return (
+  //console.log(user)
+  return (
+    <div className="wrapper d-flex align-items-stretch">
+      <SideBar />
 
+      <div id="content" className="p-0 p-md-0">
+        <NavBar />
+        <ThreeMount2 rootElement={rootElement} />
 
-        <div className="wrapper d-flex align-items-stretch">
-            
-            <SideBar />
-            
-            
-            <div id="content" className="p-0 p-md-0">
-            
-                <NavBar />
-                <ThreeMount2 rootElement={rootElement} />
-                
-                
-                <Switch>
-                    {user.isAuth && authRoutes.map(({path, Component}) =>
-                        <Route key={path} path={path} component={Component} exact/>
-                    )}
-                    {publicRoutes.map(({path, Component}) =>
-                        <Route key={path} path={path} component={Component} exact/>
-                    )}
-                    <Redirect to={HOME_ROUTE}/>
-                </Switch>
-            </div>
-        </div>
-
-
-
-    );
+        <Switch>
+          {user.isAuth &&
+            authRoutes.map(({ path, Component }) => (
+              <Route key={path} path={path} component={Component} exact />
+            ))}
+          {publicRoutes.map(({ path, Component }) => (
+            <Route key={path} path={path} component={Component} exact />
+          ))}
+          <Redirect to={HOME_ROUTE} />
+        </Switch>
+      </div>
+    </div>
+  );
 });
 
 /*
@@ -76,7 +71,5 @@ const AppRouter = observer((props) => {
             </div>
         </div>
 * */
-
-
 
 export default AppRouter;

@@ -187,7 +187,7 @@ const Obj = observer(() => {
       <Container>
         <Row className="mt-2">
           <h4>
-            <strong>3D модель {oneValue.name}</strong>
+            <strong>3D модель. {oneValue.name}</strong>
           </h4>
         </Row>
 
@@ -317,6 +317,20 @@ const Obj = observer(() => {
                       value={oneValue.params2}
                       onChange={(e) =>
                         setOneValue({ ...oneValue, params2: e.target.value })
+                      }
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>params3</td>
+                  <td>{oneValue.params3}</td>
+                  <td>
+                    <input
+                      type="text"
+                      className="form-control pad1"
+                      value={oneValue.params3}
+                      onChange={(e) =>
+                        setOneValue({ ...oneValue, params3: e.target.value })
                       }
                     />
                   </td>
