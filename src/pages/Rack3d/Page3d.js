@@ -48,17 +48,6 @@ const Obj = observer(() => {
         vc3d_glob.device = device;
         common.clear3dscene();
 
-        // device.setActive3dModel({
-        //   dc: vc3d_glob.currentRT.DC.dc,
-        //   name: vc3d_glob.currentRT.name,
-
-        //   x: 1, // vc3d_glob.currentDCRack.x,
-        //   z: 1, // vc3d_glob.currentDCRack.z,
-        //   rt: 1, // vc3d_glob.currentDCRack.rt,
-        //   type: 1, // vc3d_glob.currentDCRack.type, //type:  0 - empty, 1 - rack, 2 - ремонт, 3 - замена, rt - RACKTYPE
-        //   p: 1, // vc3d_glob.currentDCRack.p,
-        // });
-
         i3d_base.load_gltf_2021();
       }
     });

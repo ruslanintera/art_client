@@ -275,9 +275,9 @@ class i3d_Events_func {
       console.log("CLICK vc3d_glob.curr_obj = ", vc3d_glob.curr_obj);
       console.log(
         "CLICK intersects_0 = ",
-        Math.ceil(intersects_0.point.x),
-        Math.ceil(intersects_0.point.y),
-        Math.ceil(intersects_0.point.z)
+        Math.ceil(intersects_0.point.x * 100) / 100,
+        Math.ceil(intersects_0.point.y * 100) / 100,
+        Math.ceil(intersects_0.point.z * 100) / 100
       );
 
       if (vc3d_glob.curr_obj.wtype === "gltf") {
@@ -285,7 +285,17 @@ class i3d_Events_func {
           elementName: vc3d_glob.curr_obj.name,
           rackName: vc3d_glob.currentRT.name,
           dc: vc3d_glob.currentRT.DC.id,
+          cx: Math.ceil(intersects_0.point.x * 1000) / 1000,
+          cy: Math.ceil(intersects_0.point.y * 1000) / 1000,
+          cz: Math.ceil(intersects_0.point.z * 1000) / 1000,
+          model_unid: vc3d_glob.curr_obj.model_unid,
+          model_name: vc3d_glob.curr_obj.model_name,
+          el_name: vc3d_glob.curr_obj.el_name,
         };
+        console.log("CLICK active3dElement = ", { ...active3dElement });
+        console.log("34 CLICK getActive3dElement = ", {
+          ...vc3d_glob.device.getActive3dElement,
+        });
 
         vc3d_glob.device.setActive3dElement(active3dElement);
       }

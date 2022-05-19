@@ -11,13 +11,11 @@ import {
   ROLE_ROUTE,
   MANUFACTURER_ROUTE,
   RACK_ROUTE,
-  RACK3D_ROUTE,
 } from "./utils/consts";
 
 //import Auth from "./auth/Auth";
 import Page3d from "./pages/Rack3d/Page3d";
 import Auth from "./pages/Racktype/Auth";
-import Rack3d from "./pages/Rack3d/Rack3d";
 import Racktype from "./pages/Racktype/Racktype";
 import RacktypePage from "./pages/Racktype/RacktypePage";
 
@@ -31,8 +29,6 @@ import Set from "./pages/DC/Set";
 
 import Rack from "./pages/Rack/Rack";
 import RackPage from "./pages/Rack/RackPage";
-
-import Rack3dPage from "./pages/Rack3d/Rack3dPage";
 
 import Home from "./pages/Home";
 
@@ -55,9 +51,6 @@ export const publicRoutes = [
   { path: DC_ROUTE, Component: DC },
   { path: RACK_ROUTE, Component: Rack },
   { path: RACK_ROUTE + "/:id", Component: RackPage },
-
-  { path: RACK3D_ROUTE, Component: Rack3d },
-  { path: RACK3D_ROUTE + "/:id", Component: Rack3dPage },
 
   { path: HOME_ROUTE, Component: Home },
 ];

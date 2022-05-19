@@ -12,7 +12,7 @@ import { observer } from "mobx-react-lite";
 import { Context } from "../../index";
 import { RACK3D_ROUTE } from "../../utils/consts";
 import { Alert, Container, Row, Col, Tabs, Tab, Button } from "react-bootstrap";
-import { fetchRacktype, fetchDCUpdate } from "../../http/commAPI";
+import { fetchRacktype } from "../../http/commAPI";
 import RacktypeList from "../../pages/Racktype/RacktypeList";
 import PagesRacktype from "../../pages/Racktype/PagesRacktype";
 import { useHistory } from "react-router-dom";
@@ -20,6 +20,7 @@ import { vc3d_glob } from "../../3d/dev2020/f5_vc3d_glob";
 
 import JoyStick from "../joyStick/joyStick";
 import RangeSlider from "../rangeSlider/rangeSlider";
+import { react3d } from "../../3d/react3d";
 
 const SideBar = observer((props) => {
   let rootElement = props.rootElement;
@@ -59,86 +60,6 @@ const SideBar = observer((props) => {
     try {
     } catch (e) {
       console.error("ERRR del==", e);
-    }
-  }
-  function SAVE() {
-    try {
-      let DCOne = vc3d_glob.device.getDCOne;
-      let { id, name, adress, model3d, params1, params2, params3, updatedAt } =
-        device.getDCOne;
-
-      //console.log("DCOne", DCOne);
-
-      var JSON_params2, JSON_params3;
-      try {
-        JSON_params2 = eval("(" + params2 + ")");
-      } catch (e) {
-        JSON_params2 = [];
-      }
-      try {
-        JSON_params3 = eval("(" + params3 + ")");
-      } catch (e) {
-        JSON_params3 = [];
-      }
-      if (JSON_params2 == {}) {
-        JSON_params2 = [];
-      }
-      if (JSON_params3 == {}) {
-        JSON_params3 = [];
-      }
-
-      console.log("44444 JSON_params3 = ", JSON_params3);
-
-      //console.log("params3", params3);
-      //console.log("vc3d_glob.SCENE", vc3d_glob.SCENE);
-
-      for (var i = vc3d_glob.SCENE.children.length - 1; i >= 0; i--) {
-        if (vc3d_glob.SCENE.children[i].MODEL3D) {
-          let model = vc3d_glob.SCENE.children[i];
-          //console.log("model = ", model.position);
-          //console.log("model = ", model);
-          //console.log("model.m = ", model.m);
-          let found;
-          for (let j = 0; j < JSON_params3.length; j++) {
-            if (JSON_params3[j].m == model.m) {
-              console.log("@@@@@@@@@ model.m = ", model.m);
-              console.log("position = ", model.position);
-              JSON_params3[j].x = model.position.x;
-              JSON_params3[j].y = model.position.y;
-              JSON_params3[j].z = model.position.z;
-              // JSON_params3.rx = model.rotation.x
-              // JSON_params3.ry = model.rotation.y
-              // JSON_params3.rz = model.rotation.z
-              found = true;
-            }
-          }
-          if (!found) {
-            JSON_params3.push({
-              m: model.m,
-              x: model.position.x,
-              y: model.position.y,
-              z: model.position.z,
-            });
-          }
-          //setOneValue({ ...oneValue, model3d: e.target.value })
-          //vc3d_glob.device.setDCOne(data);
-        }
-      }
-      JSON_params2.cx = vc3d_glob.CAMERA.position.x;
-      JSON_params2.cy = vc3d_glob.CAMERA.position.y;
-      JSON_params2.cz = vc3d_glob.CAMERA.position.z;
-      params2 = JSON.stringify(JSON_params2);
-      DCOne = { ...DCOne, params2: params2 };
-
-      //console.log("JSON_params3 = ", JSON_params3);
-      params3 = JSON.stringify(JSON_params3);
-      DCOne = { ...DCOne, params3: params3 };
-      console.log("========== DCOne = ", DCOne);
-      console.log("cam = ", vc3d_glob.CAMERA.position);
-
-      fetchDCUpdate(DCOne);
-    } catch (e) {
-      console.error("ERRR sidebar ==", e);
     }
   }
 
@@ -188,7 +109,7 @@ const SideBar = observer((props) => {
               </strong>
             </Alert>
 
-            {device.getActive3dElement.pt === 2 ? (
+            {/* {device.getActive3dElement.pt === 2 ? (
               <Alert style={{ background: vc3d_glob.rack_repair2_color }}>
                 <strong>need to repair</strong>
               </Alert>
@@ -201,7 +122,7 @@ const SideBar = observer((props) => {
               </Alert>
             ) : (
               ""
-            )}
+            )} */}
 
             {/* <Button
               className="mr-1"
@@ -274,7 +195,7 @@ const SideBar = observer((props) => {
           <Button
             className="mr-1"
             onClick={(e) => {
-              SAVE();
+              react3d.SAVE(device);
             }}
           >
             SAVE

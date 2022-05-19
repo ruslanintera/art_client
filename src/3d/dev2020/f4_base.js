@@ -229,7 +229,7 @@ class i3d_Base {
 
   load_gltf_2021() {
     try {
-      //console.log("model3d=", vc3d_glob.currentRT.model3d);
+      console.log("9900 load_gltf_2021=", vc3d_glob.currentRT.model3d);
 
       if (!vc3d_glob.currentRT) {
         return;
@@ -384,10 +384,12 @@ class i3d_Base {
     rz = 0,
     s = 1,
     set = 1,
+    data,
   }) {
     try {
       //console.log("m, x, y, z, rx, ry, rz, s", m, x, y, z, rx, ry, rz, s, set);
-
+      console.log("3424242 44343 data", data);
+      //if (!m || !data) {
       if (!m) {
         return;
       }
@@ -405,8 +407,7 @@ class i3d_Base {
       };
 
       var loader = new GLTFLoader();
-      const model_URL =
-        process.env.REACT_APP_API_URL + vc3d_glob.currentRT.model3d;
+      const model_URL = process.env.REACT_APP_API_URL + data.model3d;
       //console.log("$$$ model_URL = ", model_URL);
       loader.load(model_URL, function (gltf) {
         var gltf_model = gltf.scene;
@@ -415,16 +416,23 @@ class i3d_Base {
         gltf.scene.move_type = 1; //parseInt(wl_1.move_type); //нужно ли двигать объект?
         gltf.scene.MODEL3D = 1; //
         gltf.scene.wtype = "gltf"; //
-        if (vc3d_glob.currentRT.DC) {
-          gltf.scene.DC = vc3d_glob.currentRT.DC;
-        }
+        // if (data.DC) {
+        //   gltf.scene.DC = data.DC;
+        // }
 
         gltf.scene.m = m;
         gltf.scene.scale.set(s, s, s);
         gltf.scene.position.set(x, y, z);
 
-        gltf.scene.model_unid =
-          vc3d_glob.currentRT.id || i3d_all.gener_name_to_input(16, "#aA");
+        gltf.scene.model_id = data.id;
+        gltf.scene.model_name = data.name;
+        gltf.scene.model_unid = i3d_all.gener_name_to_input(16, "#aA");
+
+        const cx = x || 0;
+        const cy = y || 0;
+        const cz = z || 0;
+        console.log("cx, cy, cz ====", cx, cy, cz);
+        gltf.scene.position.set(cx, cy, cz);
 
         let data_rows = [],
           data_count = 1; // список элементов модели
@@ -441,9 +449,9 @@ class i3d_Base {
             child.material.needsUpdate = true;
             child.model_unid = gltf.scene.model_unid;
             child.wtype = "gltf";
-            if (vc3d_glob.currentRT.DC) {
-              gltf.scene.DC = vc3d_glob.currentRT.DC;
-            }
+            // if (vc3d_glob.currentRT.DC) {
+            //   gltf.scene.DC = vc3d_glob.currentRT.DC;
+            // }
 
             // заполняем список элементов модели:
             data_rows.push({

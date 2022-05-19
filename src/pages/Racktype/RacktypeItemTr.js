@@ -7,11 +7,12 @@ import { MODEL_ROUTE, ROUTE_3D } from "../../utils/consts";
 
 import { observer } from "mobx-react-lite";
 import { Context } from "../../index";
-import { fetchOneRacktype, fetchOneDC } from "../../http/commAPI";
-import { common } from "../../common/common";
-import { i3d_base } from "../../3d/dev2020/f4_base";
+// import { fetchOneRacktype, fetchOneDC } from "../../http/commAPI";
+// import { common } from "../../common/common";
+// import { i3d_base } from "../../3d/dev2020/f4_base";
 
 import { vc3d_glob } from "../../3d/dev2020/f5_vc3d_glob";
+import { react3d } from "../../3d/react3d";
 // import { i3d_base } from "../../3d/dev2020/f4_base";
 // import { i3d_all } from "../../3d/dev2020/f7_assist";
 // import objLoaders from "../../3d/obj-loaders.js";
@@ -20,67 +21,6 @@ const RacktypeItem = observer(({ obj, short }) => {
   //console.log("objobjobjobjobjobjobjo ", obj);
   const history = useHistory();
   const { device } = useContext(Context);
-
-  function ADD_MODEL(m) {
-    //model_id
-    try {
-      console.log("model_id = ", m);
-
-      if (!m) {
-        return;
-      }
-      fetchOneRacktype(m).then((data) => {
-        device.setRacktypeOne(data);
-        //console.log("rt================= data", data);
-        if (!device.getRacktypeOne) return;
-        vc3d_glob.currentRT = device.getRacktypeOne;
-
-        const DC = { dc: 1, x: 1, z: 1 }; //device.getDCOne    dc, x, z
-        //console.log("DC", DC);
-        vc3d_glob.currentRT.DC = DC; //{ dc, x, z }; //device.getDCOne
-
-        if (vc3d_glob.currentRT && vc3d_glob.SCENE) {
-          vc3d_glob.device = device;
-          //common.clear3dscene();
-
-          // device.setActive3dModel({
-          //   dc: vc3d_glob.currentRT.DC.dc,
-          //   name: vc3d_glob.currentRT.name,
-
-          //   x: 1, // vc3d_glob.currentDCRack.x,
-          //   z: 1, // vc3d_glob.currentDCRack.z,
-          //   rt: 1, // vc3d_glob.currentDCRack.rt,
-          //   type: 1, // vc3d_glob.currentDCRack.type, //type:  0 - empty, 1 - rack, 2 - ремонт, 3 - замена, rt - RACKTYPE
-          //   p: 1, // vc3d_glob.currentDCRack.p,
-          // });
-
-          let x = 0;
-          let y = 0;
-          let z = 0;
-          let rx = 0;
-          let ry = 0;
-          let rz = 0;
-          let s = 1;
-          let set = 1;
-
-          //i3d_base.load_gltf_2021();
-          i3d_base.load_gltf_2021_params({
-            m,
-            x,
-            y,
-            z,
-            rx,
-            ry,
-            rz,
-            s,
-            set,
-          });
-        }
-      });
-    } catch (e) {
-      console.error("ERRR==", e);
-    }
-  }
 
   if (short) {
     return (
@@ -91,7 +31,10 @@ const RacktypeItem = observer(({ obj, short }) => {
         >
           {obj.id}
         </td>
-        <td className={"mt-3 comm_num"} onClick={() => ADD_MODEL(obj.id)}>
+        <td
+          className={"mt-3 comm_num"}
+          onClick={() => react3d.ADD_MODEL(obj.id, device)}
+        >
           {obj.id}
         </td>
         {/* <td

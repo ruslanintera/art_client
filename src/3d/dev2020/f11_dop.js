@@ -17,9 +17,6 @@ class i3d_Dop {
 
      repair_W() {
             
-        // vc3d_glob.currentRT - rack 3d model    has DC = {dc, x, z }
-        // vc3d_glob.currentDCRack   - from DC params1 - with problems description
-  
         if(device.getDCOne.params1_obj && device.getDCOne.params1_obj.racks 
           && device.getActive3dElement && device.getActiveRackType3d.RACK) {
           

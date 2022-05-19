@@ -157,7 +157,7 @@ export const fetchRackDelete = async (id) => {
   return data;
 };
 
-/** Rack3d ******************************************* */
+/** Rack3d ******************************************* * /
 export const fetchRack3dCreate = async (obj) => {
   const { data } = await $host.post("api/rack3d/create/", obj);
   return data;

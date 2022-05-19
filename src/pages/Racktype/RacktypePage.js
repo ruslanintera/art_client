@@ -133,10 +133,6 @@ const Obj = observer(() => {
 
     formData.append("glb", fileGLB);
     formData.append("imgs", filesJPG);
-    //console.log("@@@@@@@@@@@@@@ formData.get('imgs') = ", formData.get("imgs"))
-    //console.log("@@@@@@@@@@@@@@ formData.get('glb') = ", formData.get("glb"))
-    //console.log("@@@@@@@@@@@@@@ formData.get('name') = ", formData.get("name"))
-    //formData.append("info", JSON.stringify(info));
     fetchRacktypeUploadGLB(formData, oneValue.id).then((data) => onDone(data));
   };
 
@@ -173,10 +169,8 @@ const Obj = observer(() => {
       dt,
       user,
     });
-
     history.push(MODEL_ROUTE + "/" + data.id);
   }
-  //function fClassName(pad1_true) { if (pad1_true) { return "form-control" + " pad1"; } else return "form-control" }
 
   if (!device.getRacktypeOne) {
     return <h1 className="work_page navbar">Данные отсутствуют</h1>;
@@ -210,8 +204,6 @@ const Obj = observer(() => {
                   <th>Edit</th>
                 </tr>
               </thead>
-
-              {/* name, manufacturer, model3d, params1, params2, user */}
 
               <tbody>
                 <tr>
@@ -382,10 +374,7 @@ const Obj = observer(() => {
               onClick={(e) => {
                 vc3d_glob.device = device;
 
-                //i3d_base.load_gltf_2021(oneValue.model3d, oneValue.params1, oneValue.params2);
                 i3d_base.load_gltf_2021(oneValue);
-
-                //console.log("===============LOAD 3D==================vc3d_glob.SCENE.children = ", vc3d_glob.SCENE.children );
               }}
             >
               LOAD 3D
