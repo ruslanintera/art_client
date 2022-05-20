@@ -17,7 +17,7 @@ import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader";
 
 import { vc3d_glob } from "./f5_vc3d_glob.js";
 import { common } from "../../common/common";
-import { fetchOneRacktype, fetchOneDC } from "../../http/commAPI";
+import { fetchOneModelType3d, fetchOneDC } from "../../http/commAPI";
 
 class i3d_Base {
   make_test1() {
@@ -258,8 +258,8 @@ class i3d_Base {
         gltf.scene.move_type = 1; //parseInt(wl_1.move_type); //нужно ли двигать объект?
         gltf.scene.MODEL3D = 1; //
         gltf.scene.wtype = "gltf"; //
-        if (vc3d_glob.currentRT.DC) {
-          gltf.scene.DC = vc3d_glob.currentRT.DC;
+        if (vc3d_glob.currentRT.Set) {
+          gltf.scene.Set = vc3d_glob.currentRT.Set;
         }
 
         // PARAMS ////////////////////////////////////////////////////////////////////
@@ -320,8 +320,8 @@ class i3d_Base {
             child.material.needsUpdate = true;
             child.model_unid = gltf.scene.model_unid;
             child.wtype = "gltf";
-            if (vc3d_glob.currentRT.DC) {
-              gltf.scene.DC = vc3d_glob.currentRT.DC;
+            if (vc3d_glob.currentRT.Set) {
+              gltf.scene.Set = vc3d_glob.currentRT.Set;
             }
 
             // заполняем список элементов модели:
@@ -349,7 +349,7 @@ class i3d_Base {
         vc3d_glob.device.setModelRack3d(data_rows);
         vc3d_glob.device.setModelRack3dTotal(data_count);
 
-        // vc3d_glob.currentRT - rack 3d model    has DC = {dc, x, z }
+        // vc3d_glob.currentRT - rack 3d model    has Set = {dc, x, z }
 
         vc3d_glob.device.setActive3dElement({});
         gltf.scene.position.y += 1;
@@ -416,8 +416,8 @@ class i3d_Base {
         gltf.scene.move_type = 1; //parseInt(wl_1.move_type); //нужно ли двигать объект?
         gltf.scene.MODEL3D = 1; //
         gltf.scene.wtype = "gltf"; //
-        // if (data.DC) {
-        //   gltf.scene.DC = data.DC;
+        // if (data.Set) {
+        //   gltf.scene.Set = data.Set;
         // }
 
         gltf.scene.m = m;
@@ -449,8 +449,8 @@ class i3d_Base {
             child.material.needsUpdate = true;
             child.model_unid = gltf.scene.model_unid;
             child.wtype = "gltf";
-            // if (vc3d_glob.currentRT.DC) {
-            //   gltf.scene.DC = vc3d_glob.currentRT.DC;
+            // if (vc3d_glob.currentRT.Set) {
+            //   gltf.scene.Set = vc3d_glob.currentRT.Set;
             // }
 
             // заполняем список элементов модели:

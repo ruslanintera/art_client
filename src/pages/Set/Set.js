@@ -1,87 +1,101 @@
-
 //import io from 'socket.io-client';
-import React, {useContext, useEffect, useState } from 'react';
-import {Container} from "react-bootstrap";
+import React, { useContext, useEffect, useState } from "react";
+import { Container } from "react-bootstrap";
 import { Row, Col, Tabs, Tab, Button } from "react-bootstrap";
-import {useHistory} from "react-router-dom"
-import {observer} from "mobx-react-lite";
-import {Context} from "../../index";
-import {fetchDC, fetchDCCreate } from "../../http/commAPI";
-import DCList from "./DCList";
-import PagesDC from "./PagesDC";
-import { DC_ROUTE } from "../../utils/consts";
+import { useHistory } from "react-router-dom";
+import { observer } from "mobx-react-lite";
+import { Context } from "../../index";
+import { fetchSet, fetchSetCreate } from "../../http/commAPI";
+import DCList from "./SetList";
+import PagesDC from "./PagesSet";
+import { SET_ROUTE } from "../../utils/consts";
 
-const DC = observer(() => {
-    const {device} = useContext(Context)
-    const history = useHistory()
-	const [oneValue, setOneValue] = useState({name: '', adress: '', model3d: '', color: '', params1: '', params2: '', params3: ''})
+const Set = observer(() => {
+  const { device } = useContext(Context);
+  const history = useHistory();
+  const [oneValue, setOneValue] = useState({
+    name: "",
+    adress: "",
+    model3d: "",
+    color: "",
+    params1: "",
+    params2: "",
+    params3: "",
+  });
 
-	useEffect(() => {
-        fetchDC(null, null, null, null, null, device.getDCPage, device.getDCLimit).then(data => {
-			device.setDC(data.rows)
-            device.setDCTotal(data.count)
-        })
-    }, [])
+  useEffect(() => {
+    fetchSet(
+      null,
+      null,
+      null,
+      null,
+      null,
+      device.getDCPage,
+      device.getDCLimit
+    ).then((data) => {
+      device.setDC(data.rows);
+      device.setDCTotal(data.count);
+    });
+  }, []);
 
-    useEffect(() => {
-		fetchDC( null, null, null, null, null, device.getDCPage, device.getDCLimit).then(data => {
-            device.setDC(data.rows)
-            device.setDCTotal(data.count)
-        })
-    }, [device.getDCPage]) 
+  useEffect(() => {
+    fetchSet(
+      null,
+      null,
+      null,
+      null,
+      null,
+      device.getDCPage,
+      device.getDCLimit
+    ).then((data) => {
+      device.setDC(data.rows);
+      device.setDCTotal(data.count);
+    });
+  }, [device.getDCPage]);
 
-	async function CREATE(event) {
-        const data = await fetchDCCreate(oneValue); //
-        history.push(DC_ROUTE + '/' + data.id)
-    }
+  async function CREATE(event) {
+    const data = await fetchSetCreate(oneValue); //
+    history.push(SET_ROUTE + "/" + data.id);
+  }
 
-    return (
-        <div className="work_page navbar1 ">
-        <Container>
-            
-            <Tabs className="mt-0 work_page_content" defaultActiveKey="tab_page_1" id="uncontrolled-tab-example">
-                <Tab className="p-1" eventKey="tab_page_1" title="DC">
-					<h4><strong>DCS</strong></h4>
+  return (
+    <div className="work_page navbar1 ">
+      <Container>
+        <Tabs
+          className="mt-0 work_page_content"
+          defaultActiveKey="tab_page_1"
+          id="uncontrolled-tab-example"
+        >
+          <Tab className="p-1" eventKey="tab_page_1" title="Set">
+            <h4>
+              <strong>DCS</strong>
+            </h4>
 
-					<Row className="mt-2">
-						<Col md={3}>
+            <Row className="mt-2">
+              <Col md={3}></Col>
+              <Col md={9}>
+                <PagesDC />
+                <DCList />
+              </Col>
+            </Row>
+          </Tab>
+          <Tab className="p-1" eventKey="tab_page_2" title="Tab2">
+            <Container>
+              <h4>Tab2</h4>
+            </Container>
+          </Tab>
+          <Tab className="p-1" eventKey="tab_page_3" title="Tab3">
+            <h4>Tab3</h4>
+          </Tab>
+        </Tabs>
+      </Container>
 
-						</Col>
-						<Col md={9}>
-							<PagesDC />
-							<DCList/>
-
-						</Col>
-					</Row>
-
-                </Tab>
-                <Tab className="p-1" eventKey="tab_page_2" title="Tab2">
-					<Container>
-						<h4>Tab2</h4>
-						
-					</Container>
-
-                </Tab>
-                <Tab className="p-1" eventKey="tab_page_3" title="Tab3">
-					<h4>Tab3</h4>
-
-
-                </Tab>
-            </Tabs>            
-            
-		</Container>
-
-		{/* <Button className="mt-1 ml-1 danger" onClick={(e) => CREATE(e)}>CREATE</Button> */}
-
-        </div>
-    );
+      {/* <Button className="mt-1 ml-1 danger" onClick={(e) => CREATE(e)}>CREATE</Button> */}
+    </div>
+  );
 });
 
-
-
-export default DC;
-
-
+export default Set;
 
 /**
             <form className="form-register" id="form-register" action="#" method="post">

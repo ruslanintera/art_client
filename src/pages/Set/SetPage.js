@@ -10,16 +10,16 @@ import objLoaders from "../../3d/obj-loaders.js";
 import { common } from "../../common/common";
 
 import {
-  fetchRacktype,
-  fetchDCCreate,
-  fetchDCUpdate,
+  fetchModelType3d,
+  fetchSetCreate,
+  fetchSetUpdate,
   fetchOneDC,
-  fetchDCDelete,
+  fetchSetDelete,
 } from "../../http/commAPI";
 
 import { useParams } from "react-router-dom";
 import { useHistory } from "react-router-dom";
-import { DC_ROUTE, SET_ROUTE } from "../../utils/consts";
+import { SET_ROUTE, SET_ROUTE_3D } from "../../utils/consts";
 
 const Obj = observer(() => {
   const history = useHistory();
@@ -40,8 +40,8 @@ const Obj = observer(() => {
     vc3d_glob.device.setActive3dElement({});
 
     fetchOneDC(id).then((data) => {
-      device.setDCOne(data);
-      if (!device.getDCOne) return;
+      device.setSetOne(data);
+      if (!device.getSetOne) return;
 
       const {
         id,
@@ -52,7 +52,7 @@ const Obj = observer(() => {
         params2,
         params3,
         updatedAt,
-      } = device.getDCOne;
+      } = device.getSetOne;
       setOneValue({
         id,
         name,
@@ -64,7 +64,7 @@ const Obj = observer(() => {
         updatedAt,
       });
 
-      //   fetchRacktype(
+      //   fetchModelType3d(
       //     null,
       //     null,
       //     null,
@@ -76,19 +76,19 @@ const Obj = observer(() => {
       //     1,
       //     999
       //   ).then((data) => {
-      //     vc3d_glob.device.setRacktype3d(data.rows);
+      //     vc3d_glob.device.setModelType3d3d(data.rows);
 
       //     if (vc3d_glob.SCENE) {
       //       common.clear3dscene(); // очистим сцену
-      //       objLoaders.addCubeMergeNew_from_Params1(device.getDCOne); // загружаем 3Д модель РЦ
+      //       objLoaders.addCubeMergeNew_from_Params1(device.getSetOne); // загружаем 3Д модель РЦ
       //     }
       //   });
     });
   }, [id]);
 
   function DELETE(event) {
-    fetchDCDelete(oneValue.id);
-    history.push(DC_ROUTE + "/");
+    fetchSetDelete(oneValue.id);
+    history.push(SET_ROUTE + "/");
   }
   function SET(event) {
     history.push(SET_ROUTE + "/" + oneValue.id);
@@ -96,21 +96,21 @@ const Obj = observer(() => {
   function UPDATE(event) {
     try {
       //console.log("UPDATE oneValue = =  = = =", oneValue)
-      fetchDCUpdate(oneValue);
+      fetchSetUpdate(oneValue);
     } catch (e) {
       common.coi_sys("UPDATE ERROR", e);
       alert(e.response.data.message); // Пользователь с таким email уже существует
     }
   }
   async function CREATE(event) {
-    const data = await fetchDCCreate(oneValue); //
-    device.setDCOne(data);
-    const { id, name } = device.getDCOne;
+    const data = await fetchSetCreate(oneValue); //
+    device.setSetOne(data);
+    const { id, name } = device.getSetOne;
     setOneValue({ id, name });
-    history.push(DC_ROUTE + "/" + data.id);
+    history.push(SET_ROUTE + "/" + data.id);
   }
 
-  if (!device.getDCOne) {
+  if (!device.getSetOne) {
     return <div className="work_page navbar">Данные отсутствуют</div>;
   }
 
@@ -158,7 +158,7 @@ const Obj = observer(() => {
               <tbody>
                 <tr>
                   <td>id</td>
-                  {/* <td>{device.getDCOne.id}</td> */}
+                  {/* <td>{device.getSetOne.id}</td> */}
                   <td></td>
                 </tr>
                 <tr>
@@ -263,12 +263,12 @@ const Obj = observer(() => {
                     xzValue.z
                 );
                 objLoaders.addCubeMergeNew(
-                  device.getDCOne,
+                  device.getSetOne,
                   1,
                   xzValue.x,
                   1,
                   xzValue.z
-                ); //getDCOne - данные РЦ
+                ); //getSetOne - данные РЦ
               }}
             >
               LOAD 3D Sample
@@ -307,7 +307,7 @@ const Obj = observer(() => {
             <Button
               className="mt-1 ml-1 danger"
               onClick={(e) => {
-                fetchRacktype(
+                fetchModelType3d(
                   null,
                   null,
                   null,
@@ -320,14 +320,14 @@ const Obj = observer(() => {
                   999
                 ).then((data) => {
                   vc3d_glob.device = device;
-                  vc3d_glob.device.setRacktype(data.rows);
-                  vc3d_glob.device.setRacktypeTotal(data.count);
+                  vc3d_glob.device.setModelType3d(data.rows);
+                  vc3d_glob.device.setModelType3dTotal(data.count);
                   common.clear3dscene();
-                  objLoaders.addCubeMergeNew_from_Params1(device.getDCOne); //getDCOne - данные РЦ
+                  objLoaders.addCubeMergeNew_from_Params1(device.getSetOne); //getSetOne - данные РЦ
                 });
               }}
             >
-              RELOAD DC 3D
+              RELOAD Set 3D
             </Button>
 
             <Button

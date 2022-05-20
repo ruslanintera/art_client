@@ -2,7 +2,7 @@ export const ADMIN_ROUTE = "/admin";
 export const LOGIN_ROUTE = "/login";
 export const REGISTRATION_ROUTE = "/registration";
 export const ROUTE_3D = "/3d";
-export const DC_ROUTE = "/dc";
+export const SET_ROUTE_3D = "/set3d";
 export const SET_ROUTE = "/set";
 
 export const ROLE_ROUTE = "/role";

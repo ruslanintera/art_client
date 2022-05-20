@@ -1,12 +1,9 @@
 import React, { useContext } from "react";
 import { observer } from "mobx-react-lite";
 import { Context } from "../../index";
+import ModelType3dItemTr from "./ModelType3dItemTr";
 
-import RacktypeItemTr from "./RacktypeItemTr";
-
-//import DataGrid from 'react-data-grid';
-
-const CommunityList = observer(({ short }) => {
+const ModelType3dList = observer(({ short }) => {
   const { device } = useContext(Context);
 
   if (short) {
@@ -22,8 +19,8 @@ const CommunityList = observer(({ short }) => {
             </tr>
           </thead>
           <tbody>
-            {device.getRacktype.map((obj) => {
-              return <RacktypeItemTr key={obj.id} obj={obj} short={short} />;
+            {device.getModelType3d.map((obj) => {
+              return <ModelType3dItemTr key={obj.id} obj={obj} short={short} />;
             })}
           </tbody>
         </table>
@@ -42,14 +39,11 @@ const CommunityList = observer(({ short }) => {
             <th>model3d</th>
             <th>color</th>
             <th>model3d</th>
-            {/* <th>params1</th>
-                <th>params2</th> */}
           </tr>
         </thead>
         <tbody>
-          {device.getRacktype.map((obj) => {
-            //obj.active = 0;
-            return <RacktypeItemTr key={obj.id} obj={obj} />;
+          {device.getModelType3d.map((obj) => {
+            return <ModelType3dItemTr key={obj.id} obj={obj} />;
           })}
         </tbody>
       </table>
@@ -57,8 +51,4 @@ const CommunityList = observer(({ short }) => {
   );
 });
 
-/**
-
-*/
-
-export default CommunityList;
+export default ModelType3dList;

@@ -2,16 +2,12 @@ import React, { useContext } from "react";
 import { observer } from "mobx-react-lite";
 import { Context } from "../../index";
 
-import ManufacturerItemTr from "./ManufacturerItemTr";
+import DCItemTr from "./SetItemTr";
 
 //import DataGrid from 'react-data-grid';
 
-const ManufacturerList = observer(() => {
+const DCList = observer(() => {
   const { device } = useContext(Context);
-
-  const onClickRow = (rowInfo) => {
-    //console.log("row info is: ", rowInfo);
-  };
 
   return (
     <>
@@ -20,11 +16,14 @@ const ManufacturerList = observer(() => {
           <tr>
             <th>#</th>
             <th>name</th>
+            <th>adress</th>
+            <th>model3d</th>
+            <th>updatedAt</th>
           </tr>
         </thead>
         <tbody>
-          {device.getManufacturer.map((obj) => (
-            <ManufacturerItemTr key={obj.id} obj={obj} />
+          {device.getDC.map((obj) => (
+            <DCItemTr key={obj.id} obj={obj} />
           ))}
         </tbody>
       </table>
@@ -36,4 +35,4 @@ const ManufacturerList = observer(() => {
 
 */
 
-export default ManufacturerList;
+export default DCList;

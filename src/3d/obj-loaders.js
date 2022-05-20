@@ -252,29 +252,6 @@ class ObjLoaders {
   }
 
   rt_Custom() {
-    // if(!vc3d_glob.no_SCENE_PARAMS) { i3d_base.SCENE_PARAMS(); }
-    // i3d_base.add_only_plane_and_mouse_move(); // тут добавляем интерактив
-
-    // vc3d_glob.temp_material = new THREE.MeshBasicMaterial({ color: "#00f", transparent: true, opacity: 0.8 });
-    // vc3d_glob.rack_empty_material = new THREE.MeshBasicMaterial({ color: "#eee", transparent: true, opacity: 0.8 });
-    // vc3d_glob.rack_empty_DARK_material = new THREE.MeshBasicMaterial({ color: "#888", transparent: true, opacity: 0.8 });
-    // vc3d_glob.rack_BLUE_material = new THREE.MeshBasicMaterial({ color: "#00f", transparent: true, opacity: 0.8 });
-    // vc3d_glob.rack_GREEN_material = new THREE.MeshBasicMaterial({ color: "#1f1", transparent: true, opacity: 0.8 });
-
-    // // 0 - empty, 1 - rack, 2 - ремонт, 3 - замена, 22 - 2+ ремонтов, 33 - 2+ замен, 23 - и ремонты и замены нужны
-    // vc3d_glob.rack_repair2_material = new THREE.MeshBasicMaterial({ color: "#ff7", transparent: true, opacity: 0.8 });
-    // vc3d_glob.rack_repair22_material = new THREE.MeshBasicMaterial({ color: "#ff0", transparent: true, opacity: 0.8 });
-    // vc3d_glob.rack_change3_material = new THREE.MeshBasicMaterial({ color: "#a07", transparent: true, opacity: 0.8 });
-    // vc3d_glob.rack_change33_material = new THREE.MeshBasicMaterial({ color: "#a00", transparent: true, opacity: 0.8 });
-    // vc3d_glob.rack_repair_change23_material = new THREE.MeshBasicMaterial({ color: "#f00", transparent: true, opacity: 0.8 });
-
-    // rack_empty_color: "#eee",
-    // rack_empty_DARK_color: "#888",
-    // rack_BLUE_color: "#00f",
-    // rack_GREEN_color: "#1f1",
-    // rack_repair_color: "#f50",
-    // rack_change_color: "#f00",
-
     vc3d_glob.temp_material = new THREE.MeshBasicMaterial({
       color: vc3d_glob.rack_BLUE_color,
       transparent: true,
@@ -559,12 +536,12 @@ class ObjLoaders {
       empty_number2 = 3,
       empty_step = 4;
 
-    const RacktypeLength = vc3d_glob.device.getRacktypeTotal;
-    const Racktype = [...vc3d_glob.device.getRacktype3d];
-    for (let c = 1; c <= Racktype.length; c++) {
+    const ModelType3dLength = vc3d_glob.device.getModelType3dTotal;
+    const ModelType3d = [...vc3d_glob.device.getModelType3d3d];
+    for (let c = 1; c <= ModelType3d.length; c++) {
       //cubes.push([])
     }
-    //console.log("RacktypeLength = ", RacktypeLength, "Racktype = ", Racktype);
+    //console.log("ModelType3dLength = ", ModelType3dLength, "ModelType3d = ", ModelType3d);
 
     let dc_params1 = {};
     dc_params1.racks = [];
@@ -600,7 +577,10 @@ class ObjLoaders {
         geometry.translate(position_x, position_y, position_z);
 
         let problems = [];
-        let RandMinMax_RackType = this.getRandomMinMax(1, RacktypeLength - 1); //console.log("RandMinMax = " + RandMinMax)
+        let RandMinMax_RackType = this.getRandomMinMax(
+          1,
+          ModelType3dLength - 1
+        ); //console.log("RandMinMax = " + RandMinMax)
 
         let RackObj = {};
         if (emptyZ || emptyX) {
@@ -618,22 +598,22 @@ class ObjLoaders {
             problems.push({ e: RandMinMax, pt: 2 }); // e = element of 3D model, pt - problem type
             type = 3;
           } else {
-            //const RandMinMax_RackType = this.getRandomMinMax(1, RacktypeLength); //console.log("RandMinMax = " + RandMinMax)
-            if (Racktype[RandMinMax_RackType]) {
+            //const RandMinMax_RackType = this.getRandomMinMax(1, ModelType3dLength); //console.log("RandMinMax = " + RandMinMax)
+            if (ModelType3d[RandMinMax_RackType]) {
               let color = "#006";
-              if (!Racktype[RandMinMax_RackType].color) {
-                Racktype[RandMinMax_RackType].color = color;
+              if (!ModelType3d[RandMinMax_RackType].color) {
+                ModelType3d[RandMinMax_RackType].color = color;
               }
-              if (!Racktype[RandMinMax_RackType].cubes) {
-                Racktype[RandMinMax_RackType].cubes = [];
+              if (!ModelType3d[RandMinMax_RackType].cubes) {
+                ModelType3d[RandMinMax_RackType].cubes = [];
               }
-              Racktype[RandMinMax_RackType].cubes.push(geometry);
+              ModelType3d[RandMinMax_RackType].cubes.push(geometry);
             } else {
               console.error(
                 "ERRRRRRRRRRRRRRRRRRR RandMinMax_RackType = ",
                 RandMinMax_RackType,
-                "Racktype = ",
-                Racktype
+                "ModelType3d = ",
+                ModelType3d
               );
             }
             type = 1;
@@ -659,7 +639,7 @@ class ObjLoaders {
         //one_cube.move_type = 1; //нужно ли двигать объект?
         one_cube.RACK = { type, rt: RandMinMax_RackType, x: x, z: z }; // type:  0 - empty, 1 - rack, 2 - ремонт, 3 - замена, rt - RACKTYPE
 
-        //if(Racktype[RandMinMax_RackType] && Racktype[RandMinMax_RackType].color) { RackObj.color = Racktype[RandMinMax_RackType].color; }
+        //if(ModelType3d[RandMinMax_RackType] && ModelType3d[RandMinMax_RackType].color) { RackObj.color = ModelType3d[RandMinMax_RackType].color; }
 
         one_cube.wtype = "rack"; //
         one_cube.MODEL3D = 1; //
@@ -677,11 +657,11 @@ class ObjLoaders {
         }; // type = 1 - RACK
 
         if (
-          Racktype[RandMinMax_RackType] &&
-          Racktype[RandMinMax_RackType].color
+          ModelType3d[RandMinMax_RackType] &&
+          ModelType3d[RandMinMax_RackType].color
         ) {
-          RackObj.color = Racktype[RandMinMax_RackType].color;
-          one_cube.RACK.color = Racktype[RandMinMax_RackType].color;
+          RackObj.color = ModelType3d[RandMinMax_RackType].color;
+          one_cube.RACK.color = ModelType3d[RandMinMax_RackType].color;
         }
 
         //RackObj_cubes = { 'rt': 1, 'x': x, 'z': z, type: type, cube: one_cube }; // type = 1 - RACK
@@ -696,7 +676,7 @@ class ObjLoaders {
     //vc3d_glob.dc_params1_racks = dc_params1.racks;
     vc3d_glob.dc_params1 = dc_params1;
 
-    Racktype.map((rt) => {
+    ModelType3d.map((rt) => {
       if (rt.cubes && rt.cubes.length > 0) {
         var geometriesCubes = BufferGeometryUtils.mergeBufferGeometries(
           rt.cubes
@@ -777,7 +757,7 @@ class ObjLoaders {
     }
   }
 
-  addCubeMergeNew(getDCOne, x1, x2, z1, z2, centerX, centerY, step, boxSize) {
+  addCubeMergeNew(getSetOne, x1, x2, z1, z2, centerX, centerY, step, boxSize) {
     let cubes_remont = [],
       cubes_zamena = [],
       cubes_empty = [];
@@ -791,27 +771,29 @@ class ObjLoaders {
       empty_number2 = 3,
       empty_step = 4;
 
-    //const RacktypeLength = vc3d_glob.device.getRacktypeTotal;
-    //const Racktype = [...vc3d_glob.device.getRacktype3d];
-    let Racktype = JSON.parse(JSON.stringify(vc3d_glob.device.getRacktype3d));
-    const RacktypeLength = Racktype.length;
+    //const ModelType3dLength = vc3d_glob.device.getModelType3dTotal;
+    //const ModelType3d = [...vc3d_glob.device.getModelType3d3d];
+    let ModelType3d = JSON.parse(
+      JSON.stringify(vc3d_glob.device.getModelType3d3d)
+    );
+    const ModelType3dLength = ModelType3d.length;
 
     console.error(
-      "addCubeMergeNew    8888888888888888888888888888  Racktype = ",
-      Racktype
+      "addCubeMergeNew    8888888888888888888888888888  ModelType3d = ",
+      ModelType3d
     );
-    Racktype.map((rt) => {
+    ModelType3d.map((rt) => {
       rt.cubes = [];
     });
 
-    for (let c = 1; c <= Racktype.length; c++) {
+    for (let c = 1; c <= ModelType3d.length; c++) {
       //cubes.push([])
     }
-    //console.log("RacktypeLength = ", RacktypeLength, "Racktype = ", Racktype);
+    //console.log("ModelType3dLength = ", ModelType3dLength, "ModelType3d = ", ModelType3d);
 
     let dc_params1 = {};
-    if (getDCOne && getDCOne.id) {
-      dc_params1.dc = { id: getDCOne.id, name: getDCOne.name };
+    if (getSetOne && getSetOne.id) {
+      dc_params1.dc = { id: getSetOne.id, name: getSetOne.name };
     } // данные РЦ
     dc_params1.racks = [];
 
@@ -846,7 +828,10 @@ class ObjLoaders {
         geometry.translate(position_x, position_y, position_z);
 
         let problems = [];
-        let RandMinMax_RackType = this.getRandomMinMax(1, RacktypeLength - 1); //console.log("RandMinMax = " + RandMinMax)
+        let RandMinMax_RackType = this.getRandomMinMax(
+          1,
+          ModelType3dLength - 1
+        ); //console.log("RandMinMax = " + RandMinMax)
 
         let RackObj = {};
         if (emptyZ || emptyX) {
@@ -867,22 +852,22 @@ class ObjLoaders {
             problems.push({ e: RandMinMax, pt: 3 }); // e = element of 3D model, pt - problem type
             type = 3;
           } else {
-            //const RandMinMax_RackType = this.getRandomMinMax(1, RacktypeLength); //console.log("RandMinMax = " + RandMinMax)
-            if (Racktype[RandMinMax_RackType]) {
+            //const RandMinMax_RackType = this.getRandomMinMax(1, ModelType3dLength); //console.log("RandMinMax = " + RandMinMax)
+            if (ModelType3d[RandMinMax_RackType]) {
               let color = "#006";
-              if (!Racktype[RandMinMax_RackType].color) {
-                Racktype[RandMinMax_RackType].color = color;
+              if (!ModelType3d[RandMinMax_RackType].color) {
+                ModelType3d[RandMinMax_RackType].color = color;
               }
-              if (!Racktype[RandMinMax_RackType].cubes) {
-                Racktype[RandMinMax_RackType].cubes = [];
+              if (!ModelType3d[RandMinMax_RackType].cubes) {
+                ModelType3d[RandMinMax_RackType].cubes = [];
               }
-              Racktype[RandMinMax_RackType].cubes.push(geometry);
+              ModelType3d[RandMinMax_RackType].cubes.push(geometry);
             } else {
               console.error(
                 "ERRRRRRRRRRRRRRRRRRR RandMinMax_RackType = ",
                 RandMinMax_RackType,
-                "Racktype = ",
-                Racktype
+                "ModelType3d = ",
+                ModelType3d
               );
             }
             type = 1;
@@ -908,7 +893,7 @@ class ObjLoaders {
         //one_cube.move_type = 1; //нужно ли двигать объект?
         one_cube.RACK = { type, rt: RandMinMax_RackType, x: x, z: z }; // type:  0 - empty, 1 - rack, 2 - ремонт, 3 - замена, rt - RACKTYPE
 
-        //if(Racktype[RandMinMax_RackType] && Racktype[RandMinMax_RackType].color) { RackObj.color = Racktype[RandMinMax_RackType].color; }
+        //if(ModelType3d[RandMinMax_RackType] && ModelType3d[RandMinMax_RackType].color) { RackObj.color = ModelType3d[RandMinMax_RackType].color; }
 
         one_cube.wtype = "rack"; //
         one_cube.MODEL3D = 1; //
@@ -926,14 +911,14 @@ class ObjLoaders {
         }; // type = 1 - RACK
 
         if (
-          Racktype[RandMinMax_RackType] &&
-          Racktype[RandMinMax_RackType].color
+          ModelType3d[RandMinMax_RackType] &&
+          ModelType3d[RandMinMax_RackType].color
         ) {
-          RackObj.color = Racktype[RandMinMax_RackType].color;
-          one_cube.RACK.color = Racktype[RandMinMax_RackType].color;
+          RackObj.color = ModelType3d[RandMinMax_RackType].color;
+          one_cube.RACK.color = ModelType3d[RandMinMax_RackType].color;
         }
-        if (getDCOne && getDCOne.id) {
-          one_cube.RACK.dc = { id: getDCOne.id, name: getDCOne.name };
+        if (getSetOne && getSetOne.id) {
+          one_cube.RACK.dc = { id: getSetOne.id, name: getSetOne.name };
         } // данные РЦ
 
         //RackObj_cubes = { 'rt': 1, 'x': x, 'z': z, type: type, cube: one_cube }; // type = 1 - RACK
@@ -948,7 +933,7 @@ class ObjLoaders {
     //vc3d_glob.dc_params1_racks = dc_params1.racks;
     vc3d_glob.dc_params1 = dc_params1;
 
-    Racktype.map((rt) => {
+    ModelType3d.map((rt) => {
       if (rt.cubes && rt.cubes.length > 0) {
         var geometriesCubes = BufferGeometryUtils.mergeBufferGeometries(
           rt.cubes
@@ -1020,27 +1005,27 @@ class ObjLoaders {
     }
   }
 
-  addCubeMergeNew_from_Params1(getDCOne) {
-    //getDCOne - данные РЦ
+  addCubeMergeNew_from_Params1(getSetOne) {
+    //getSetOne - данные РЦ
 
-    //console.log("getDCOne.params1 =====", getDCOne.params1, "getDCOne.params2 =====", getDCOne.params2)
-    //console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!                       getDCOne = ", getDCOne)
+    //console.log("getSetOne.params1 =====", getSetOne.params1, "getSetOne.params2 =====", getSetOne.params2)
+    //console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!                       getSetOne = ", getSetOne)
 
-    if (!getDCOne.params1) {
-      getDCOne.params1 = "{}";
+    if (!getSetOne.params1) {
+      getSetOne.params1 = "{}";
     }
-    if (!getDCOne.params2) {
-      getDCOne.params2 = "{}";
+    if (!getSetOne.params2) {
+      getSetOne.params2 = "{}";
     }
 
     try {
-      var params1_obj = eval("(" + getDCOne.params1 + ")");
-      //var params2_obj = eval('(' + getDCOne.params2 + ')');
+      var params1_obj = eval("(" + getSetOne.params1 + ")");
+      //var params2_obj = eval('(' + getSetOne.params2 + ')');
       if (params1_obj) {
-        getDCOne.params1_obj = params1_obj;
+        getSetOne.params1_obj = params1_obj;
       }
 
-      var JSON_params2 = eval("(" + getDCOne.params2 + ")"); //console.log("JSON_params2 = ", JSON_params2)
+      var JSON_params2 = eval("(" + getSetOne.params2 + ")"); //console.log("JSON_params2 = ", JSON_params2)
       const cx = common.valOrDefault(JSON_params2.cx, 0);
       const cy = common.valOrDefault(JSON_params2.cy, 1000);
       const cz = common.valOrDefault(JSON_params2.cz, 500);
@@ -1067,13 +1052,15 @@ class ObjLoaders {
     var geo_selected = new THREE.BoxBufferGeometry(16, 16, 1);
     var geo = new THREE.BoxBufferGeometry(15, 1, 15);
 
-    //const Racktype = [...vc3d_glob.device.getRacktype3d];
-    //const Racktype = [];
-    let Racktype = JSON.parse(JSON.stringify(vc3d_glob.device.getRacktype3d));
-    const RacktypeLength = Racktype.length;
+    //const ModelType3d = [...vc3d_glob.device.getModelType3d3d];
+    //const ModelType3d = [];
+    let ModelType3d = JSON.parse(
+      JSON.stringify(vc3d_glob.device.getModelType3d3d)
+    );
+    const ModelType3dLength = ModelType3d.length;
 
-    //console.error("FROM PARAMS1    8888888888888888888888888888  Racktype = ", Racktype)
-    Racktype.map((rt) => {
+    //console.error("FROM PARAMS1    8888888888888888888888888888  ModelType3d = ", ModelType3d)
+    ModelType3d.map((rt) => {
       rt.cubes = [];
     });
 
@@ -1081,17 +1068,17 @@ class ObjLoaders {
       params1_obj &&
       params1_obj.racks &&
       params1_obj.racks.length > 0 &&
-      RacktypeLength > 0
+      ModelType3dLength > 0
     ) {
-      if (getDCOne && getDCOne.id) {
-        params1_obj.dc = { id: getDCOne.id, name: getDCOne.name };
+      if (getSetOne && getSetOne.id) {
+        params1_obj.dc = { id: getSetOne.id, name: getSetOne.name };
       } // данные РЦ
 
       params1_obj.racks.map((rack) => {
-        const RT = Racktype.find((obj, index) => {
+        const RT = ModelType3d.find((obj, index) => {
           return obj.id === rack.rt;
         }); // найдем RackType - для определения имени типа стеллажа
-        //if(!RT) { console.error("7777777777778888888888 ERRRRRRRRRRRRRRRRRRR rack.rt = ", rack.rt, "Racktype = ", Racktype) }
+        //if(!RT) { console.error("7777777777778888888888 ERRRRRRRRRRRRRRRRRRR rack.rt = ", rack.rt, "ModelType3d = ", ModelType3d) }
         //if(RT && RT.name) { //console.log("RT.name = " + RT.name); alert("RT.name = " + RT.name); }
 
         var geometry = geo.clone();
@@ -1130,8 +1117,8 @@ class ObjLoaders {
             console.error(
               "ERRRRRRRRRRRRRRRRRRR rack.rt = ",
               rack.rt,
-              "Racktype = ",
-              Racktype
+              "ModelType3d = ",
+              ModelType3d
             );
           }
         }
@@ -1162,8 +1149,8 @@ class ObjLoaders {
         if (RT && RT.color) {
           one_cube.RACK.color = RT.color;
         }
-        if (getDCOne && getDCOne.id) {
-          one_cube.RACK.dc = { id: getDCOne.id, name: getDCOne.name };
+        if (getSetOne && getSetOne.id) {
+          one_cube.RACK.dc = { id: getSetOne.id, name: getSetOne.name };
         } // данные РЦ
 
         if (rack.p && rack.p.length > 0) {
@@ -1173,10 +1160,10 @@ class ObjLoaders {
     }
 
     console.error(
-      "RacktypeRacktypeRacktypeRacktypeRacktypeRacktypeRacktype = ",
-      Racktype
+      "ModelType3dModelType3dModelType3dModelType3dModelType3dModelType3dModelType3d = ",
+      ModelType3d
     );
-    Racktype.map((rt) => {
+    ModelType3d.map((rt) => {
       if (rt.cubes && rt.cubes.length > 0) {
         //console.log("geometriesCubes = ", geometriesCubes)
         this.mergeCubes(rt.cubes, rt.color, "rack");

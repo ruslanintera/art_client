@@ -48,12 +48,12 @@ export const fetchManufacturerDelete = async (id) => {
   return data;
 };
 
-/** DC ******************************************* */
-export const fetchDCCreate = async (obj) => {
+/** Set ******************************************* */
+export const fetchSetCreate = async (obj) => {
   const { data } = await $host.post("api/dc/create/", obj);
   return data;
 };
-export const fetchDC = async (
+export const fetchSet = async (
   id,
   name,
   adress,
@@ -67,10 +67,10 @@ export const fetchDC = async (
   });
   return data;
 };
-export const fetchDCUpdate = async (obj) => {
-  //console.log("fetchDCUpdate                     obj = ", obj)
+export const fetchSetUpdate = async (obj) => {
+  //console.log("fetchSetUpdate                     obj = ", obj)
   const { data } = await $host.post("api/dc/update/" + obj.id, obj);
-  //console.log("fetchDCUpdate                     data = ", data)
+  //console.log("fetchSetUpdate                     data = ", data)
 
   return data;
 };
@@ -78,17 +78,17 @@ export const fetchOneDC = async (id) => {
   const { data } = await $host.get("api/dc/" + id);
   return data;
 };
-export const fetchDCDelete = async (id) => {
+export const fetchSetDelete = async (id) => {
   const { data } = await $host.get("api/dc/delete/" + id);
   return data;
 };
 
-/** Racktype ******************************************* */
-export const fetchRacktypeCreate = async (obj) => {
+/** ModelType3d ******************************************* */
+export const fetchModelType3dCreate = async (obj) => {
   const { data } = await $host.post("api/racktype/create/", obj);
   return data;
 };
-export const fetchRacktype = async ({
+export const fetchModelType3d = async ({
   id,
   name,
   manufacturer,
@@ -116,19 +116,19 @@ export const fetchRacktype = async ({
   });
   return data;
 };
-export const fetchRacktypeUpdate = async (obj) => {
+export const fetchModelType3dUpdate = async (obj) => {
   const { data } = await $host.post("api/racktype/update/" + obj.id, obj);
   return data;
 };
-export const fetchRacktypeUploadGLB = async (obj, id) => {
+export const fetchModelType3dUploadGLB = async (obj, id) => {
   const { data } = await $host.post("api/racktype/uploadglbjpg/" + id, obj);
   return data;
 };
-export const fetchOneRacktype = async (id) => {
+export const fetchOneModelType3d = async (id) => {
   const { data } = await $host.get("api/racktype/" + id);
   return data;
 };
-export const fetchRacktypeDelete = async (id) => {
+export const fetchModelType3dDelete = async (id) => {
   const { data } = await $host.get("api/racktype/delete/" + id);
   return data;
 };
@@ -154,30 +154,6 @@ export const fetchOneRack = async (id) => {
 };
 export const fetchRackDelete = async (id) => {
   const { data } = await $host.get("api/rack/delete/" + id);
-  return data;
-};
-
-/** Rack3d ******************************************* * /
-export const fetchRack3dCreate = async (obj) => {
-  const { data } = await $host.post("api/rack3d/create/", obj);
-  return data;
-};
-export const fetchRack3d = async (id, name, page = 1, limit = 5) => {
-  const { data } = await $host.get("api/rack3d", {
-    params: { id, name, page, limit },
-  });
-  return data;
-};
-export const fetchRack3dUpdate = async (obj) => {
-  const { data } = await $host.post("api/rack3d/update/" + obj.id, obj);
-  return data;
-};
-export const fetchOneRack3d = async (id) => {
-  const { data } = await $host.get("api/rack3d/" + id);
-  return data;
-};
-export const fetchRack3dDelete = async (id) => {
-  const { data } = await $host.get("api/rack3d/delete/" + id);
   return data;
 };
 

@@ -2,7 +2,7 @@
 // import { vc3d_glob } from "../3d/dev2020/f5_vc3d_glob";
 // import { i3d_base } from "../3d/dev2020/f4_base";
 // import { i3d_all } from "../3d/dev2020/f7_assist";
-import { fetchOneRacktype, fetchDCUpdate } from "../http/commAPI";
+import { fetchOneModelType3d, fetchSetUpdate } from "../http/commAPI";
 import { vc3d_glob } from "./dev2020/f5_vc3d_glob";
 //import { common } from "../common/common";
 import { i3d_base } from "./dev2020/f4_base";
@@ -16,15 +16,15 @@ class React3d {
       if (!m) {
         return;
       }
-      fetchOneRacktype(m).then((data) => {
-        device.setRacktypeOne(data);
+      fetchOneModelType3d(m).then((data) => {
+        device.setModelType3dOne(data);
         console.log("rt================= data", data);
-        if (!device.getRacktypeOne) return;
-        vc3d_glob.currentRT = device.getRacktypeOne;
+        if (!device.getModelType3dOne) return;
+        vc3d_glob.currentRT = device.getModelType3dOne;
 
-        const DC = { dc: 1, x: 1, z: 1 }; //device.getDCOne    dc, x, z
-        //console.log("DC", DC);
-        vc3d_glob.currentRT.DC = DC; //{ dc, x, z }; //device.getDCOne
+        const Set = { dc: 1, x: 1, z: 1 }; //device.getSetOne    dc, x, z
+        //console.log("Set", Set);
+        vc3d_glob.currentRT.Set = Set; //{ dc, x, z }; //device.getSetOne
 
         if (vc3d_glob.currentRT && vc3d_glob.SCENE) {
           vc3d_glob.device = device;
@@ -59,11 +59,11 @@ class React3d {
 
   SAVE(device) {
     try {
-      let DCOne = vc3d_glob.device.getDCOne;
+      let SetOne = vc3d_glob.device.getSetOne;
       let { id, name, adress, model3d, params1, params2, params3, updatedAt } =
-        device.getDCOne;
+        device.getSetOne;
 
-      //console.log("DCOne", DCOne);
+      //console.log("SetOne", SetOne);
 
       var JSON_params2, JSON_params3;
       try {
@@ -117,22 +117,22 @@ class React3d {
             });
           }
           //setOneValue({ ...oneValue, model3d: e.target.value })
-          //vc3d_glob.device.setDCOne(data);
+          //vc3d_glob.device.setSetOne(data);
         }
       }
       JSON_params2.cx = vc3d_glob.CAMERA.position.x;
       JSON_params2.cy = vc3d_glob.CAMERA.position.y;
       JSON_params2.cz = vc3d_glob.CAMERA.position.z;
       params2 = JSON.stringify(JSON_params2);
-      DCOne = { ...DCOne, params2: params2 };
+      SetOne = { ...SetOne, params2: params2 };
 
       //console.log("JSON_params3 = ", JSON_params3);
       params3 = JSON.stringify(JSON_params3);
-      DCOne = { ...DCOne, params3: params3 };
-      console.log("========== DCOne = ", DCOne);
+      SetOne = { ...SetOne, params3: params3 };
+      console.log("========== SetOne = ", SetOne);
       console.log("cam = ", vc3d_glob.CAMERA.position);
 
-      fetchDCUpdate(DCOne);
+      fetchSetUpdate(SetOne);
     } catch (e) {
       console.error("ERRR sidebar ==", e);
     }

@@ -7,7 +7,7 @@ import { MODEL_ROUTE, ROUTE_3D } from "../../utils/consts";
 
 import { observer } from "mobx-react-lite";
 import { Context } from "../../index";
-// import { fetchOneRacktype, fetchOneDC } from "../../http/commAPI";
+// import { fetchOneModelType3d, fetchOneDC } from "../../http/commAPI";
 // import { common } from "../../common/common";
 // import { i3d_base } from "../../3d/dev2020/f4_base";
 
@@ -17,7 +17,7 @@ import { react3d } from "../../3d/react3d";
 // import { i3d_all } from "../../3d/dev2020/f7_assist";
 // import objLoaders from "../../3d/obj-loaders.js";
 
-const RacktypeItem = observer(({ obj, short }) => {
+const ModelType3dItem = observer(({ obj, short }) => {
   //console.log("objobjobjobjobjobjobjo ", obj);
   const history = useHistory();
   const { device } = useContext(Context);
@@ -78,7 +78,7 @@ const RacktypeItem = observer(({ obj, short }) => {
       <td
         className={"mt-3 comm_num"}
         onClick={() => {
-          //device.setRacktypeOne({ ...obj });
+          //device.setModelType3dOne({ ...obj });
           console.log("obj", obj, "obj.id = ", obj.id);
 
           if (obj.id == device.getActiveRackType.id) {
@@ -112,4 +112,4 @@ const RacktypeItem = observer(({ obj, short }) => {
   );
 });
 
-export default RacktypeItem;
+export default ModelType3dItem;

@@ -10,28 +10,28 @@ import { useHistory } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import { Context } from "../../index";
 
-import { fetchRacktype, fetchRacktypeCreate } from "../../http/commAPI";
-import RacktypeList from "./RacktypeList";
-import PagesRacktype from "./PagesRacktype";
+import { fetchModelType3d, fetchModelType3dCreate } from "../../http/commAPI";
+import ModelType3dList from "./ModelType3dList";
+import PagesModelType3d from "./PagesModelType3d";
 import { MODEL_ROUTE } from "../../utils/consts";
 
-const Racktype = observer(() => {
+const ModelType3d = observer(() => {
   const { device } = useContext(Context);
   const history = useHistory();
   const [oneValue, setOneValue] = useState({ name: "" });
 
   useEffect(() => {
-    fetchRacktype({
-      page: device.getRacktypePage,
-      limit: device.getRacktypeLimit,
+    fetchModelType3d({
+      page: device.getModelType3dPage,
+      limit: device.getModelType3dLimit,
     }).then((data) => {
-      device.setRacktype(data.rows);
-      device.setRacktypeTotal(data.count);
+      device.setModelType3d(data.rows);
+      device.setModelType3dTotal(data.count);
     });
-  }, [device.getRacktypePage]);
+  }, [device.getModelType3dPage]);
 
   async function CREATE(event) {
-    const data = await fetchRacktypeCreate(oneValue); //
+    const data = await fetchModelType3dCreate(oneValue); //
     //console.log("CREATE data = =  = = =", data); //console.log("CREATE data.id = =  = = =", data.id)
     history.push(MODEL_ROUTE + "/" + data.id);
   }
@@ -44,7 +44,7 @@ const Racktype = observer(() => {
           defaultActiveKey="tab_page_1"
           id="uncontrolled-tab-example"
         >
-          <Tab className="p-1" eventKey="tab_page_1" title="Racktype">
+          <Tab className="p-1" eventKey="tab_page_1" title="ModelType3d">
             <h4>
               <strong>3D Модели</strong>
             </h4>
@@ -52,8 +52,8 @@ const Racktype = observer(() => {
             <Row className="mt-2">
               {/* <Col md={3}></Col> */}
               <Col md={12}>
-                <PagesRacktype />
-                <RacktypeList />
+                <PagesModelType3d />
+                <ModelType3dList />
               </Col>
             </Row>
           </Tab>
@@ -94,4 +94,4 @@ const Racktype = observer(() => {
   );
 });
 
-export default Racktype;
+export default ModelType3d;

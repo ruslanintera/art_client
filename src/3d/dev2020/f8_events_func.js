@@ -284,7 +284,7 @@ class i3d_Events_func {
         const active3dElement = {
           elementName: vc3d_glob.curr_obj.name,
           rackName: vc3d_glob.currentRT.name,
-          dc: vc3d_glob.currentRT.DC.id,
+          dc: vc3d_glob.currentRT.Set.id,
           cx: Math.ceil(intersects_0.point.x * 1000) / 1000,
           cy: Math.ceil(intersects_0.point.y * 1000) / 1000,
           cz: Math.ceil(intersects_0.point.z * 1000) / 1000,

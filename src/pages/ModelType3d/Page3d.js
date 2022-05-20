@@ -6,11 +6,10 @@ import Button from "react-bootstrap/Button";
 import { observer } from "mobx-react-lite";
 import { Context } from "../../index";
 
-import { fetchOneRacktype, fetchOneDC } from "../../http/commAPI";
+import { fetchOneModelType3d, fetchOneDC } from "../../http/commAPI";
 
 import { useParams } from "react-router-dom";
 import { useHistory } from "react-router-dom";
-import { RACK3D_ROUTE } from "../../utils/consts";
 
 import { vc3d_glob } from "../../3d/dev2020/f5_vc3d_glob";
 import { i3d_base } from "../../3d/dev2020/f4_base";
@@ -33,15 +32,15 @@ const Obj = observer(() => {
   const rt = parseInt(id_array[0]);
 
   useEffect(() => {
-    fetchOneRacktype(rt).then((data) => {
-      device.setRacktypeOne(data);
+    fetchOneModelType3d(rt).then((data) => {
+      device.setModelType3dOne(data);
       //console.log("rt================= data", data, "rt", rt);
-      if (!device.getRacktypeOne) return;
-      vc3d_glob.currentRT = device.getRacktypeOne;
+      if (!device.getModelType3dOne) return;
+      vc3d_glob.currentRT = device.getModelType3dOne;
 
-      const DC = { dc: 1, x: 1, z: 1 }; //device.getDCOne    dc, x, z
-      //console.log("DC", DC);
-      vc3d_glob.currentRT.DC = DC; //{ dc, x, z }; //device.getDCOne
+      const Set = { dc: 1, x: 1, z: 1 }; //device.getSetOne    dc, x, z
+      //console.log("Set", Set);
+      vc3d_glob.currentRT.Set = Set; //{ dc, x, z }; //device.getSetOne
 
       //if (vc3d_glob.currentRT && vc3d_glob.currentDCRack && vc3d_glob.SCENE) {
       if (vc3d_glob.currentRT && vc3d_glob.SCENE) {
@@ -53,7 +52,7 @@ const Obj = observer(() => {
     });
   });
 
-  return <div className="work_page navbar1"></div>;
+  return <div className="work_page navbar1">Page3D</div>;
 });
 
 export default Obj;

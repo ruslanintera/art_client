@@ -424,14 +424,14 @@ const JoyStick = observer((props) => {
   };
 
   //   useEffect(() => {
-  //     fetchRacktype({
-  //       page: device.getRacktypePage,
-  //       limit: device.getRacktypeLimit,
+  //     fetchModelType3d({
+  //       page: device.getModelType3dPage,
+  //       limit: device.getModelType3dLimit,
   //     }).then((data) => {
-  //       device.setRacktype(data.rows);
-  //       device.setRacktypeTotal(data.count);
+  //       device.setModelType3d(data.rows);
+  //       device.setModelType3dTotal(data.count);
   //     });
-  //   }, [device.getRacktypePage]);
+  //   }, [device.getModelType3dPage]);
 
   //   function DELETE() {
   //     try {

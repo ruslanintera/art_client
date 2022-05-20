@@ -17,12 +17,12 @@ import UserService from "../../auth/services/UserService";
 import { observer } from "mobx-react-lite";
 import { Context } from "../../index";
 
-import { fetchRacktype, fetchRacktypeCreate } from "../../http/commAPI";
-import RacktypeList from "./RacktypeList";
-import PagesRacktype from "./PagesRacktype";
+import { fetchModelType3d, fetchModelType3dCreate } from "../../http/commAPI";
+import ModelType3dList from "../ModelType3d/ModelType3dList";
+import PagesModelType3d from "../ModelType3d/PagesModelType3d";
 import { MODEL_ROUTE } from "../../utils/consts";
 
-const Racktype = observer(() => {
+const ModelType3d = observer(() => {
   const { device } = useContext(Context);
   const history = useHistory();
   const [oneValue, setOneValue] = useState({ name: "" });
@@ -60,7 +60,7 @@ const Racktype = observer(() => {
           defaultActiveKey="tab_page_1"
           id="uncontrolled-tab-example"
         >
-          <Tab className="p-1" eventKey="tab_page_1" title="Racktype">
+          <Tab className="p-1" eventKey="tab_page_1" title="ModelType3d">
             <h4>
               <strong>AUTH</strong>
             </h4>
@@ -123,9 +123,6 @@ const Racktype = observer(() => {
                   {users.map((user) => (
                     <div key={user.email}>{user.email}</div>
                   ))}
-
-                  {/* <LoginForm/>
-                    <button onClick={getUsers}>Получить пользователей</button> */}
                 </Container>
               </div>
             )}
@@ -163,4 +160,4 @@ const Racktype = observer(() => {
   );
 });
 
-export default Racktype;
+export default ModelType3d;

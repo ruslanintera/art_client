@@ -278,7 +278,7 @@ class i3d_Events_func {
         const active3dElement = {
           elementName: vc3d_glob.curr_obj.name,
           rackName: vc3d_glob.currentRT.name,
-          dc: vc3d_glob.currentRT.DC.id,
+          dc: vc3d_glob.currentRT.Set.id,
         };
 
         vc3d_glob.device.setActive3dElement(active3dElement);
@@ -287,8 +287,11 @@ class i3d_Events_func {
       if (vc3d_glob.curr_obj.RACK) {
         // !!!!!!!!!!!!
         vc3d_glob.device.setActiveObject(vc3d_glob.curr_obj); // activate / deactivate
-        if (vc3d_glob.curr_obj.RACK.rt > 0 && vc3d_glob.device.getRacktype3d) {
-          const RT = vc3d_glob.device.getRacktype3d.find((obj, index) => {
+        if (
+          vc3d_glob.curr_obj.RACK.rt > 0 &&
+          vc3d_glob.device.getModelType3d3d
+        ) {
+          const RT = vc3d_glob.device.getModelType3d3d.find((obj, index) => {
             return obj.id === vc3d_glob.curr_obj.RACK.rt;
           });
           if (RT) {
@@ -310,7 +313,7 @@ class i3d_Events_func {
           } else {
             vc3d_glob.device.setActive3dModel({});
           }
-          // vc3d_glob.device.getRacktype3d
+          // vc3d_glob.device.getModelType3d3d
         } else {
           vc3d_glob.device.setActive3dModel({});
         }

@@ -10,11 +10,11 @@ import { Link } from "react-router-dom";
 
 import { observer } from "mobx-react-lite";
 import { Context } from "../../index";
-import { RACK3D_ROUTE } from "../../utils/consts";
+import { ROUTE_3D } from "../../utils/consts";
 import { Alert, Container, Row, Col, Tabs, Tab, Button } from "react-bootstrap";
-import { fetchRacktype } from "../../http/commAPI";
-import RacktypeList from "../../pages/Racktype/RacktypeList";
-import PagesRacktype from "../../pages/Racktype/PagesRacktype";
+import { fetchModelType3d } from "../../http/commAPI";
+import ModelType3dList from "../../pages/ModelType3d/ModelType3dList";
+import PagesModelType3d from "../../pages/ModelType3d/PagesModelType3d";
 import { useHistory } from "react-router-dom";
 import { vc3d_glob } from "../../3d/dev2020/f5_vc3d_glob";
 
@@ -47,14 +47,14 @@ const SideBar = observer((props) => {
   );
 
   useEffect(() => {
-    fetchRacktype({
-      page: device.getRacktypePage,
-      limit: device.getRacktypeLimit,
+    fetchModelType3d({
+      page: device.getModelType3dPage,
+      limit: device.getModelType3dLimit,
     }).then((data) => {
-      device.setRacktype(data.rows);
-      device.setRacktypeTotal(data.count);
+      device.setModelType3d(data.rows);
+      device.setModelType3dTotal(data.count);
     });
-  }, [device.getRacktypePage]);
+  }, [device.getModelType3dPage]);
 
   function DELETE() {
     try {
@@ -75,7 +75,7 @@ const SideBar = observer((props) => {
             style={{ cursor: "pointer" }}
             onClick={() =>
               history.push(
-                RACK3D_ROUTE +
+                ROUTE_3D +
                   "/" +
                   device.getActive3dModel.dc +
                   "_" +
@@ -171,8 +171,8 @@ const SideBar = observer((props) => {
 
                 <Row className="mt-2">
                   <Col md={12}>
-                    <PagesRacktype />
-                    <RacktypeList short={true} />
+                    <PagesModelType3d />
+                    <ModelType3dList short={true} />
                   </Col>
                 </Row>
               </Tab>

@@ -10,13 +10,13 @@ import { observer } from "mobx-react-lite";
 import { Context } from "../../index";
 
 import {
-  fetchRacktype,
+  fetchModelType3d,
   fetchManufacturer,
-  fetchRacktypeCreate,
-  fetchRacktypeUpdate,
-  fetchOneRacktype,
-  fetchRacktypeDelete,
-  fetchRacktypeUploadGLB,
+  fetchModelType3dCreate,
+  fetchModelType3dUpdate,
+  fetchOneModelType3d,
+  fetchModelType3dDelete,
+  fetchModelType3dUploadGLB,
 } from "../../http/commAPI";
 
 import { useParams } from "react-router-dom";
@@ -62,9 +62,9 @@ const Obj = observer(() => {
   };
 
   useEffect(() => {
-    fetchOneRacktype(id).then((data) => {
-      device.setRacktypeOne(data);
-      if (!device.getRacktypeOne) return;
+    fetchOneModelType3d(id).then((data) => {
+      device.setModelType3dOne(data);
+      if (!device.getModelType3dOne) return;
 
       const {
         id,
@@ -78,7 +78,7 @@ const Obj = observer(() => {
         dts,
         dt,
         user,
-      } = device.getRacktypeOne;
+      } = device.getModelType3dOne;
       setOneValue({
         id,
         name,
@@ -94,7 +94,7 @@ const Obj = observer(() => {
       });
       if (color) setColor(color);
 
-      //console.log("fetchOneRacktype    oneValue ===", oneValue);
+      //console.log("fetchOneModelType3d    oneValue ===", oneValue);
 
       fetchManufacturer(null, null, 1, 999).then((data) => {
         //console.log("fetchManufacturer           data.rows = ", data.rows, "data.count = ", data.count)
@@ -106,12 +106,12 @@ const Obj = observer(() => {
   }, [id]);
 
   function DELETE(event) {
-    fetchRacktypeDelete(oneValue.id);
+    fetchModelType3dDelete(oneValue.id);
     history.push(MODEL_ROUTE + "/");
   }
   function UPDATE(event) {
     //console.log("UPDATE oneValue ===", oneValue);
-    fetchRacktypeUpdate(oneValue);
+    fetchModelType3dUpdate(oneValue);
   }
   const onDone = (data) => {
     //console.log("udated data=", data);
@@ -133,14 +133,14 @@ const Obj = observer(() => {
 
     formData.append("glb", fileGLB);
     formData.append("imgs", filesJPG);
-    fetchRacktypeUploadGLB(formData, oneValue.id).then((data) => onDone(data));
+    fetchModelType3dUploadGLB(formData, oneValue.id).then((data) => onDone(data));
   };
 
   async function CREATE(event) {
-    const data = await fetchRacktypeCreate(oneValue); //
+    const data = await fetchModelType3dCreate(oneValue); //
     //console.log("CREATE data = =  = = =", data, "CREATE data.id = =  = = =", data.id)
 
-    device.setRacktypeOne(data);
+    device.setModelType3dOne(data);
     const {
       id,
       name,
@@ -153,7 +153,7 @@ const Obj = observer(() => {
       dts,
       dt,
       user,
-    } = device.getRacktypeOne;
+    } = device.getModelType3dOne;
     //console.log("CREATE ===", name, manufacturer, model3d, "p1 ===", params1, "p2 ===", params2, user)
 
     setOneValue({
@@ -172,7 +172,7 @@ const Obj = observer(() => {
     history.push(MODEL_ROUTE + "/" + data.id);
   }
 
-  if (!device.getRacktypeOne) {
+  if (!device.getModelType3dOne) {
     return <h1 className="work_page navbar">Данные отсутствуют</h1>;
   }
 
@@ -208,7 +208,7 @@ const Obj = observer(() => {
               <tbody>
                 <tr>
                   <td>id</td>
-                  <td>{device.getRacktypeOne.id}</td>
+                  <td>{device.getModelType3dOne.id}</td>
                   <td></td>
                 </tr>
                 <tr>

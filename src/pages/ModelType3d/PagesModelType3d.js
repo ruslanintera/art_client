@@ -4,10 +4,10 @@ import { Context } from "../../index";
 import { Pagination } from "react-bootstrap";
 //import "./pages.css";
 
-const PagesRacktype = observer(() => {
+const PagesModelType3d = observer(() => {
   const { device } = useContext(Context);
   const pageCount = Math.ceil(
-    device.getRacktypeTotal / device.getRacktypeLimit
+    device.getModelType3dTotal / device.getModelType3dLimit
   );
   const pages = [];
 
@@ -20,9 +20,9 @@ const PagesRacktype = observer(() => {
       {pages.map((page) => (
         <Pagination.Item
           key={page}
-          active={device.getRacktypePage === page}
+          active={device.getModelType3dPage === page}
           //active={true}
-          onClick={() => device.setRacktypePage(page)}
+          onClick={() => device.setModelType3dPage(page)}
         >
           {page}
         </Pagination.Item>
@@ -31,4 +31,4 @@ const PagesRacktype = observer(() => {
   );
 });
 
-export default PagesRacktype;
+export default PagesModelType3d;

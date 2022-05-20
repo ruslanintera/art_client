@@ -10,11 +10,11 @@ import objLoaders from "../../3d/obj-loaders.js";
 import { common } from "../../common/common";
 import { i3d_all } from "../../3d/dev2020/f7_assist.js";
 
-import { fetchOneRacktype, fetchOneDC } from "../../http/commAPI";
+import { fetchOneModelType3d, fetchOneDC } from "../../http/commAPI";
 
 import { useParams } from "react-router-dom";
 import { useHistory } from "react-router-dom";
-import { DC_ROUTE } from "../../utils/consts";
+import { Set_ROUTE } from "../../utils/consts";
 import { i3d_base } from "../../3d/dev2020/f4_base";
 
 const Obj = observer(() => {
@@ -36,9 +36,9 @@ const Obj = observer(() => {
     vc3d_glob.device.setActive3dElement({});
 
     fetchOneDC(id).then((data) => {
-      console.log("data DCOne", data);
-      device.setDCOne(data);
-      if (!device.getDCOne) return;
+      console.log("data SetOne", data);
+      device.setSetOne(data);
+      if (!device.getSetOne) return;
 
       const {
         id,
@@ -49,7 +49,7 @@ const Obj = observer(() => {
         params2,
         params3,
         updatedAt,
-      } = device.getDCOne;
+      } = device.getSetOne;
       setOneValue({
         id,
         name,
@@ -113,15 +113,15 @@ const Obj = observer(() => {
             if (!m) {
               return;
             }
-            fetchOneRacktype(m).then((data) => {
-              device.setRacktypeOne(data);
+            fetchOneModelType3d(m).then((data) => {
+              device.setModelType3dOne(data);
               //console.log("rt================= data", data);
-              if (!device.getRacktypeOne) return;
-              vc3d_glob.currentRT = device.getRacktypeOne;
+              if (!device.getModelType3dOne) return;
+              vc3d_glob.currentRT = device.getModelType3dOne;
 
-              const DC = { dc: 1, x: 1, z: 1 }; //device.getDCOne    dc, x, z
-              //console.log("DC", DC);
-              vc3d_glob.currentRT.DC = DC; //{ dc, x, z }; //device.getDCOne
+              const Set = { dc: 1, x: 1, z: 1 }; //device.getSetOne    dc, x, z
+              //console.log("Set", Set);
+              vc3d_glob.currentRT.Set = Set; //{ dc, x, z }; //device.getSetOne
 
               if (vc3d_glob.currentRT && vc3d_glob.SCENE) {
                 vc3d_glob.device = device;
@@ -150,7 +150,7 @@ const Obj = observer(() => {
     });
   }, [id]);
 
-  if (!device.getDCOne) {
+  if (!device.getSetOne) {
     return <div className="work_page navbar">Данные отсутствуют</div>;
   }
 

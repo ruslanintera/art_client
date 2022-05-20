@@ -21,15 +21,15 @@ import { vc3d_glob } from "./dev2020/f5_vc3d_glob.js";
 /*===========================================================================================*/
 import objLoaders from "./obj-loaders";
 /*===========================================================================================*/
-import { fetchRacktype } from "../http/commAPI";
+import { fetchModelType3d } from "../http/commAPI";
 
 const ThreeMount2 = observer(() => {
   const { device } = useContext(Context);
 
   useEffect((props) => {
-    // fetchRacktype(null, null, null, null, null, null, null, null, 1, 999).then(data => {
-    //   device.setRacktype3d(data.rows)
-    //   //device.setRacktypeTotal(data.count)
+    // fetchModelType3d(null, null, null, null, null, null, null, null, 1, 999).then(data => {
+    //   device.setModelType3d3d(data.rows)
+    //   //device.setModelType3dTotal(data.count)
     // })
 
     vc3d_glob.device = device;

@@ -19,7 +19,7 @@ export default class DeviceStore {
     this._manufacturerTotal = 0;
     this._manufacturerLimit = 2;
     this._dc = [];
-    this._dcOne = {};
+    this._SetOne = {};
     this._dcPage = 1;
     this._dcTotal = 0;
     this._dcLimit = 2;
@@ -159,18 +159,18 @@ export default class DeviceStore {
   get getManufacturerLimit() {
     return this._manufacturerLimit;
   }
-  /**** DC ************************************************************************ */
+  /**** Set ************************************************************************ */
   setDC(obj) {
     this._dc = obj;
   }
   get getDC() {
     return this._dc;
   }
-  setDCOne(obj) {
-    this._dcOne = obj;
+  setSetOne(obj) {
+    this._SetOne = obj;
   }
-  get getDCOne() {
-    return this._dcOne;
+  get getSetOne() {
+    return this._SetOne;
   }
   setDCPage(page) {
     this._dcPage = page;
@@ -187,40 +187,40 @@ export default class DeviceStore {
   get getDCLimit() {
     return this._dcLimit;
   }
-  /**** Racktype ************************************************************************ */
-  setRacktype3d(obj) {
+  /**** ModelType3d ************************************************************************ */
+  setModelType3d3d(obj) {
     this._racktype3d = obj;
   }
-  get getRacktype3d() {
+  get getModelType3d3d() {
     return this._racktype3d;
   }
-  setRacktype(obj) {
+  setModelType3d(obj) {
     this._racktype = obj;
   }
-  get getRacktype() {
+  get getModelType3d() {
     return this._racktype;
   }
 
-  setRacktypeOne(obj) {
+  setModelType3dOne(obj) {
     this._racktypeOne = obj;
   }
-  get getRacktypeOne() {
+  get getModelType3dOne() {
     return this._racktypeOne;
   }
-  setRacktypePage(page) {
-    //console.log("setRacktypePage page=", page);
+  setModelType3dPage(page) {
+    //console.log("setModelType3dPage page=", page);
     this._racktypePage = page;
   }
-  get getRacktypePage() {
+  get getModelType3dPage() {
     return this._racktypePage;
   }
-  setRacktypeTotal(total) {
+  setModelType3dTotal(total) {
     this._racktypeTotal = total;
   }
-  get getRacktypeTotal() {
+  get getModelType3dTotal() {
     return this._racktypeTotal;
   }
-  get getRacktypeLimit() {
+  get getModelType3dLimit() {
     return this._racktypeLimit;
   }
   /**** Rack ************************************************************************ */
