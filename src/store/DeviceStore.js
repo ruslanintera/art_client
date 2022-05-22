@@ -8,11 +8,6 @@ export default class DeviceStore {
     this._limit = 2;
 
     /**************************************************************************************** */
-    this._role = [];
-    this._roleOne = {};
-    this._rolePage = 1;
-    this._roleTotal = 0;
-    this._roleLimit = 2;
     this._manufacturer = [];
     this._manufacturerOne = {};
     this._manufacturerPage = 1;
@@ -79,22 +74,15 @@ export default class DeviceStore {
   get getActiveObject() {
     return this._activeObject;
   }
-  setActiveRackType(obj) {
+
+  // тут описание текущей моели
+  setActiveModel(obj) {
     this._activeRackType = obj;
   }
-  get getActiveRackType() {
+  get getActiveModel() {
     return this._activeRackType;
   }
 
-  // тут полное описание текущего RACK === CUBE !!!
-  //setActiveRackType3d(obj) { this._activeRackType3d = obj } get getActiveRackType3d() { return this._activeRackType3d }
-  // тут полное описание текущего RACK === 3D RACK MODEL !!!
-  // setActive3dModel(obj) {
-  //   this._active3dModel = obj;
-  // }
-  // get getActive3dModel() {
-  //   return this._active3dModel;
-  // }
   // тут полное описание текущего элемента
   setActive3dElement(obj) {
     this._active3dElement = obj;
@@ -103,34 +91,6 @@ export default class DeviceStore {
     return this._active3dElement;
   }
 
-  /**** Role ************************************************************************ */
-  setRole(obj) {
-    this._role = obj;
-  }
-  get getRole() {
-    return this._role;
-  }
-  setRoleOne(obj) {
-    this._roleOne = obj;
-  }
-  get getRoleOne() {
-    return this._roleOne;
-  }
-  setRolePage(page) {
-    this._rolePage = page;
-  }
-  get getRolePage() {
-    return this._rolePage;
-  }
-  setRoleTotal(total) {
-    this._roleTotal = total;
-  }
-  get getRoleTotal() {
-    return this._roleTotal;
-  }
-  get getRoleLimit() {
-    return this._roleLimit;
-  }
   /**** Manufacturer ************************************************************************ */
   setManufacturer(obj) {
     this._manufacturer = obj;
@@ -252,34 +212,6 @@ export default class DeviceStore {
     return this._rackLimit;
   }
 
-  /**** Rack3d ************************************************************************ * /
-  setRack3d(obj) {
-    this._rack3d = obj;
-  }
-  get getRack3d() {
-    return this._rack3d;
-  }
-  setRack3dOne(obj) {
-    this._rack3dOne = obj;
-  }
-  get getRack3dOne() {
-    return this._rack3dOne;
-  }
-  setRack3dPage(page) {
-    this._rack3dPage = page;
-  }
-  get getRack3dPage() {
-    return this._rack3dPage;
-  }
-  setRack3dTotal(total) {
-    this._rack3dTotal = total;
-  }
-  get getRack3dTotal() {
-    return this._rack3dTotal;
-  }
-  get getRack3dLimit() {
-    return this._rack3dLimit;
-  }
   /**** ModelRack3d - список элементов 3Д модели ************************************************************************ */
   setModelRack3d(obj) {
     this._modelrack3d = obj;
@@ -315,34 +247,6 @@ export default class DeviceStore {
   }
   get getModelRack3dLimit() {
     return this._modelrack3dLimit;
-  }
-  /**** Permission ************************************************************************ */
-  setPermission(obj) {
-    this._permission = obj;
-  }
-  get getPermission() {
-    return this._permission;
-  }
-  setPermissionOne(obj) {
-    this._permissionOne = obj;
-  }
-  get getPermissionOne() {
-    return this._permissionOne;
-  }
-  setPermissionPage(page) {
-    this._permissionPage = page;
-  }
-  get getPermissionPage() {
-    return this._permissionPage;
-  }
-  setPermissionTotal(total) {
-    this._permissionTotal = total;
-  }
-  get getPermissionTotal() {
-    return this._permissionTotal;
-  }
-  get getPermissionLimit() {
-    return this._permissionLimit;
   }
 
   /**************************************************************************************** */

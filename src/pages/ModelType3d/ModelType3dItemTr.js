@@ -37,24 +37,6 @@ const ModelType3dItem = observer(({ obj, short }) => {
         >
           {obj.id}
         </td>
-        {/* <td
-          className={"mt-3 comm_num"}
-          onClick={() => {
-            if (obj.id == device.getActiveRackType.id) {
-              device.setActiveRackType({});
-              vc3d_glob.red_cubes.map((cube) => {
-                vc3d_glob.SCENE.remove(cube);
-              });
-              vc3d_glob.red_cubes.length = 0;
-              vc3d_glob.delete_previous_cube = true;
-            } else {
-              device.setActiveRackType({ ...obj });
-              vc3d_glob.delete_previous_cube = false;
-            }
-          }}
-        >
-          {obj.id == device.getActiveRackType.id ? "a" : "-"}
-        </td> */}
 
         <td className="community_name">{obj.name}</td>
         <td
@@ -78,24 +60,16 @@ const ModelType3dItem = observer(({ obj, short }) => {
       <td
         className={"mt-3 comm_num"}
         onClick={() => {
-          //device.setModelType3dOne({ ...obj });
           console.log("obj", obj, "obj.id = ", obj.id);
 
-          if (obj.id == device.getActiveRackType.id) {
-            device.setActiveRackType({});
-            vc3d_glob.red_cubes.map((cube) => {
-              vc3d_glob.SCENE.remove(cube);
-            });
-            vc3d_glob.red_cubes.length = 0;
-            vc3d_glob.delete_previous_cube = true;
+          if (obj.id == device.getActiveModel.id) {
+            device.setActiveModel({});
           } else {
-            device.setActiveRackType({ ...obj });
-            vc3d_glob.delete_previous_cube = false;
-            //console.log("device.getActiveRackType.name = ", device.getActiveRackType.name, " !!! ", device.getActiveRackType )
+            device.setActiveModel({ ...obj });
           }
         }}
       >
-        {obj.id == device.getActiveRackType.id ? "deactivate" : "activate"}
+        {obj.id == device.getActiveModel.id ? "deactivate" : "activate"}
       </td>
 
       <td className="community_name">{obj.name}</td>

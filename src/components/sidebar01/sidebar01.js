@@ -108,49 +108,15 @@ const SideBar = observer((props) => {
                 {device.getActive3dElement.elementName}
               </strong>
             </Alert>
-
-            {/* {device.getActive3dElement.pt === 2 ? (
-              <Alert style={{ background: vc3d_glob.rack_repair2_color }}>
-                <strong>need to repair</strong>
-              </Alert>
-            ) : (
-              ""
-            )}
-            {device.getActive3dElement.pt === 3 ? (
-              <Alert style={{ background: vc3d_glob.rack_change3_color }}>
-                <strong>need to change</strong>
-              </Alert>
-            ) : (
-              ""
-            )} */}
-
-            {/* <Button
-              className="mr-1"
-              onClick={(e) => {
-                repair_change(2);
-              }}
-            >
-              {device.getActive3dElement.pt === 2 ? "CANCEL REPAIR" : "REPAIR"}
-            </Button>
-
-            <Button
-              className="mr-1"
-              onClick={(e) => {
-                repair_change(3);
-              }}
-            >
-              {device.getActive3dElement.pt === 3 ? "CANCEL CHANGE" : "CHANGE"}
-            </Button> */}
           </div>
         ) : (
           ""
         )}
 
-        {device.getActiveRackType != undefined &&
-        device.getActiveRackType.id ? (
+        {device.getActiveModel != undefined && device.getActiveModel.id ? (
           <Alert variant={"danger"}>
             <strong>
-              {device.getActiveRackType.id}. {device.getActiveRackType.name}
+              {device.getActiveModel.id}. {device.getActiveModel.name}
             </strong>
           </Alert>
         ) : (

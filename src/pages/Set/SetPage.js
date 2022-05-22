@@ -63,35 +63,12 @@ const Obj = observer(() => {
         params3,
         updatedAt,
       });
-
-      //   fetchModelType3d(
-      //     null,
-      //     null,
-      //     null,
-      //     null,
-      //     null,
-      //     null,
-      //     null,
-      //     null,
-      //     1,
-      //     999
-      //   ).then((data) => {
-      //     vc3d_glob.device.setModelType3d3d(data.rows);
-
-      //     if (vc3d_glob.SCENE) {
-      //       common.clear3dscene(); // очистим сцену
-      //       objLoaders.addCubeMergeNew_from_Params1(device.getSetOne); // загружаем 3Д модель РЦ
-      //     }
-      //   });
     });
   }, [id]);
 
   function DELETE(event) {
     fetchSetDelete(oneValue.id);
     history.push(SET_ROUTE + "/");
-  }
-  function SET(event) {
-    history.push(SET_ROUTE + "/" + oneValue.id);
   }
   function UPDATE(event) {
     try {
@@ -256,91 +233,14 @@ const Obj = observer(() => {
             <Button
               className="mt-1 ml-1 danger"
               onClick={(e) => {
-                alert(
-                  "Загружаем пример РЦ размер:  x: " +
-                    xzValue.x +
-                    ", z: " +
-                    xzValue.z
+                var win = window.open(
+                  SET_ROUTE_3D + "/" + oneValue.id,
+                  "_blank"
                 );
-                objLoaders.addCubeMergeNew(
-                  device.getSetOne,
-                  1,
-                  xzValue.x,
-                  1,
-                  xzValue.z
-                ); //getSetOne - данные РЦ
-              }}
-            >
-              LOAD 3D Sample
-            </Button>
-
-            <Button
-              className="mt-1 ml-1 danger"
-              onClick={(e) => {
-                if (vc3d_glob.dc_params1) {
-                  // .racks
-                  const dcp = JSON.stringify(vc3d_glob.dc_params1); // .racks
-                  var today = new Date();
-                  var time =
-                    today.getHours() +
-                    ":" +
-                    today.getMinutes() +
-                    ":" +
-                    today.getSeconds();
-                  setOneValue({ ...oneValue, params1: dcp, updatedAt: time });
-                }
-              }}
-            >
-              SAVE 3D to Params1
-            </Button>
-
-            <Button
-              className="mt-1 ml-1 danger"
-              onClick={(e) => {
-                vc3d_glob.device = device;
-                common.clear3dscene();
-              }}
-            >
-              CLEAR
-            </Button>
-
-            <Button
-              className="mt-1 ml-1 danger"
-              onClick={(e) => {
-                fetchModelType3d(
-                  null,
-                  null,
-                  null,
-                  null,
-                  null,
-                  null,
-                  null,
-                  null,
-                  1,
-                  999
-                ).then((data) => {
-                  vc3d_glob.device = device;
-                  vc3d_glob.device.setModelType3d(data.rows);
-                  vc3d_glob.device.setModelType3dTotal(data.count);
-                  common.clear3dscene();
-                  objLoaders.addCubeMergeNew_from_Params1(device.getSetOne); //getSetOne - данные РЦ
-                });
-              }}
-            >
-              RELOAD Set 3D
-            </Button>
-
-            <Button
-              className="mt-1 ml-1 danger"
-              onClick={(e) => {
-                var win = window.open(SET_ROUTE + "/" + oneValue.id, "_blank");
                 win.focus();
               }}
             >
-              SET111{" "}
-            </Button>
-            <Button className="mt-1 ml-1 danger" onClick={(e) => SET(e)}>
-              SET
+              Open 3D
             </Button>
 
             {/* function SET(event) { history.push(SET_ROUTE + '/'); } */}

@@ -112,19 +112,6 @@ class i3d_Events_func {
     }
   }
 
-  getOffsetSum(elem) {
-    var top = 0,
-      left = 0;
-    while (elem) {
-      //console.log("elem ============", elem, ", elem.offsetTop = ", elem.offsetTop)
-      top = top + parseFloat(elem.offsetTop);
-      left = left + parseFloat(elem.offsetLeft);
-      elem = elem.offsetParent;
-    }
-
-    return { top: Math.round(top), left: Math.round(left) };
-  }
-
   MouseDown8(event) {
     event.preventDefault();
 
@@ -137,6 +124,9 @@ class i3d_Events_func {
 
     switch (vc3d_glob.touch_type) {
       case 2:
+        i3d_events_func.mouse_DOWN(event);
+        break;
+      default:
         i3d_events_func.mouse_DOWN(event);
         break;
     }
@@ -218,38 +208,6 @@ class i3d_Events_func {
       selectedNum / vc3d_glob.device.getModelRack3dLimit
     );
     vc3d_glob.device.setModelRack3dPage(pageCount);
-  }
-  addCubeNew(selected_obj, color) {
-    //if(vc3d_glob.red_cube) { vc3d_glob.SCENE.remove(vc3d_glob.red_cube); }
-
-    var geo_selected = new THREE.BoxBufferGeometry(16, 16, 16);
-
-    var geometry_selected = geo_selected.clone();
-
-    let x1 = selected_obj.position.x;
-    let z1 = selected_obj.position.z;
-    let y1 = selected_obj.position.y + 8;
-
-    geometry_selected.translate(x1, y1, z1);
-    vc3d_glob.red_cube = new THREE.Mesh(
-      geo_selected,
-      new THREE.MeshBasicMaterial({ visible: true, color: color })
-    );
-    //vc3d_glob.red_cube.rotation.x = -90 * Math.PI / 180;
-    vc3d_glob.red_cube.position.x = x1;
-    vc3d_glob.red_cube.position.y = y1;
-    vc3d_glob.red_cube.position.z = z1;
-    //vc3d_glob.red_cube.move_type = 1; //нужно ли двигать объект?
-    //vc3d_glob.red_cube.RACK = 1; //
-    //vc3d_glob.ray_objects.push(vc3d_glob.red_cube);  // тут те модели, которые можно выбирать r aycaster-ом
-
-    if (vc3d_glob.device.getActiveRackType.id) {
-      vc3d_glob.red_cubes.push(vc3d_glob.red_cube);
-    }
-
-    vc3d_glob.red_cube.wtype = "rack"; //
-    vc3d_glob.red_cube.MODEL3D = 1; //
-    vc3d_glob.SCENE.add(vc3d_glob.red_cube);
   }
 
   mouse_DOWN(event) {

@@ -31,7 +31,7 @@ export default class Store {
       this.setAuth(true);
       this.setUser(response.data.user);
     } catch (e) {
-      console.error(e.response?.data?.message);
+      console.error("login ERROR", e.response?.data?.message);
     }
   }
 
@@ -42,7 +42,7 @@ export default class Store {
       this.setAuth(true);
       this.setUser(response.data.user);
     } catch (e) {
-      console.error(e.response?.data?.message);
+      console.error("registration ERROR", e.response?.data?.message);
     }
   }
 
@@ -53,7 +53,7 @@ export default class Store {
       this.setAuth(false);
       this.setUser({});
     } catch (e) {
-      console.error(e);
+      console.error("logout ERROR", e);
       //console.log(e.response?.data?.message);
     }
   }
@@ -70,7 +70,7 @@ export default class Store {
       this.setUser(response.data.user);
       //console.log("11==== this.user ====", this.user);
     } catch (e) {
-      console.error(e.response?.data?.message);
+      console.error("checkAuth ERROR", e.response?.data?.message);
     } finally {
       this.setLoading(false);
     }

@@ -23,10 +23,6 @@ import PagesModelType3d from "../ModelType3d/PagesModelType3d";
 import { MODEL_ROUTE } from "../../utils/consts";
 
 const ModelType3d = observer(() => {
-  const { device } = useContext(Context);
-  const history = useHistory();
-  const [oneValue, setOneValue] = useState({ name: "" });
-
   const { user } = useContext(Context);
   const location = useLocation();
   const isLogin = location.pathname === LOGIN_ROUTE;
@@ -48,7 +44,7 @@ const ModelType3d = observer(() => {
       const response = await UserService.fetchUsers();
       setUsers(response.data);
     } catch (e) {
-      console.error(e);
+      console.error("getUsers ERROR", e);
     }
   }
 

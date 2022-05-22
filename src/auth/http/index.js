@@ -16,6 +16,7 @@ $api.interceptors.response.use(
     return config;
   },
   async (error) => {
+    console.log("=22222=== error", error);
     const originalRequest = error.config;
     if (
       error.response.status == 401 &&
@@ -27,7 +28,7 @@ $api.interceptors.response.use(
         const response = await axios.get(`${API_URL}/refresh`, {
           withCredentials: true,
         });
-        //console.log("refresh response", response);
+        console.log("refresh response", response);
         localStorage.setItem("token", response.data.accessToken);
 
         return $api.request(originalRequest);

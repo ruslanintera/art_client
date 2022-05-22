@@ -423,23 +423,6 @@ const JoyStick = observer((props) => {
     };
   };
 
-  //   useEffect(() => {
-  //     fetchModelType3d({
-  //       page: device.getModelType3dPage,
-  //       limit: device.getModelType3dLimit,
-  //     }).then((data) => {
-  //       device.setModelType3d(data.rows);
-  //       device.setModelType3dTotal(data.count);
-  //     });
-  //   }, [device.getModelType3dPage]);
-
-  //   function DELETE() {
-  //     try {
-  //     } catch (e) {
-  //       console.error("ERRR del==", e);
-  //     }
-  //   }
-
   return (
     // <></>
     <div className={classes.columnLateral}>

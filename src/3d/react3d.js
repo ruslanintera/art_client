@@ -116,8 +116,6 @@ class React3d {
               z: model.position.z,
             });
           }
-          //setOneValue({ ...oneValue, model3d: e.target.value })
-          //vc3d_glob.device.setSetOne(data);
         }
       }
       JSON_params2.cx = vc3d_glob.CAMERA.position.x;
