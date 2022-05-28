@@ -11,12 +11,12 @@ import {
 import { Row, Col, Tabs, Tab, Button } from "react-bootstrap";
 //import Button from "react-bootstrap/Button";
 
-import { useHistory, useLocation } from "react-router-dom";
 import UserService from "../../auth/services/UserService";
 
 import { observer } from "mobx-react-lite";
 import { Context } from "../../index";
 
+import { useHistory, useLocation } from "react-router-dom";
 import { fetchModelType3d, fetchModelType3dCreate } from "../../http/commAPI";
 import ModelType3dList from "../ModelType3d/ModelType3dList";
 import PagesModelType3d from "../ModelType3d/PagesModelType3d";
@@ -70,7 +70,7 @@ const ModelType3d = observer(() => {
                 >
                   <h5>
                     {store.isAuth
-                      ? `Пользователь авторизован::: ${store.user.email}`
+                      ? `Пользователь авторизован::: ${store.user.id}. ${store.user.email}`
                       : ""}
                   </h5>
 

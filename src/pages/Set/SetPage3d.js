@@ -36,7 +36,6 @@ const Obj = observer(() => {
     vc3d_glob.device.setActive3dElement({});
 
     fetchOneDC(id).then((data) => {
-      console.log("data SetOne", data);
       device.setSetOne(data);
       if (!device.getSetOne) return;
 
@@ -83,8 +82,6 @@ const Obj = observer(() => {
           JSON_params3 = [];
         }
 
-        //var JSON_params2 = eval("(" + params2 + ")");
-        console.log("JSON_params2 = ", JSON_params2);
         const cx = common.valOrDefault(JSON_params2.cx, 0);
         const cy = common.valOrDefault(JSON_params2.cy, 1000);
         const cz = common.valOrDefault(JSON_params2.cz, 500);

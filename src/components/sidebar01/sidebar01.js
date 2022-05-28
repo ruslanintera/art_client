@@ -12,9 +12,14 @@ import { observer } from "mobx-react-lite";
 import { Context } from "../../index";
 import { ROUTE_3D } from "../../utils/consts";
 import { Alert, Container, Row, Col, Tabs, Tab, Button } from "react-bootstrap";
-import { fetchModelType3d } from "../../http/commAPI";
+import { fetchModelType3d, fetchPhotoVideo } from "../../http/commAPI";
+
 import ModelType3dList from "../../pages/ModelType3d/ModelType3dList";
 import PagesModelType3d from "../../pages/ModelType3d/PagesModelType3d";
+
+import PhotoVideoList from "../../pages/PhotoVideo/PhotoVideoList";
+import PagesPhotoVideo from "../../pages/PhotoVideo/PagesPhotoVideo";
+
 import { useHistory } from "react-router-dom";
 import { vc3d_glob } from "../../3d/dev2020/f5_vc3d_glob";
 
@@ -56,12 +61,15 @@ const SideBar = observer((props) => {
     });
   }, [device.getModelType3dPage]);
 
-  function DELETE() {
-    try {
-    } catch (e) {
-      console.error("ERRR del==", e);
-    }
-  }
+  useEffect(() => {
+    fetchPhotoVideo({
+      page: device.getPhotoVideoPage,
+      limit: device.getPhotoVideoLimit,
+    }).then((data) => {
+      device.setPhotoVideo(data.rows);
+      device.setPhotoVideoTotal(data.count);
+    });
+  }, [device.getPhotoVideoPage]);
 
   return (
     <nav id="sidebar" className={device.isActive ? "active" : null}>
@@ -149,6 +157,12 @@ const SideBar = observer((props) => {
                     <strong>A</strong>
                   </h4>
                 </Container>
+                <Row className="mt-2">
+                  <Col md={12}>
+                    <PagesPhotoVideo />
+                    <PhotoVideoList short={true} />
+                  </Col>
+                </Row>
               </Tab>
               <Tab className="p-1" eventKey="tab_page_3" title="B">
                 <h4>
@@ -165,6 +179,14 @@ const SideBar = observer((props) => {
             }}
           >
             SAVE
+          </Button>
+          <Button
+            className="mr-1"
+            onClick={(e) => {
+              react3d.DELETE(device);
+            }}
+          >
+            DELETE
           </Button>
         </div>
 

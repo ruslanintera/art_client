@@ -3,6 +3,7 @@ import {
   MODEL_ROUTE,
   ROUTE_3D,
   ADMIN_ROUTE,
+  PHOTO_ROUTE,
   LOGIN_ROUTE,
   REGISTRATION_ROUTE,
   HOME_ROUTE,
@@ -16,6 +17,8 @@ import Page3d from "./pages/ModelType3d/Page3d";
 import Auth from "./pages/Auth/Auth";
 import ModelType3d from "./pages/ModelType3d/ModelType3d";
 import ModelType3dPage from "./pages/ModelType3d/ModelType3dPage";
+import PhotoVideo from "./pages/PhotoVideo/PhotoVideo";
+import PhotoVideoPage from "./pages/PhotoVideo/PhotoVideoPage";
 
 import Manufacturer from "./pages/Manufacturer/Manufacturer";
 import ManufacturerPage from "./pages/Manufacturer/ManufacturerPage";
@@ -33,6 +36,8 @@ export const publicRoutes = [
   { path: REGISTRATION_ROUTE, Component: Auth },
   { path: MODEL_ROUTE, Component: ModelType3d },
   { path: MODEL_ROUTE + "/:id", Component: ModelType3dPage },
+  { path: PHOTO_ROUTE, Component: PhotoVideo },
+  { path: PHOTO_ROUTE + "/:id", Component: PhotoVideoPage },
 
   { path: SET_ROUTE, Component: Set },
   { path: SET_ROUTE + "/:id", Component: SetPage },

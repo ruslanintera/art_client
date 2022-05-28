@@ -8,20 +8,21 @@ import { Form } from "react-bootstrap";
 
 import { observer } from "mobx-react-lite";
 import { Context } from "../../index";
+import styles from "./PhotoVideoPage.module.css";
 
 import {
-  fetchModelType3d,
+  fetchPhotoVideo,
   fetchManufacturer,
-  fetchModelType3dCreate,
-  fetchModelType3dUpdate,
-  fetchOneModelType3d,
-  fetchModelType3dDelete,
-  fetchModelType3dUploadGLB,
+  fetchPhotoVideoCreate,
+  fetchPhotoVideoUpdate,
+  fetchOnePhotoVideo,
+  fetchPhotoVideoDelete,
+  fetchPhotoVideoUploadGLB,
 } from "../../http/commAPI";
 
 import { useParams } from "react-router-dom";
 import { useHistory } from "react-router-dom";
-import { MODEL_ROUTE } from "../../utils/consts";
+import { PHOTO_ROUTE } from "../../utils/consts";
 
 import { vc3d_glob } from "../../3d/dev2020/f5_vc3d_glob";
 import { i3d_base } from "../../3d/dev2020/f4_base";
@@ -34,148 +35,163 @@ import { HexColorPicker } from "react-colorful";
 
 const Obj = observer(() => {
   const history = useHistory();
+
   const { device } = useContext(Context);
+  const { store } = useContext(Context);
+
   const { id } = useParams();
   const [oneValue, setOneValue] = useState({
     id: "",
     name: "",
     manufacturer: 0,
-    model3d: "",
+    pathimg: "",
     color: "",
     params1: "",
     params2: "",
     params3: "",
-    dts: "",
-    dt: "",
+    type: "",
     user: 0,
   });
   const [color, setColor] = useState("#fff");
 
   const [fileGLB, setFileGLB] = useState(null);
   const [filesJPG, setFilesJPG] = useState(null);
+  const [params3Array, setParams3Array] = useState([]);
 
   const selectFileGLB = (e) => {
     setFileGLB(e.target.files[0]);
   };
   const selectFilesJPG = (e) => {
-    setFilesJPG(e.target.files[0]);
+    //setFilesJPG(e.target.files[0]);
+    setFilesJPG(e.target.files);
   };
 
   useEffect(() => {
-    fetchOneModelType3d(id).then((data) => {
-      device.setModelType3dOne(data);
-      if (!device.getModelType3dOne) return;
+    fetchOnePhotoVideo(id).then((data) => {
+      device.setPhotoVideoOne(data);
+      if (!device.getPhotoVideoOne) return;
 
       const {
         id,
         name,
         manufacturer,
-        model3d,
+        pathimg,
         color,
         params1,
         params2,
         params3,
-        dts,
-        dt,
+        type,
         user,
-      } = device.getModelType3dOne;
+      } = device.getPhotoVideoOne;
       setOneValue({
         id,
         name,
         manufacturer,
-        model3d,
+        pathimg,
         color,
         params1,
         params2,
         params3,
-        dts,
-        dt,
+        type,
         user,
       });
       if (color) setColor(color);
 
-      //console.log("fetchOneModelType3d    oneValue ===", oneValue);
-
       fetchManufacturer(null, null, 1, 999).then((data) => {
-        //console.log("fetchManufacturer           data.rows = ", data.rows, "data.count = ", data.count)
         device.setManufacturer(data.rows);
         device.setManufacturerTotal(data.count);
-        //device.getManufacturer.map(obj =>console.log("MMMMMMMMMMMMMMMMMMMMMMMMMMMM obj ========", obj))
       });
+      const params3_JSON = JSON.parse(params3);
+      const imgPathArray = params3_JSON.map((item, idx) => {
+        return (
+          process.env.REACT_APP_API_URL +
+          `user${store.user.id}/img${id}/${item}`
+        );
+      });
+      setParams3Array(imgPathArray);
     });
   }, [id]);
 
   function DELETE(event) {
-    fetchModelType3dDelete(oneValue.id);
-    history.push(MODEL_ROUTE + "/");
+    fetchPhotoVideoDelete(oneValue.id);
+    history.push(PHOTO_ROUTE + "/");
   }
   function UPDATE(event) {
-    //console.log("UPDATE oneValue ===", oneValue);
-    fetchModelType3dUpdate(oneValue);
+    fetchPhotoVideoUpdate(oneValue);
   }
   const onDone = (data) => {
-    //console.log("udated data=", data);
+    console.log("udated data=", data);
+
+    if (data?.record?.params3) {
+      setOneValue({ ...oneValue, params3: data.record.params3 });
+
+      const params3_JSON = JSON.parse(data.record.params3);
+      const imgPathArray = params3_JSON.map((item, idx) => {
+        return (
+          process.env.REACT_APP_API_URL +
+          `user${store.user.id}/img${id}/${item}`
+        );
+      });
+      setParams3Array(imgPathArray);
+    }
   };
   const uploadGLBJPG = () => {
-    //console.log("fileGLB", fileGLB, "filesJPG", filesJPG)
     const formData = new FormData();
     formData.append("id", oneValue.id);
     formData.append("name", oneValue.name);
     formData.append("manufacturer", oneValue.manufacturer);
-    formData.append("model3d", oneValue.model3d);
+    formData.append("pathimg", oneValue.pathimg);
     formData.append("color", oneValue.color);
     formData.append("params1", oneValue.params1);
     formData.append("params2", oneValue.params2);
     formData.append("params3", oneValue.params3);
-    formData.append("dts", oneValue.dts);
-    formData.append("dt", oneValue.dt);
+    formData.append("type", oneValue.type);
     formData.append("user", oneValue.user);
-
     formData.append("glb", fileGLB);
-    formData.append("imgs", filesJPG);
-    fetchModelType3dUploadGLB(formData, oneValue.id).then((data) =>
+    for (let i = 0; i < filesJPG.length; i++) {
+      formData.append(`images_${i}`, filesJPG[i]);
+    }
+
+    fetchPhotoVideoUploadGLB(formData, oneValue.id).then((data) =>
       onDone(data)
     );
   };
 
   async function CREATE(event) {
-    const data = await fetchModelType3dCreate(oneValue); //
+    const data = await fetchPhotoVideoCreate(oneValue); //
     //console.log("CREATE data = =  = = =", data, "CREATE data.id = =  = = =", data.id)
 
-    device.setModelType3dOne(data);
+    device.setPhotoVideoOne(data);
     const {
       id,
       name,
       manufacturer,
-      model3d,
+      pathimg,
       color,
       params1,
       params2,
       params3,
-      dts,
-      dt,
+      type,
       user,
-    } = device.getModelType3dOne;
-    //console.log("CREATE ===", name, manufacturer, model3d, "p1 ===", params1, "p2 ===", params2, user)
+    } = device.getPhotoVideoOne;
 
     setOneValue({
       id,
       name,
       manufacturer,
-      model3d,
+      pathimg,
       color,
       params1,
       params2,
       params3,
-      dts,
-      dt,
+      type,
       user,
     });
-    history.push(MODEL_ROUTE + "/" + data.id);
+    history.push(PHOTO_ROUTE + "/" + data.id);
   }
 
-  if (!device.getModelType3dOne) {
-    return <h1 className="work_page navbar">Данные отсутствуют</h1>;
+  if (!device.getPhotoVideoOne) {
+    return <h3 className="work_page navbar">Данные отсутствуют</h3>;
   }
 
   return (
@@ -196,6 +212,9 @@ const Obj = observer(() => {
                 setOneValue({ ...oneValue, color: e });
               }}
             />
+            {params3Array.map((item) => {
+              return <img src={item} alt={item} key={item + Date.now()}></img>;
+            })}
           </Col>
           <Col md={9}>
             <table>
@@ -210,7 +229,7 @@ const Obj = observer(() => {
               <tbody>
                 <tr>
                   <td>id</td>
-                  <td>{device.getModelType3dOne.id}</td>
+                  <td>{device.getPhotoVideoOne.id}</td>
                   <td></td>
                 </tr>
                 <tr>
@@ -257,15 +276,15 @@ const Obj = observer(() => {
                 </tr>
 
                 <tr>
-                  <td>model3d</td>
-                  <td>{oneValue.model3d}</td>
+                  <td>pathimg</td>
+                  <td>{oneValue.pathimg}</td>
                   <td>
                     <input
                       type="text"
                       className="form-control pad1"
-                      value={oneValue.model3d}
+                      value={oneValue.pathimg}
                       onChange={(e) =>
-                        setOneValue({ ...oneValue, model3d: e.target.value })
+                        setOneValue({ ...oneValue, pathimg: e.target.value })
                       }
                     />
                   </td>
@@ -353,7 +372,8 @@ const Obj = observer(() => {
             <Form.Control
               className="mt-3"
               type="file"
-              // multiple
+              accept="image/*"
+              multiple
               onChange={selectFilesJPG}
             />
             <hr />
@@ -371,3 +391,9 @@ const Obj = observer(() => {
 });
 
 export default Obj;
+
+/**
+                    <RSselect pad1_true={false}/>
+                    <STselect_label pad1_true={false} />
+
+ */

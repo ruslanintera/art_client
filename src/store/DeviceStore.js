@@ -26,6 +26,13 @@ export default class DeviceStore {
     this._racktypeTotal = 0;
     this._racktypeLimit = 5;
 
+    this._photoVideo = [];
+    this._photoVideo3d = [];
+    this._photoVideoOne = {};
+    this._photoVideoPage = 1;
+    this._photoVideoTotal = 0;
+    this._photoVideoLimit = 5;
+
     this._rack = [];
     this._rackOne = {};
     this._rackPage = 1;
@@ -182,6 +189,42 @@ export default class DeviceStore {
   }
   get getModelType3dLimit() {
     return this._racktypeLimit;
+  }
+  /**** PhotoVideo ************************************************************************ */
+  setPhotoVideo3d(obj) {
+    this._photoVideo3d = obj;
+  }
+  get getPhotoVideo3d() {
+    return this._photoVideo3d;
+  }
+  setPhotoVideo(obj) {
+    this._photoVideo = obj;
+  }
+  get getPhotoVideo() {
+    return this._photoVideo;
+  }
+
+  setPhotoVideoOne(obj) {
+    this._photoVideoOne = obj;
+  }
+  get getPhotoVideoOne() {
+    return this._photoVideoOne;
+  }
+  setPhotoVideoPage(page) {
+    //console.log("setPhotoVideoPage page=", page);
+    this._photoVideoPage = page;
+  }
+  get getPhotoVideoPage() {
+    return this._photoVideoPage;
+  }
+  setPhotoVideoTotal(total) {
+    this._photoVideoTotal = total;
+  }
+  get getPhotoVideoTotal() {
+    return this._photoVideoTotal;
+  }
+  get getPhotoVideoLimit() {
+    return this._photoVideoLimit;
   }
   /**** Rack ************************************************************************ */
   setRack(obj) {

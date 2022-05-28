@@ -47,10 +47,7 @@ export const fetchSet = async (
   return data;
 };
 export const fetchSetUpdate = async (obj) => {
-  console.log("fetchSetUpdate  =89   obj = ", obj);
   const { data } = await $authHost.post("api/dc/update/" + obj.id, obj);
-  console.log("fetchSetUpdate  =332  data = ", data);
-
   return data;
 };
 export const fetchOneDC = async (id) => {
@@ -109,6 +106,59 @@ export const fetchOneModelType3d = async (id) => {
 };
 export const fetchModelType3dDelete = async (id) => {
   const { data } = await $authHost.get("api/racktype/delete/" + id);
+  return data;
+};
+
+/** PhotoVideo ******************************************* */
+export const fetchPhotoVideoCreate = async (obj) => {
+  const { data } = await $authHost.post("api/photovideo/create/", obj);
+  return data;
+};
+export const fetchPhotoVideo = async ({
+  id,
+  name,
+  manufacturer,
+  model3d,
+  color,
+  params1,
+  params2,
+  user,
+  page = 1,
+  limit = 5,
+}) => {
+  const { data } = await $host.get("api/photovideo", {
+    params: {
+      id,
+      name,
+      manufacturer,
+      model3d,
+      color,
+      params1,
+      params2,
+      user,
+      page,
+      limit,
+    },
+  });
+  return data;
+};
+export const fetchPhotoVideoUpdate = async (obj) => {
+  const { data } = await $authHost.post("api/photovideo/update/" + obj.id, obj);
+  return data;
+};
+export const fetchPhotoVideoUploadGLB = async (obj, id) => {
+  const { data } = await $authHost.post(
+    "api/photovideo/uploadglbjpg/" + id,
+    obj
+  );
+  return data;
+};
+export const fetchOnePhotoVideo = async (id) => {
+  const { data } = await $host.get("api/photovideo/" + id);
+  return data;
+};
+export const fetchPhotoVideoDelete = async (id) => {
+  const { data } = await $authHost.get("api/photovideo/delete/" + id);
   return data;
 };
 

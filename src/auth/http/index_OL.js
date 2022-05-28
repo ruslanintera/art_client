@@ -1,22 +1,21 @@
 import axios from "axios";
-export const API_URL = process.env.REACT_APP_API_URL + `api/auth`;
 
-const $api = axios.create({
+const $host = axios.create({
   withCredentials: true,
-  baseURL: API_URL,
+  baseURL: process.env.REACT_APP_API_URL,
 });
 
-$api.interceptors.request.use((config) => {
+$host.interceptors.request.use((config) => {
   config.headers.Authorization = `Bearer ${localStorage.getItem("token")}`;
   return config;
 });
 
-$api.interceptors.response.use(
+$host.interceptors.response.use(
   (config) => {
     return config;
   },
   async (error) => {
-    console.log("=22222=== error", error);
+    console.error("=22222=== error", error);
     const originalRequest = error.config;
     if (
       error.response.status == 401 &&
@@ -25,13 +24,17 @@ $api.interceptors.response.use(
     ) {
       originalRequest._isRetry = true;
       try {
-        const response = await axios.get(`${API_URL}/refresh`, {
-          withCredentials: true,
-        });
-        console.log("refresh response", response);
+        //const response = await axios.get(`${API_URL}/refresh`, {
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_URL}api/auth/refresh`,
+          {
+            withCredentials: true,
+          }
+        );
+        //console.log("refresh response", response);
         localStorage.setItem("token", response.data.accessToken);
 
-        return $api.request(originalRequest);
+        return $host.request(originalRequest);
       } catch (e) {
         console.error("НЕ АВТОРИЗОВАН");
       }
@@ -40,4 +43,4 @@ $api.interceptors.response.use(
   }
 );
 
-export default $api;
+export default $host;

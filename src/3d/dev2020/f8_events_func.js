@@ -230,14 +230,6 @@ class i3d_Events_func {
         vc3d_glob.curr_obj.name
       );
 
-      console.log("CLICK vc3d_glob.curr_obj = ", vc3d_glob.curr_obj);
-      console.log(
-        "CLICK intersects_0 = ",
-        Math.ceil(intersects_0.point.x * 100) / 100,
-        Math.ceil(intersects_0.point.y * 100) / 100,
-        Math.ceil(intersects_0.point.z * 100) / 100
-      );
-
       if (vc3d_glob.curr_obj.wtype === "gltf") {
         const active3dElement = {
           elementName: vc3d_glob.curr_obj.name,
@@ -250,10 +242,8 @@ class i3d_Events_func {
           model_name: vc3d_glob.curr_obj.model_name,
           el_name: vc3d_glob.curr_obj.el_name,
         };
-        console.log("CLICK active3dElement = ", { ...active3dElement });
-        console.log("34 CLICK getActive3dElement = ", {
-          ...vc3d_glob.device.getActive3dElement,
-        });
+        //console.log("CLICK active3dElement = ", { ...active3dElement });
+        console.log("getActive3dElement", vc3d_glob.device.getActive3dElement);
 
         vc3d_glob.device.setActive3dElement(active3dElement);
       }
@@ -262,7 +252,6 @@ class i3d_Events_func {
       vc3d_glob.curr_obj_all = Object.create(vc3d_glob.curr_obj); // пока это текущий объект на который указали лучом. СТЕНА
 
       if (!vc3d_glob.curr_obj.square) {
-        //if(true) {
         var inter_i = 0;
         do {
           if (
@@ -285,6 +274,8 @@ class i3d_Events_func {
             break;
           }
         } while (bf);
+
+        console.log("CLICK vc3d_glob.curr_obj_all = ", vc3d_glob.curr_obj_all);
       } else {
         //c("square!")
       }

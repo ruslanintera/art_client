@@ -17,8 +17,6 @@ const SideBar = observer((props) => {
   const { store } = useContext(Context);
   const history = useHistory();
 
-  //console.log("============ store.user.email", store.user.email);
-
   const handleToggle = () => {
     device.setIsActive(!device.isActive);
   };

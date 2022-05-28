@@ -22,7 +22,7 @@ import { fetchOneModelType3d, fetchOneDC } from "../../http/commAPI";
 class i3d_Base {
   load_gltf_2021() {
     try {
-      console.log("9999900 load_gltf_2021=", vc3d_glob.currentRT.model3d);
+      console.log("9999900 l oad_gltf_2021=", vc3d_glob.currentRT.model3d);
 
       if (!vc3d_glob.currentRT) {
         return;
@@ -108,7 +108,7 @@ class i3d_Base {
               child.receiveShadow = true;
             }
 
-            vc3d_glob.ray_objects.push(child); // тут те модели, которые можно выбирать r aycaster-ом
+            //vc3d_glob.ray_objects.push(child); // тут те модели, которые можно выбирать r aycaster-ом
 
             child.material.needsUpdate = true;
             child.model_unid = gltf.scene.model_unid;
@@ -180,9 +180,6 @@ class i3d_Base {
     data,
   }) {
     try {
-      //console.log("m, x, y, z, rx, ry, rz, s", m, x, y, z, rx, ry, rz, s, set);
-      console.log("3424242 44343 data", data);
-      //if (!m || !data) {
       if (!m) {
         return;
       }
@@ -216,6 +213,7 @@ class i3d_Base {
         gltf.scene.m = m;
         gltf.scene.scale.set(s, s, s);
         gltf.scene.position.set(x, y, z);
+        //gltf.scene.setScale = s; //
 
         gltf.scene.model_id = data.id;
         gltf.scene.model_name = data.name;
@@ -224,7 +222,6 @@ class i3d_Base {
         const cx = x || 0;
         const cy = y || 0;
         const cz = z || 0;
-        console.log("cx, cy, cz ====", cx, cy, cz);
         gltf.scene.position.set(cx, cy, cz);
 
         let data_rows = [],
@@ -237,7 +234,7 @@ class i3d_Base {
               child.receiveShadow = true;
             }
 
-            vc3d_glob.ray_objects.push(child); // тут те модели, которые можно выбирать r aycaster-ом
+            //vc3d_glob.ray_objects.push(child); // тут те модели, которые можно выбирать r aycaster-ом
 
             child.material.needsUpdate = true;
             child.model_unid = gltf.scene.model_unid;
@@ -281,119 +278,6 @@ class i3d_Base {
       });
     } catch (e) {
       i3d_all.c_sys("ERROR mess: " + e.name + ": " + e.message, "e = ", e);
-    }
-  }
-
-  get_obj_gltf_dae(ge_i, object, wl_1) {
-    // wl_1  =  это данные модели - элемента списка goods_or_set_list = app.all.ge из таблицы sets
-
-    switch (vc3d_glob.add_text) {
-      case "no":
-        break;
-      default:
-        //i3d_tween.elems_add_text(); // тут добавляем интерактив
-        break;
-    }
-    i3d_all.coi(
-      wl_1,
-      "2 get_obj_gltf_dae =================== wl_1 =========================="
-    );
-
-    var child_number = 0;
-    object.traverse(function (child) {
-      if (child.isMesh) {
-        if (vc3d_glob.shadow) {
-          child.castShadow = true;
-          child.receiveShadow = true;
-        }
-
-        child.child_number = -1; //child_number; //присвоим порядковый номер          !!!!!!!!  по нему будем находить связь между vc3d_glob.curr_obj (элемент 3Д модели) и app.all.ge[i].elems[child_number]
-
-        child.ge_i = ge_i; // vc3d_glob.curr_obj_all.ge_i = ge_i   = порядковый номер модели из массива app.all.ge !!!!!!!!!!!!!!!!!!!!!!!!!
-        child.model_unid_in_ge = wl_1.model_unid_in_ge; // model_unid_in_ge   = "УНИКАЛЬНЫЙ" номер модели из массива app.all.ge !!!!!!!!!!!!!!!!!!!!!!!!!
-
-        child.obj_type = wl_1.obj_type; // = "gltf"
-        child.mod_type = wl_1.mod_type; // = "gltf"
-        child.mod_name = wl_1.mod_name; //
-        vc3d_glob.ray_objects.push(child); // тут те модели, которые можно выбирать r aycaster-ом
-
-        child.material.needsUpdate = true;
-
-        /*==== Раскрасим модель просто цветом =========================================================*/
-        if (wl_1.colored == "1") {
-          child.material.color = new THREE.Color("#00f"); //0x444444
-          child.material.emissive = new THREE.Color("#00f");
-          child.material.emissiveIntensity = 1;
-        }
-
-        ///  Тут мы в app.all.elems дописываем элементы из модели (если они там отсуствуют)  //////////////
-        var found = false;
-        for (var e = 0; e < app.all.elems.length; e++) {
-          if (
-            app.all.elems[e].model_unid_in_ge == child.model_unid_in_ge &&
-            app.all.elems[e].name == child.name
-          ) {
-            app.all.elems[e].child_number = e;
-            child.child_number = e;
-            if (app.all.elems[e].hide) {
-              child.visible = false;
-            } //hide if hide !
-            found = true;
-          }
-        }
-        if (!found) {
-          app.all.elems.push({
-            model_unid_in_ge: child.model_unid_in_ge,
-            child_number: app.all.elems.length,
-            libs: [],
-            name: child.name,
-          });
-          child.child_number = app.all.elems.length - 1;
-        }
-        //c("BASE child.name = " + child.name + ", child.child_number = " + child.child_number + ", child_number = " + child_number);
-
-        child_number++;
-      }
-    });
-
-    object.ge_i = ge_i; // vc3d_glob.curr_obj_all.ge_i = ge_i   = порядковый номер модели из массива app.all.ge !!!!!!!!!!!!!!!!!!!!!!!!!
-
-    //object.model_unid_in_ge = wl_1.model_unid_in_ge; // model_unid_in_ge   = "УНИКАЛЬНЫЙ" номер модели из массива app.all.ge !!!!!!!!!!!!!!!!!!!!!!!!!
-    object.model_unid =
-      wl_1.model_unid || i3d_all.gener_name_to_input(16, "#aA");
-
-    object.obj_type = wl_1.obj_type; // = "gltf"
-    object.mod_type = wl_1.mod_type; // = "gltf"
-    object.mod_name = wl_1.mod_name; //
-
-    object.scale.x = wl_1.scalex;
-    object.scale.y = wl_1.scaley;
-    object.scale.z = wl_1.scalez;
-    object.scalex_orig = wl_1.scalex;
-    object.scaley_orig = wl_1.scaley;
-    object.scalez_orig = wl_1.scalez;
-
-    object.position.set(wl_1.allx, wl_1.ally, wl_1.allz);
-    object.rotation.set(
-      (wl_1.rotx * Math.PI) / 180,
-      (wl_1.roty * Math.PI) / 180,
-      (wl_1.rotz * Math.PI) / 180
-    );
-
-    object.move_type = 1; //parseInt(wl_1.move_type); //нужно ли двигать объект?
-    object.sc_object3d = true;
-
-    vc3d_glob.SCENE.add(object);
-
-    i3d_all.coi(
-      object,
-      "3 get_obj_gltf_dae =================== object =========================="
-    );
-
-    vc3d_glob.loaded_objects_count--;
-
-    if (vc3d_glob.loaded_objects_count <= 0) {
-      //document.querySelector('#loader4').style.display = 'none'; //выключим значок загрузки
     }
   }
 

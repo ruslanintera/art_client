@@ -21,13 +21,6 @@ const AppRouter = observer((props) => {
   const { user } = useContext(Context);
   let rootElement = props.rootElement;
 
-  //console.log("AppRouter    props ==============================", props)
-  console.log(
-    "AppRouter    rootElement ==============================",
-    rootElement
-  );
-
-  //console.log(user)
   return (
     <div className="wrapper d-flex align-items-stretch">
       <SideBar />

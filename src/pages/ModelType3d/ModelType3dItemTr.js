@@ -60,8 +60,6 @@ const ModelType3dItem = observer(({ obj, short }) => {
       <td
         className={"mt-3 comm_num"}
         onClick={() => {
-          console.log("obj", obj, "obj.id = ", obj.id);
-
           if (obj.id == device.getActiveModel.id) {
             device.setActiveModel({});
           } else {

@@ -10,30 +10,29 @@ import { useHistory } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import { Context } from "../../index";
 
-import { fetchModelType3d, fetchModelType3dCreate } from "../../http/commAPI";
-import ModelType3dList from "./ModelType3dList";
-import PagesModelType3d from "./PagesModelType3d";
-import { MODEL_ROUTE } from "../../utils/consts";
+import { fetchPhotoVideo, fetchPhotoVideoCreate } from "../../http/commAPI";
+import PhotoVideoList from "./PhotoVideoList";
+import PagesPhotoVideo from "./PagesPhotoVideo";
+import { PHOTO_ROUTE } from "../../utils/consts";
 
-const ModelType3d = observer(() => {
+const PhotoVideo = observer(() => {
   const { device } = useContext(Context);
   const history = useHistory();
   const [oneValue, setOneValue] = useState({ name: "" });
 
   useEffect(() => {
-    fetchModelType3d({
-      page: device.getModelType3dPage,
-      limit: device.getModelType3dLimit,
+    fetchPhotoVideo({
+      page: device.getPhotoVideoPage,
+      limit: device.getPhotoVideoLimit,
     }).then((data) => {
-      device.setModelType3d(data.rows);
-      device.setModelType3dTotal(data.count);
+      device.setPhotoVideo(data.rows);
+      device.setPhotoVideoTotal(data.count);
     });
-  }, [device.getModelType3dPage]);
+  }, [device.getPhotoVideoPage]);
 
   async function CREATE(event) {
-    const data = await fetchModelType3dCreate(oneValue); //
-    //console.log("CREATE data = =  = = =", data); //console.log("CREATE data.id = =  = = =", data.id)
-    history.push(MODEL_ROUTE + "/" + data.id);
+    const data = await fetchPhotoVideoCreate(oneValue); //
+    history.push(PHOTO_ROUTE + "/" + data.id);
   }
 
   return (
@@ -44,16 +43,16 @@ const ModelType3d = observer(() => {
           defaultActiveKey="tab_page_1"
           id="uncontrolled-tab-example"
         >
-          <Tab className="p-1" eventKey="tab_page_1" title="ModelType3d">
+          <Tab className="p-1" eventKey="tab_page_1" title="PhotoVideo">
             <h4>
-              <strong>3D Модели/</strong>
+              <strong>3D Модели</strong>
             </h4>
 
             <Row className="mt-2">
               {/* <Col md={3}></Col> */}
               <Col md={12}>
-                <PagesModelType3d />
-                <ModelType3dList />
+                <PagesPhotoVideo />
+                <PhotoVideoList />
               </Col>
             </Row>
           </Tab>
@@ -94,4 +93,4 @@ const ModelType3d = observer(() => {
   );
 });
 
-export default ModelType3d;
+export default PhotoVideo;
