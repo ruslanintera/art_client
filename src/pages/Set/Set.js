@@ -90,72 +90,11 @@ const Set = observer(() => {
         </Tabs>
       </Container>
 
-      {/* <Button className="mt-1 ml-1 danger" onClick={(e) => CREATE(e)}>CREATE</Button> */}
+      <Button className="mt-1 ml-1 danger" onClick={(e) => CREATE(e)}>
+        CREATE
+      </Button>
     </div>
   );
 });
 
 export default Set;
-
-/**
-            <form className="form-register" id="form-register" action="#" method="post">
-		        	<div id="form-total" style={{ background: "#555" }}>
-
-			            <section>
-			                <div className="inner">
-			                	<div className="form-heading">
-			                		<h3>Personal Info</h3>
-			                		<span>1/3</span>
-			                	</div>
-								<div className="form-row">
-									<div className="form-holder">
-										<label className="form-row-inner">
-											<input type="text" className="form-control" id="first_name" name="first_name" required/>
-											<span className="label">First Name</span>
-										</label>
-									</div>
-									<div className="form-holder">
-										<label className="form-row-inner">
-											<input type="text" className="form-control" id="last_name" name="last_name" required/>
-											<span className="label">Last Name</span>
-										</label>
-									</div>
-								</div>
-								<div className="form-row">
-									<div className="form-holder">
-										<label className="form-row-inner">
-											<input type="text" className="form-control" id="phone" name="phone" required/>
-											<span className="label">Phone Number</span>
-										</label>
-									</div>
-									<div className="form-holder">
-										<label className="form-row-inner">
-											<input type="text" name="your_email_1" id="your_email_1" className="form-control"  required/>
-											<span className="label">E-Mail</span>
-										</label>
-									</div>
-								</div>
-
-							</div>
-			            </section>
-
-			            <h5>
-			            	<span className="step-text">Booking</span>
-			            </h5>
-		        	</div>
-		        </form>
-
-
-<div className="inner">
-    <div className="form-row">
-		<div className="form-holder form-holder-2-555">
-			<label htmlFor="room" className="special-label-1-555">Choose a Room </label>
-			<select name="room" id="room" className="form-control">
-				<option value="Daily Design Metting - Metting Room No.1" defaultValue>Daily Design Metting - Metting Room No.1</option>
-				<option value="Single">Single</option>
-				<option value="Double">Double</option>
-			</select>
-		</div>
-	</div>
-</div>
- /**/

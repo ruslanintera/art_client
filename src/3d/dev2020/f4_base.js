@@ -18,6 +18,7 @@ import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader";
 import { vc3d_glob } from "./f5_vc3d_glob.js";
 import { common } from "../../common/common";
 import { fetchOneModelType3d, fetchOneDC } from "../../http/commAPI";
+import { react3d } from "../react3d";
 
 class i3d_Base {
   load_gltf_2021() {
@@ -178,7 +179,10 @@ class i3d_Base {
     s = 1,
     set = 1,
     data,
+    matsArray,
   }) {
+    //console.log("F4 matsArray = ", matsArray);
+
     try {
       if (!m) {
         return;
@@ -226,6 +230,14 @@ class i3d_Base {
 
         let data_rows = [],
           data_count = 1; // список элементов модели
+
+        if (matsArray) {
+          matsArray.forEach((item) => {
+            console.log("matsArray item", item);
+
+            react3d.find_obj_set_mats(gltf.scene, item.el, item.params);
+          });
+        }
 
         gltf.scene.traverse(function (child) {
           if (child.isMesh) {

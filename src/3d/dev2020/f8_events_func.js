@@ -276,13 +276,16 @@ class i3d_Events_func {
         } while (bf);
 
         console.log("CLICK vc3d_glob.curr_obj_all = ", vc3d_glob.curr_obj_all);
+        console.log("CLICK vc3d_glob.curr_obj = ", vc3d_glob.curr_obj);
       } else {
         //c("square!")
       }
 
       //////////////////////////////////////////////////////////////////////////////////////////////////////////
       // временно или "постоянно" назначим материал выбранному объекту !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-      i3d_events_func.temp_mat_curr_obj_2021(vc3d_glob.curr_obj);
+      if (vc3d_glob.delete_elem_selection_when_click_white_area) {
+        i3d_events_func.temp_mat_curr_obj_2021(vc3d_glob.curr_obj);
+      }
       //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
       vc3d_glob.last_intersects_0 = null;

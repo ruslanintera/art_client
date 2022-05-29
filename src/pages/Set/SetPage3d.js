@@ -39,16 +39,8 @@ const Obj = observer(() => {
       device.setSetOne(data);
       if (!device.getSetOne) return;
 
-      const {
-        id,
-        name,
-        adress,
-        model3d,
-        params1,
-        params2,
-        params3,
-        updatedAt,
-      } = device.getSetOne;
+      let { id, name, adress, model3d, params1, params2, params3, updatedAt } =
+        device.getSetOne;
       setOneValue({
         id,
         name,
@@ -64,6 +56,9 @@ const Obj = observer(() => {
       try {
         common.clear3dscene(); // очистим сцену
 
+        if (!params3) {
+          params3 = "[]";
+        }
         var JSON_params2, JSON_params3;
         try {
           JSON_params2 = eval("(" + params2 + ")");
@@ -106,6 +101,8 @@ const Obj = observer(() => {
             let ry = JSON_params3[i].ry || 0;
             let rz = JSON_params3[i].rz || 0;
             let s = JSON_params3[i].s || 1;
+            let matsArray = JSON_params3[i].matsArray || [];
+            console.log("================= matsArray", matsArray);
 
             if (!m) {
               return;
@@ -134,6 +131,7 @@ const Obj = observer(() => {
                   s,
                   set,
                   data,
+                  matsArray,
                 });
               }
             });
