@@ -101,6 +101,7 @@ const Obj = observer(() => {
             let ry = JSON_params3[i].ry || 0;
             let rz = JSON_params3[i].rz || 0;
             let s = JSON_params3[i].s || 1;
+            let fix = JSON_params3[i].fix || 0;
             let matsArray = JSON_params3[i].matsArray || [];
             console.log("================= matsArray", matsArray);
 
@@ -132,6 +133,7 @@ const Obj = observer(() => {
                   set,
                   data,
                   matsArray,
+                  fix,
                 });
               }
             });

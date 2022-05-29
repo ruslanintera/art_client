@@ -180,6 +180,7 @@ class i3d_Base {
     set = 1,
     data,
     matsArray,
+    fix,
   }) {
     //console.log("F4 matsArray = ", matsArray);
 
@@ -207,7 +208,13 @@ class i3d_Base {
         var gltf_model = gltf.scene;
 
         vc3d_glob.ray_objects.push(gltf.scene); // тут те модели, которые можно выбирать r aycaster-ом
-        gltf.scene.move_type = 1; //parseInt(wl_1.move_type); //нужно ли двигать объект?
+        //parseInt(wl_1.move_type); //нужно ли двигать объект?
+        if (fix) {
+          gltf.scene.move_type = 0;
+        } else {
+          gltf.scene.move_type = 1;
+        }
+
         gltf.scene.MODEL3D = 1; //
         gltf.scene.wtype = "gltf"; //
         // if (data.Set) {
