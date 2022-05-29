@@ -49,7 +49,7 @@ class i3d_Base {
 
         vc3d_glob.ray_objects.push(gltf.scene); // тут те модели, которые можно выбирать r aycaster-ом
 
-        gltf.scene.move_type = 1; //parseInt(wl_1.move_type); //нужно ли двигать объект?
+        gltf.scene.fix = 1; //parseInt(wl_1.move_type); //нужно ли двигать объект?
         gltf.scene.MODEL3D = 1; //
         gltf.scene.wtype = "gltf"; //
         if (vc3d_glob.currentRT.Set) {
@@ -210,9 +210,9 @@ class i3d_Base {
         vc3d_glob.ray_objects.push(gltf.scene); // тут те модели, которые можно выбирать r aycaster-ом
         //parseInt(wl_1.move_type); //нужно ли двигать объект?
         if (fix) {
-          gltf.scene.move_type = 0;
+          gltf.scene.fix = 1;
         } else {
-          gltf.scene.move_type = 1;
+          gltf.scene.fix = 0;
         }
 
         gltf.scene.MODEL3D = 1; //

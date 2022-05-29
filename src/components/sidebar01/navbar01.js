@@ -8,7 +8,13 @@ import Nav from "react-bootstrap/Nav";
 //import logo from './sidebar/images/logo.jpg';
 import { observer } from "mobx-react-lite";
 import { Context } from "../../index";
-import { LOGIN_ROUTE, HOME_ROUTE, MODEL_ROUTE } from "../../utils/consts";
+import {
+  LOGIN_ROUTE,
+  HOME_ROUTE,
+  MODEL_ROUTE,
+  SET_ROUTE,
+  PHOTO_ROUTE,
+} from "../../utils/consts";
 import { useHistory } from "react-router-dom";
 
 const SideBar = observer((props) => {
@@ -53,8 +59,18 @@ const SideBar = observer((props) => {
               </Link>
             </li>
             <li className="nav-item active">
+              <Link className="nav-link" to={SET_ROUTE}>
+                SETS
+              </Link>
+            </li>
+            <li className="nav-item active">
               <Link className="nav-link" to={MODEL_ROUTE}>
                 MODELS
+              </Link>
+            </li>
+            <li className="nav-item active">
+              <Link className="nav-link" to={PHOTO_ROUTE}>
+                IMGS
               </Link>
             </li>
 

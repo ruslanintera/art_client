@@ -56,7 +56,7 @@ class React3d {
       console.log("material = ", vc3d_glob.curr_obj.material);
       console.log("vc3d_glob.curr_obj = ", vc3d_glob.curr_obj);
       if (!vc3d_glob.animate) {
-        i3d_all.animate2();
+        i3d_all.animate4();
       }
     }
   }
@@ -74,6 +74,17 @@ class React3d {
         const Set = { dc: 1, x: 1, z: 1 }; //device.getSetOne    dc, x, z
         vc3d_glob.currentRT.Set = Set; //{ dc, x, z }; //device.getSetOne
 
+        var JSON_params1 = { size: 1, fix: 0 };
+        if (!data.params1) {
+          data.params1 = "{}";
+        }
+        try {
+          JSON_params1 = eval("(" + data.params1 + ")");
+        } catch (e) {
+          JSON_params1 = { size: 1, fix: 0 };
+        }
+        console.log("##@@@@@@ JSON_params1", JSON_params1);
+
         if (vc3d_glob.currentRT && vc3d_glob.SCENE) {
           vc3d_glob.device = device;
 
@@ -83,8 +94,10 @@ class React3d {
           let rx = 0;
           let ry = 0;
           let rz = 0;
-          let s = 1;
+          let s = JSON_params1.size || 1; // scale/size
           let set = 1;
+          let fix = JSON_params1.fix || 0;
+          let matsArray = []; //JSON_params3[i].matsArray || [];
 
           i3d_base.load_gltf_2021_params({
             m,
@@ -97,6 +110,8 @@ class React3d {
             s,
             set,
             data,
+            matsArray,
+            fix,
           });
         }
       });
@@ -188,6 +203,12 @@ class React3d {
       for (var i = vc3d_glob.SCENE.children.length - 1; i >= 0; i--) {
         if (vc3d_glob.SCENE.children[i].MODEL3D) {
           let model = vc3d_glob.SCENE.children[i];
+          if (model.fix) {
+            model.fix = 1; // "fix":1,
+          } else {
+            model.fix = 0;
+          }
+
           console.log("model", model);
 
           const matsArray = [];
@@ -208,6 +229,7 @@ class React3d {
             ry: model.rotation.y,
             rz: model.rotation.z,
             s: model.scale.x,
+            fix: model.fix,
             matsArray,
           });
         }
