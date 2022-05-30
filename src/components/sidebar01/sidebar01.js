@@ -247,7 +247,7 @@ const SideBar = observer((props) => {
                   UPDATE
                 </Button> */}
 
-                <input
+                {/* <input
                   type="text"
                   className="form-control pad1"
                   value={oneValue.name}
@@ -260,7 +260,7 @@ const SideBar = observer((props) => {
                   onClick={(e) => UPDATE_SET(e)}
                 >
                   UPDATE_SET
-                </Button>
+                </Button> */}
               </Tab>
             </Tabs>
           </Container>
