@@ -11,8 +11,21 @@ import { Link } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import { Context } from "../../index";
 import { ROUTE_3D } from "../../utils/consts";
-import { Alert, Container, Row, Col, Tabs, Tab, Button } from "react-bootstrap";
-import { fetchModelType3d, fetchPhotoVideo } from "../../http/commAPI";
+import {
+  Alert,
+  Container,
+  Row,
+  Col,
+  Tabs,
+  Tab,
+  Button,
+  ListGroup,
+} from "react-bootstrap";
+import {
+  fetchModelType3d,
+  fetchPhotoVideo,
+  fetchModelType3dUpdate,
+} from "../../http/commAPI";
 
 import ModelType3dList from "../../pages/ModelType3d/ModelType3dList";
 import PagesModelType3d from "../../pages/ModelType3d/PagesModelType3d";
@@ -31,8 +44,23 @@ const SideBar = observer((props) => {
   let rootElement = props.rootElement;
   const { device } = useContext(Context);
   const history = useHistory();
-
   const [parentVal, setParentVal] = useState(10);
+  //model
+  // const [oneValue, setOneValue] = useState({
+  //   id: "",
+  //   name: "",
+  //   manufacturer: 0,
+  //   model3d: "",
+  //   color: "",
+  //   params1: "",
+  //   params2: "",
+  //   params3: "",
+  //   dts: "",
+  //   dt: "",
+  //   user: 0,
+  // });
+
+  const [setOneValue, setSetOneValue] = useState([]);
 
   const sliderValueChanged = useCallback((val) => {
     console.log("NEW VALUE", val);
@@ -50,6 +78,12 @@ const SideBar = observer((props) => {
     }),
     [parentVal]
   );
+
+  useEffect(() => {
+    //const getSetOne = device.getSetOne;
+    setSetOneValue(device.getSetOne);
+    console.log("=== getSetOneData = ", { ...setOneValue });
+  });
 
   useEffect(() => {
     fetchModelType3d({
@@ -70,6 +104,31 @@ const SideBar = observer((props) => {
       device.setPhotoVideoTotal(data.count);
     });
   }, [device.getPhotoVideoPage]);
+
+  // function UPDATE(event) {
+  //   console.log("UPDATE_2 oneValue ===", oneValue);
+  //   //const oneValue_2 = { id: oneValue.id, name: oneValue.name };
+  //   const oneValue_2 = {
+  //     id: oneValue.id,
+  //     name: oneValue.name,
+  //     params3: oneValue.params3,
+  //   };
+  //   fetchModelType3dUpdate(oneValue_2);
+  // }
+  // function UPDATE_SET(event) {
+
+  //   getSetOneData = device.getSetOne;
+  //   console.log("88 getSetOneData = ", {...getSetOneData,});
+
+  //   console.log("UPDATE_2 oneValue ===", oneValue);
+  //   //const oneValue_2 = { id: oneValue.id, name: oneValue.name };
+  //   const oneValue_2 = {
+  //     id: oneValue.id,
+  //     name: oneValue.name,
+  //     params3: oneValue.params3,
+  //   };
+  //   fetchModelType3dUpdate(oneValue_2);
+  // }
 
   return (
     <nav id="sidebar" className={device.isActive ? "active" : null}>
@@ -168,6 +227,40 @@ const SideBar = observer((props) => {
                 <h4>
                   <strong>B</strong>
                 </h4>
+                {/* <input
+                  type="text"
+                  className="form-control pad1"
+                  value={oneValue.name}
+                  onChange={(e) =>
+                    setOneValue({ ...oneValue, name: e.target.value })
+                  }
+                />
+                <input
+                  type="text"
+                  className="form-control pad1"
+                  value={oneValue.params3}
+                  onChange={(e) =>
+                    setOneValue({ ...oneValue, params3: e.target.value })
+                  }
+                />
+                <Button className="mt-1 ml-1 danger" onClick={(e) => UPDATE(e)}>
+                  UPDATE
+                </Button> */}
+
+                <input
+                  type="text"
+                  className="form-control pad1"
+                  value={oneValue.name}
+                  onChange={(e) =>
+                    setOneValue({ ...oneValue, name: e.target.value })
+                  }
+                />
+                <Button
+                  className="mt-1 ml-1 danger"
+                  onClick={(e) => UPDATE_SET(e)}
+                >
+                  UPDATE_SET
+                </Button>
               </Tab>
             </Tabs>
           </Container>
@@ -190,12 +283,12 @@ const SideBar = observer((props) => {
           </Button>
         </div>
 
-        <div>
+        {/* <div>
           <h1>PARENT VALUE: {parentVal}</h1>
           <RangeSlider {...sliderProps} classes="additional-css-classes" />
         </div>
 
-        <JoyStick />
+        <JoyStick /> */}
       </div>
     </nav>
   );

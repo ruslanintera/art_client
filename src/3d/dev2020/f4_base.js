@@ -182,7 +182,7 @@ class i3d_Base {
     matsArray,
     fix,
   }) {
-    //console.log("F4 matsArray = ", matsArray);
+    console.log("ADD MODEL data = ", data);
 
     try {
       if (!m) {
@@ -215,6 +215,7 @@ class i3d_Base {
           gltf.scene.fix = 0;
         }
 
+        gltf.scene.MODEL_DATA = data; //
         gltf.scene.MODEL3D = 1; //
         gltf.scene.wtype = "gltf"; //
         // if (data.Set) {
@@ -239,6 +240,7 @@ class i3d_Base {
           data_count = 1; // список элементов модели
 
         if (matsArray) {
+          // раскрасим
           matsArray.forEach((item) => {
             console.log("matsArray item", item);
 

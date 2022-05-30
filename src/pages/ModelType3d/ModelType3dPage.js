@@ -113,6 +113,12 @@ const Obj = observer(() => {
     //console.log("UPDATE oneValue ===", oneValue);
     fetchModelType3dUpdate(oneValue);
   }
+  function UPDATE_2(event) {
+    console.log("UPDATE_2 oneValue ===", oneValue);
+    //{id, name } = oneValue
+    const oneValue_2 = { id: oneValue.id, name: oneValue.name };
+    fetchModelType3dUpdate(oneValue_2);
+  }
   const onDone = (data) => {
     //console.log("udated data=", data);
   };
@@ -339,6 +345,9 @@ const Obj = observer(() => {
             </Button>
             <Button className="mt-1 ml-1 danger" onClick={(e) => UPDATE(e)}>
               UPDATE
+            </Button>
+            <Button className="mt-1 ml-1 danger" onClick={(e) => UPDATE_2(e)}>
+              UPDATE_2
             </Button>
             <hr />
             GLB
