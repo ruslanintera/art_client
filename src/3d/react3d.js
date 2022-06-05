@@ -10,7 +10,7 @@ import { i3d_base } from "./dev2020/f4_base";
 
 class React3d {
   ADD_IMAGE(obj, item, device) {
-    console.log("888888", { ...obj }, item);
+    //console.log("888888", { ...obj }, item);
 
     const textureLoader = new THREE.TextureLoader();
 
@@ -53,8 +53,8 @@ class React3d {
       // vc3d_glob.curr_obj.material.normalMap = normalMap;
       // vc3d_glob.curr_obj.material.normalScale = new THREE.Vector2(0.8, 0.8);
 
-      console.log("material = ", vc3d_glob.curr_obj.material);
-      console.log("vc3d_glob.curr_obj = ", vc3d_glob.curr_obj);
+      //console.log("material = ", vc3d_glob.curr_obj.material);
+      //console.log("vc3d_glob.curr_obj = ", vc3d_glob.curr_obj);
       if (!vc3d_glob.animate) {
         i3d_all.animate4();
       }
@@ -83,7 +83,8 @@ class React3d {
         } catch (e) {
           JSON_params1 = { size: 1, fix: 0 };
         }
-        console.log("##@@@@@@ JSON_params1", JSON_params1);
+        //console.log("##@@@@@@ JSON_params1", JSON_params1);
+        console.log("device.getActive3dElement", device.getActive3dElement);
 
         if (vc3d_glob.currentRT && vc3d_glob.SCENE) {
           vc3d_glob.device = device;
@@ -138,59 +139,6 @@ class React3d {
       console.error("ERRR del==", e);
     }
   }
-  SAVE_OL(device) {
-    try {
-      let SetOne = vc3d_glob.device.getSetOne;
-      let { id, name, adress, model3d, params1, params2, params3, updatedAt } =
-        device.getSetOne;
-
-      var JSON_params2 = {},
-        JSON_params3 = [];
-
-      for (var i = vc3d_glob.SCENE.children.length - 1; i >= 0; i--) {
-        if (vc3d_glob.SCENE.children[i].MODEL3D) {
-          let model = vc3d_glob.SCENE.children[i];
-          console.log("model", model);
-          const mats = [];
-          if (model?.children) {
-            model.children.forEach((item) => {
-              console.log("model children", item);
-              if (item.materialParams && item.name) {
-                mats.push({
-                  el: item.name,
-                  params: item.materialParams,
-                });
-              }
-            });
-          }
-
-          JSON_params3.push({
-            m: model.m,
-            x: model.position.x,
-            y: model.position.y,
-            z: model.position.z,
-            rx: model.rotation.x,
-            ry: model.rotation.y,
-            rz: model.rotation.z,
-            s: model.scale.x,
-            mats,
-          });
-        }
-      }
-      JSON_params2.cx = vc3d_glob.CAMERA.position.x;
-      JSON_params2.cy = vc3d_glob.CAMERA.position.y;
-      JSON_params2.cz = vc3d_glob.CAMERA.position.z;
-
-      params2 = JSON.stringify(JSON_params2);
-      SetOne = { ...SetOne, params2: params2 };
-      params3 = JSON.stringify(JSON_params3);
-      SetOne = { ...SetOne, params3: params3 };
-
-      fetchSetUpdate(SetOne);
-    } catch (e) {
-      console.error("ERRR sidebar ==", e);
-    }
-  }
   SAVE(device) {
     try {
       let SetOne = vc3d_glob.device.getSetOne;
@@ -203,22 +151,16 @@ class React3d {
       for (var i = vc3d_glob.SCENE.children.length - 1; i >= 0; i--) {
         if (vc3d_glob.SCENE.children[i].MODEL3D) {
           let model = vc3d_glob.SCENE.children[i];
-          if (model.fix) {
+          if (model.fix == 1) {
             model.fix = 1; // "fix":1,
           } else {
             model.fix = 0;
           }
 
-          console.log("model", model);
+          //console.log("model", model);
 
           const matsArray = [];
           this.find_obj_get_mats(model, matsArray);
-          console.log(
-            "matsArray ================",
-            matsArray,
-            "model.m = ",
-            model.m
-          );
 
           JSON_params3.push({
             m: model.m,
@@ -278,8 +220,8 @@ class React3d {
       //) && node.children
     ) {
       if (node.name === el && params.map) {
-        console.log("BINGO node.name", node.name);
-        console.log("BINGO2 params.map", params.map);
+        //console.log("BINGO node.name", node.name);
+        //console.log("BINGO2 params.map", params.map);
 
         const textureLoader = new THREE.TextureLoader();
         const item = params.map;

@@ -103,7 +103,7 @@ const Obj = observer(() => {
             let s = JSON_params3[i].s || 1;
             let fix = JSON_params3[i].fix || 0;
             let matsArray = JSON_params3[i].matsArray || [];
-            console.log("================= matsArray", matsArray);
+            //console.log("================= matsArray", matsArray);
 
             if (!m) {
               return;

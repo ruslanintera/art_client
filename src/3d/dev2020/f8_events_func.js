@@ -33,11 +33,19 @@ class i3d_Events_func {
     if (!intersects) {
       return;
     }
+    //vc3d_glob.raycaster.setFromCamera(vc3d_glob.mouse, vc3d_glob.CAMERA);
+    var intersectsOBJ = vc3d_glob.raycaster.intersectObjects(
+      vc3d_glob.ray_objects,
+      true
+    ); // true - чтобы пересекать внешние объекты типа .obj
 
-    /*********************************************************************** */
-
-    //vc3d_glob.selected_to_move = 1
-    if (vc3d_glob.selected_to_move && vc3d_glob.curr_obj_all) {
+    //if (vc3d_glob.selected_to_move && vc3d_glob.curr_obj_all) {
+    if (
+      vc3d_glob.selected_to_move &&
+      vc3d_glob.curr_obj_all &&
+      (vc3d_glob.curr_obj_all.fix == 0 || vc3d_glob.curr_obj_all.fix == 2)
+    ) {
+      //if (vc3d_glob.curr_obj_all && vc3d_glob.curr_obj_all) {
       if (intersects && intersects.length > 0) {
         vc3d_glob.CONTROLS.enabled = false; // отключает OrbitControl
 
@@ -68,29 +76,68 @@ class i3d_Events_func {
           return;
         }
 
-        switch (vc3d_glob.floor) {
-          case "floor":
-            vc3d_glob.curr_obj_all.position.x =
-              intersects[0].point.x - vc3d_glob.raznica_inter.x;
-            //vc3d_glob.curr_obj_all.position.y = intersects[0].point.y - vc3d_glob.raznica_inter.y;
-            vc3d_glob.curr_obj_all.position.z =
-              intersects[0].point.z - vc3d_glob.raznica_inter.z;
-            break;
-          case "wall":
-            vc3d_glob.curr_obj_all.position.x =
-              intersects[0].point.x - vc3d_glob.raznica_inter.x;
-            vc3d_glob.curr_obj_all.position.y =
-              intersects[0].point.y - vc3d_glob.raznica_inter.y;
-            //vc3d_glob.curr_obj_all.position.z = intersects[0].point.z - vc3d_glob.raznica_inter.z;
-            break;
+        //if (vc3d_glob.curr_obj_all.fix == 2) {
+        //if (true || vc3d_glob.curr_obj_all.fix == 2) {
+        if (false && vc3d_glob.curr_obj_all.fix == 2) {
+          //console.log("4 fff", vc3d_glob.curr_obj_all.fix);
+          //console.log("4 intersectsOBJ", intersectsOBJ);
+          // vc3d_glob.curr_obj_all.position.x =
+          // intersects[0].point.x - vc3d_glob.raznica_inter.x;
+          // //vc3d_glob.curr_obj_all.position.y = intersects[0].point.y - vc3d_glob.raznica_inter.y;
+          // vc3d_glob.curr_obj_all.position.z =
+          // intersects[0].point.z - vc3d_glob.raznica_inter.z;
 
-          default: //case "floor":
-            vc3d_glob.curr_obj_all.position.x =
-              intersects[0].point.x - vc3d_glob.raznica_inter.x;
-            //vc3d_glob.curr_obj_all.position.y = intersects[0].point.y - vc3d_glob.raznica_inter.y;
-            vc3d_glob.curr_obj_all.position.z =
-              intersects[0].point.z - vc3d_glob.raznica_inter.z;
-            break;
+          var intersects_1 = intersectsOBJ[2];
+          if (intersects_1) {
+            //console.log("444 intersects_1", intersects_1);
+            // vc3d_glob.curr_obj_all.position.x = intersects_1.point.x;
+            // vc3d_glob.curr_obj_all.position.y = intersects_1.point.y;
+            // vc3d_glob.curr_obj_all.position.z = intersects_1.point.z;
+
+            // console.log(
+            //   "intersects_0:",
+            //   intersects_0.point.x,
+            //   intersects_0.point.y,
+            //   intersects_0.point.z
+            // );
+            // console.log(
+            //   "intersects_1:",
+            //   intersects_1.point.x,
+            //   intersects_1.point.y,
+            //   intersects_1.point.z
+            // );
+
+            //this.objNormal({ intersects });
+            this.objNormal_2({
+              intersects_N: intersects_1,
+              curr_obj_all: vc3d_glob.curr_obj_all,
+            });
+          }
+        } else {
+          switch (vc3d_glob.floor) {
+            case "floor":
+              vc3d_glob.curr_obj_all.position.x =
+                intersects[0].point.x - vc3d_glob.raznica_inter.x;
+              //vc3d_glob.curr_obj_all.position.y = intersects[0].point.y - vc3d_glob.raznica_inter.y;
+              vc3d_glob.curr_obj_all.position.z =
+                intersects[0].point.z - vc3d_glob.raznica_inter.z;
+              break;
+            case "wall":
+              vc3d_glob.curr_obj_all.position.x =
+                intersects[0].point.x - vc3d_glob.raznica_inter.x;
+              vc3d_glob.curr_obj_all.position.y =
+                intersects[0].point.y - vc3d_glob.raznica_inter.y;
+              //vc3d_glob.curr_obj_all.position.z = intersects[0].point.z - vc3d_glob.raznica_inter.z;
+              break;
+
+            default: //case "floor":
+              vc3d_glob.curr_obj_all.position.x =
+                intersects[0].point.x - vc3d_glob.raznica_inter.x;
+              //vc3d_glob.curr_obj_all.position.y = intersects[0].point.y - vc3d_glob.raznica_inter.y;
+              vc3d_glob.curr_obj_all.position.z =
+                intersects[0].point.z - vc3d_glob.raznica_inter.z;
+              break;
+          }
         }
 
         if (vc3d_glob.curr_obj_all.light_sphere == true) {
@@ -243,7 +290,7 @@ class i3d_Events_func {
           el_name: vc3d_glob.curr_obj.el_name,
         };
         //console.log("CLICK active3dElement = ", { ...active3dElement });
-        console.log("getActive3dElement", vc3d_glob.device.getActive3dElement);
+        //console.log("getActive3dElement", vc3d_glob.device.getActive3dElement);
 
         vc3d_glob.device.setActive3dElement(active3dElement);
       }
@@ -276,7 +323,53 @@ class i3d_Events_func {
         } while (bf);
 
         console.log("CLICK vc3d_glob.curr_obj_all = ", vc3d_glob.curr_obj_all);
-        console.log("CLICK vc3d_glob.curr_obj = ", vc3d_glob.curr_obj);
+        //console.log("CLICK vc3d_glob.curr_obj = ", vc3d_glob.curr_obj);
+
+        if (false && vc3d_glob.curr_obj_all.fix === 2) {
+          //if (vc3d_glob.curr_obj_all.fix === 2) {
+          //console.log("222 fix", vc3d_glob.curr_obj_all.fix);
+          var intersects_1 = intersects[2];
+          if (intersects_1) {
+            //console.log("444 intersects_1", intersects_1);
+            vc3d_glob.curr_obj_all.position.x = intersects_1.point.x;
+            vc3d_glob.curr_obj_all.position.y = intersects_1.point.y;
+            vc3d_glob.curr_obj_all.position.z = intersects_1.point.z;
+
+            console.log(
+              "intersects_0:",
+              intersects_0.point.x,
+              intersects_0.point.y,
+              intersects_0.point.z
+            );
+            console.log(
+              "intersects_1:",
+              intersects_1.point.x,
+              intersects_1.point.y,
+              intersects_1.point.z
+            );
+
+            //this.objNormal({ intersects });
+            this.objNormal_2({ intersects_N: intersects_1 });
+          }
+        }
+        /*****22222222******************************* */
+        if (vc3d_glob.curr_obj_all.fix == 2) {
+          //vc3d_glob.curr_obj_all_PICTURE = { ...vc3d_glob.curr_obj_all };
+          // vc3d_glob.curr_obj_all_PICTURE = JSON.parse(
+          //   JSON.stringify(vc3d_glob.curr_obj_all)
+          // );
+          vc3d_glob.curr_obj_all_PICTURE = Object.create(
+            vc3d_glob.curr_obj_all
+          ); // пока это текущий объект на который указали лучом. СТЕНА
+
+          console.log("curr_obj_all_PICTURE =", vc3d_glob.curr_obj_all_PICTURE);
+        } else {
+          var intersects_11 = intersects[0];
+          if (intersects_11) {
+            this.objNormal_2({ intersects_N: intersects_11 });
+          }
+        }
+        /************************************ */
       } else {
         //c("square!")
       }
@@ -295,6 +388,127 @@ class i3d_Events_func {
       i3d_ao3.click_white_area();
       vc3d_glob.isDown_SKLAD_type = "";
       vc3d_glob.isDown_SKLAD_RUN = false;
+    }
+  }
+
+  objNormal({ intersects }) {
+    if (vc3d_glob.curr_obj) {
+      if (intersects && intersects.length > 0) {
+        //var intersects_0 = intersects[0];
+        var point = intersects[0].point;
+
+        //console.log("point = ", point);
+
+        //22222222222222222222222222222222222222222222222222222222222222
+        const p = intersects[0].point;
+        vc3d_glob.mouseHelper.position.copy(p);
+        vc3d_glob.intersection.point.copy(p);
+
+        const n = intersects[0].face.normal.clone();
+        n.transformDirection(vc3d_glob.curr_obj.matrixWorld);
+        n.multiplyScalar(10);
+        n.add(intersects[0].point);
+
+        const okr = 1;
+        // console.log(
+        //   "n:  x",
+        //   Math.ceil(n.x * okr) / okr,
+        //   ",y",
+        //   Math.ceil(n.y * okr) / okr,
+        //   ",z",
+        //   Math.ceil(n.z * okr) / okr
+        // );
+        // console.log(
+        //   "point:  x",
+        //   Math.ceil(point.x * okr) / okr,
+        //   ",y",
+        //   Math.ceil(point.y * okr) / okr,
+        //   ",z",
+        //   Math.ceil(point.z * okr) / okr
+        // );
+
+        vc3d_glob.intersection.normal.copy(intersects[0].face.normal);
+        vc3d_glob.mouseHelper.lookAt(n);
+
+        const positions = vc3d_glob.line.geometry.attributes.position;
+        positions.setXYZ(0, p.x, p.y, p.z);
+        positions.setXYZ(1, n.x, n.y, n.z);
+        positions.needsUpdate = true;
+
+        vc3d_glob.intersection.intersects = true;
+        /** */
+
+        if (!vc3d_glob.animate) {
+          i3d_all.animate2();
+        }
+      }
+    }
+  }
+  objNormal_2({ intersects_N, curr_obj_all }) {
+    //console.log("445 intersects_N", intersects_N);
+    if (vc3d_glob.curr_obj) {
+      if (intersects_N) {
+        //var intersects_0 = intersects_N;
+        var point = intersects_N.point;
+
+        //console.log("point = ", point);
+        //console.log("CLICK vc3d_glob.curr_obj_all = ", vc3d_glob.curr_obj_all);
+
+        //22222222222222222222222222222222222222222222222222222222222222
+        const p = intersects_N.point;
+        vc3d_glob.mouseHelper.position.copy(p);
+        vc3d_glob.intersection.point.copy(p);
+        //curr_obj_all.position.copy(p);
+        if (vc3d_glob.curr_obj_all_PICTURE) {
+          console.log(
+            "2 curr_obj_all_PICTURE =",
+            vc3d_glob.curr_obj_all_PICTURE
+          );
+          vc3d_glob.curr_obj_all_PICTURE.position.copy(p);
+        }
+
+        const n = intersects_N.face.normal.clone();
+        n.transformDirection(vc3d_glob.curr_obj.matrixWorld);
+        n.multiplyScalar(10);
+        n.add(intersects_N.point);
+
+        const okr = 1;
+        // console.log(
+        //   "n:  x",
+        //   Math.ceil(n.x * okr) / okr,
+        //   ",y",
+        //   Math.ceil(n.y * okr) / okr,
+        //   ",z",
+        //   Math.ceil(n.z * okr) / okr
+        // );
+        // console.log(
+        //   "point:  x",
+        //   Math.ceil(point.x * okr) / okr,
+        //   ",y",
+        //   Math.ceil(point.y * okr) / okr,
+        //   ",z",
+        //   Math.ceil(point.z * okr) / okr
+        // );
+
+        vc3d_glob.intersection.normal.copy(intersects_N.face.normal);
+        vc3d_glob.mouseHelper.lookAt(n);
+        //curr_obj_all.lookAt(n);
+        if (vc3d_glob.curr_obj_all_PICTURE) {
+          vc3d_glob.curr_obj_all_PICTURE.lookAt(n);
+        }
+
+        const positions = vc3d_glob.line.geometry.attributes.position;
+        positions.setXYZ(0, p.x, p.y, p.z);
+        positions.setXYZ(1, n.x, n.y, n.z);
+        positions.needsUpdate = true;
+
+        vc3d_glob.intersection.intersects = true;
+        /** */
+
+        if (!vc3d_glob.animate) {
+          i3d_all.animate2();
+        }
+      }
     }
   }
 

@@ -198,6 +198,24 @@ class ObjLoaders {
     if (!vc3d_glob.no_SCENE_PARAMS) {
       i3d_base.SCENE_PARAMS();
     }
+
+    /** */
+    vc3d_glob.mouseHelper = new THREE.Mesh(
+      new THREE.BoxGeometry(0.1, 0.1, 2),
+      new THREE.MeshNormalMaterial()
+    );
+    //vc3d_glob.mouseHelper.fix = 0;
+    //!vc3d_glob.mouseHelper.MODEL3D = 1;
+
+    //vc3d_glob.mouseHelper.visible = false;
+    vc3d_glob.SCENE.add(vc3d_glob.mouseHelper);
+
+    const geometry = new THREE.BufferGeometry();
+    geometry.setFromPoints([new THREE.Vector3(), new THREE.Vector3()]);
+    vc3d_glob.line = new THREE.Line(geometry, new THREE.LineBasicMaterial());
+    vc3d_glob.SCENE.add(vc3d_glob.line);
+    /** */
+
     i3d_base.add_only_plane_and_mouse_move(); // тут добавляем интерактив
   }
 

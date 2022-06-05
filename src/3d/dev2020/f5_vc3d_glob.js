@@ -1,4 +1,13 @@
+import * as THREE from "three";
+
 export let vc3d_glob = {
+  mouseHelper: null,
+  intersection: {
+    intersects: false,
+    point: new THREE.Vector3(),
+    normal: new THREE.Vector3(),
+  },
+
   set_temp_mat: false,
   delete_elem_selection_when_click_white_area: false, // вернем объекту его изначальный материал ?
   // 0 - empty, 1 - rack, 2 - ремонт, 3 - замена:

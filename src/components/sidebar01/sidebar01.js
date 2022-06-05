@@ -63,7 +63,7 @@ const SideBar = observer((props) => {
   const [setOneValue, setSetOneValue] = useState([]);
 
   const sliderValueChanged = useCallback((val) => {
-    console.log("NEW VALUE", val);
+    //console.log("NEW VALUE", val);
     setParentVal(val);
   });
 
@@ -82,7 +82,7 @@ const SideBar = observer((props) => {
   useEffect(() => {
     //const getSetOne = device.getSetOne;
     setSetOneValue(device.getSetOne);
-    console.log("=== getSetOneData = ", { ...setOneValue });
+    //console.log("=== getSetOneData = ", { ...setOneValue });
   });
 
   useEffect(() => {
@@ -106,7 +106,7 @@ const SideBar = observer((props) => {
   }, [device.getPhotoVideoPage]);
 
   // function UPDATE(event) {
-  //   console.log("UPDATE_2 oneValue ===", oneValue);
+  //   //console.log("UPDATE_2 oneValue ===", oneValue);
   //   //const oneValue_2 = { id: oneValue.id, name: oneValue.name };
   //   const oneValue_2 = {
   //     id: oneValue.id,
@@ -118,9 +118,9 @@ const SideBar = observer((props) => {
   // function UPDATE_SET(event) {
 
   //   getSetOneData = device.getSetOne;
-  //   console.log("88 getSetOneData = ", {...getSetOneData,});
+  //   //console.log("88 getSetOneData = ", {...getSetOneData,});
 
-  //   console.log("UPDATE_2 oneValue ===", oneValue);
+  //   //console.log("UPDATE_2 oneValue ===", oneValue);
   //   //const oneValue_2 = { id: oneValue.id, name: oneValue.name };
   //   const oneValue_2 = {
   //     id: oneValue.id,

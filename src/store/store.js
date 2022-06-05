@@ -61,18 +61,18 @@ export default class Store {
   async checkAuth() {
     this.setLoading(true);
     try {
-      console.log("checkAuth", this.user);
+      //console.log("checkAuth", this.user);
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}api/auth/refresh`,
         {
           withCredentials: true,
         }
       );
-      console.log("checkAuth response", response);
+      //console.log("checkAuth response", response);
       localStorage.setItem("token", response.data.accessToken);
       this.setAuth(true);
       this.setUser(response.data.user);
-      console.log("checkAuth user", this.user);
+      //console.log("checkAuth user", this.user);
     } catch (e) {
       console.error("checkAuth ERROR", e.response?.data?.message);
     } finally {

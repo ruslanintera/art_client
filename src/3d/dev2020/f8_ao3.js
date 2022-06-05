@@ -26,6 +26,9 @@ i3d_ao3.send_mess_to_parent({"model_unid_in_ge": vc3d_glob.curr_obj.model_unid_i
 
   click_white_area() {
     // ЗНАЧИТ ПРОИЗОШЕЛ КЛИК НА БЕЛОМ ФОНЕ !!!
+
+    vc3d_glob.curr_obj_all_PICTURE = null; //{ ... vc3d_glob.curr_obj_all }
+
     if (i3d_ao3.check_if_we_in_editor_mode()) {
       // значит мы находися в режиме выбора целей - таргетов
       i3d_all.alert_sys(
@@ -67,7 +70,7 @@ i3d_ao3.send_mess_to_parent({"model_unid_in_ge": vc3d_glob.curr_obj.model_unid_i
 
     // это если нужно двигать объекты ////////////////////////////////////////
     if (
-      (vc3d_glob.move && !vc3d_glob.curr_obj_all.fix) ||
+      (vc3d_glob.move && vc3d_glob.curr_obj_all.fix != 1) ||
       vc3d_glob.curr_obj.light_sphere == true
     ) {
       vc3d_glob.selected_to_move = true; //Object.create(vc3d_glob.curr_obj);

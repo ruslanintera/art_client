@@ -114,7 +114,7 @@ const Obj = observer(() => {
     fetchModelType3dUpdate(oneValue);
   }
   function UPDATE_2(event) {
-    console.log("UPDATE_2 oneValue ===", oneValue);
+    //console.log("UPDATE_2 oneValue ===", oneValue);
     //{id, name } = oneValue
     const oneValue_2 = { id: oneValue.id, name: oneValue.name };
     fetchModelType3dUpdate(oneValue_2);

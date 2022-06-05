@@ -17,11 +17,11 @@ $authHost.interceptors.request.use(authRequestInterceptor);
 $host.interceptors.request.use(authRequestInterceptor);
 
 const authResponsetInterceptor = (config) => {
-  console.log("authResponsetInterceptor", config);
+  //console.log("authResponsetInterceptor", config);
   return config;
 };
 async function authResponsetInterceptorError(error) {
-  console.log("Auth-Error", error.response?.data?.message);
+  //console.log("Auth-Error", error.response?.data?.message);
   const originalRequest = error.config;
   if (error.response.status == 401 && error.config && !error.config._isRetry) {
     originalRequest._isRetry = true;
@@ -32,7 +32,7 @@ async function authResponsetInterceptorError(error) {
           withCredentials: true,
         }
       );
-      console.log("refresh response", response);
+      //console.log("refresh response", response);
       localStorage.setItem("token", response.data.accessToken);
 
       return $host.request(originalRequest);
