@@ -13,11 +13,9 @@ import { react3d } from "../../3d/react3d";
 import styles from "./PhotoVideoPage.module.css";
 
 const PhotoVideoItem = observer(({ obj, short }) => {
-  //console.log("objobjobjobjobjobjobjo ", { ...obj });
   const history = useHistory();
   const { device } = useContext(Context);
   const { store } = useContext(Context);
-  //const [imgItemValue, setImgItemValue] = useState({});
   const [items, setItems] = useState([]);
   const [itemsMP4, setItemsMP4] = useState([]);
 
@@ -25,11 +23,9 @@ const PhotoVideoItem = observer(({ obj, short }) => {
     if (obj.params3Array) {
       setItems(obj.params3Array.map((item) => item));
     }
-    console.log("obj.params2Array=", obj.params2Array);
     if (obj.params2Array) {
       setItemsMP4(obj.params2Array.map((item) => item));
     }
-    //setItemsMP4(obj.params2Array);
   }, []);
 
   if (short) {
@@ -50,16 +46,7 @@ const PhotoVideoItem = observer(({ obj, short }) => {
         </td>
         <td>
           {itemsMP4.map((item, idx) => {
-            console.log("77777777 item", item);
             return (
-              // <img
-              //   onClick={() => react3d.ADD_IMAGE(obj, item, device)}
-              //   className={styles.imgList}
-              //   src={item}
-              //   alt={item}
-              //   key={item}
-              // ></img>
-
               <video
                 onClick={() => react3d.ADD_MP4(obj, item, device)}
                 width="100"

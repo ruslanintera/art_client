@@ -45,7 +45,8 @@ export let vc3d_glob = {
   no_SCENE_PARAMS: false,
 
   webcam: false,
-  video: false, //true
+  //video: null,
+  video: document.getElementById("video"),
   el_name: true,
   interactive: "yes",
   add_text: "no", //"no", "text"

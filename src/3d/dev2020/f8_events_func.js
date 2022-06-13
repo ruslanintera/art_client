@@ -454,33 +454,76 @@ class i3d_Events_func {
               vc3d_glob.curr_obj?.material &&
               vc3d_glob.curr_obj.materialParams?.video
             ) {
+              /** */
               const video = document.getElementById("video");
-              //video.src = "http://localhost:5001/user1/video1/sintel.mp4";
-              video.src = vc3d_glob.curr_obj.materialParams?.video;
-              //console.log(video);
-              console.log(
-                "vc3d_glob.curr_obj.materialParams?.video",
-                vc3d_glob.curr_obj.materialParams?.video
-              );
-              console.log("vc3d_glob.curr_obj_all", vc3d_glob.curr_obj_all);
-              console.log("vc3d_glob.curr_obj", vc3d_glob.curr_obj);
-              video.play();
-              const texture = new THREE.VideoTexture(video);
-              texture.needsUpdate = true;
-              texture.onUpdate = (item) => {
-                if (!vc3d_glob.animate) {
-                  //i3d_all.animate4();
-                  i3d_all.animate1();
-                  //vc3d_glob.renderer.render(vc3d_glob.SCENE, vc3d_glob.CAMERA);
-                }
-                //console.log("item 88899", item);
-                console.log("render");
-              };
-              //console.log("texture", texture);
-              const material1 = new THREE.MeshBasicMaterial({ map: texture });
-              //console.log("material1", material1);
-              //vc3d_glob.curr_obj_all_PICTURE.material = material1;
-              vc3d_glob.curr_obj.material = material1;
+              if (vc3d_glob.curr_obj.video === "play") {
+                video.pause();
+                vc3d_glob.curr_obj.video = "paused";
+              } else {
+                //video.src = "http://localhost:5001/user1/video1/sintel.mp4";
+                video.src = vc3d_glob.curr_obj.materialParams?.video;
+                //console.log(video);
+                // console.log(
+                //   "vc3d_glob.curr_obj.materialParams?.video",
+                //   vc3d_glob.curr_obj.materialParams?.video
+                // );
+                //console.log("vc3d_glob.curr_obj_all", vc3d_glob.curr_obj_all);
+                //console.log("vc3d_glob.curr_obj", vc3d_glob.curr_obj);
+                video.play();
+                const texture = new THREE.VideoTexture(video);
+                texture.needsUpdate = true;
+                texture.onUpdate = (item) => {
+                  if (!vc3d_glob.animate) {
+                    //i3d_all.animate4();
+                    i3d_all.animate1();
+                    //vc3d_glob.renderer.render(vc3d_glob.SCENE, vc3d_glob.CAMERA);
+                  }
+                  //console.log("item 88899", item);
+                  //console.log("render");
+                };
+                //console.log("texture", texture);
+                const material1 = new THREE.MeshBasicMaterial({ map: texture });
+                //console.log("material1", material1);
+                //vc3d_glob.curr_obj_all_PICTURE.material = material1;
+                vc3d_glob.curr_obj.material = material1;
+                vc3d_glob.curr_obj.video = "play";
+              }
+              /** * /
+              if (vc3d_glob.curr_obj.video) {
+              } else {
+                const video = document.createElement("video");
+                video.src = vc3d_glob.curr_obj.materialParams?.video;
+                //video.poster ='https://peach.blender.org/wp-content/uploads/title_anouncement.jpg?x11217';
+
+                //video.autoplay = false;
+                video.controls = true;
+                video.muted = false;
+                //video.height = 240; // 👈️ in px
+                //video.width = 320; // 👈️ in px
+
+                const box = document.getElementById("video_box");
+
+                box.appendChild(video);
+
+                video.play();
+                const texture = new THREE.VideoTexture(video);
+                texture.needsUpdate = true;
+                texture.onUpdate = (item) => {
+                  if (!vc3d_glob.animate) {
+                    //i3d_all.animate4();
+                    i3d_all.animate1();
+                    //vc3d_glob.renderer.render(vc3d_glob.SCENE, vc3d_glob.CAMERA);
+                  }
+                  //console.log("item 88899", item);
+                  console.log("render");
+                };
+                //console.log("texture", texture);
+                const material1 = new THREE.MeshBasicMaterial({ map: texture });
+                console.log("@#$ material1", material1);
+                //vc3d_glob.curr_obj_all_PICTURE.material = material1;
+                vc3d_glob.curr_obj.material = material1;
+              }
+                /**/
             }
           }
 

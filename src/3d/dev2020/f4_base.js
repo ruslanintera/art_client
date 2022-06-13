@@ -246,8 +246,6 @@ class i3d_Base {
         if (matsArray) {
           // раскрасим
           matsArray.forEach((item) => {
-            console.log("matsArray item", item);
-
             react3d.find_obj_set_mats(gltf.scene, item.el, item.params);
           });
         }

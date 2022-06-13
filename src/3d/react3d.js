@@ -10,19 +10,12 @@ import { i3d_base } from "./dev2020/f4_base";
 
 class React3d {
   ADD_IMAGE(obj, item, device) {
-    console.log("888888", { ...obj }, item);
-    console.log("888888", { ...obj.params3Array }, item);
-
     const textureLoader = new THREE.TextureLoader();
-
     const diffuseMap = textureLoader.load(item);
     diffuseMap.encoding = THREE.sRGBEncoding;
-
     const specularMap = textureLoader.load(item);
     specularMap.encoding = THREE.sRGBEncoding;
-
     const normalMap = textureLoader.load(item);
-
     const materialParamsObj = {
       color: "#fff",
       //specular: 0x222222,
@@ -71,9 +64,6 @@ class React3d {
   }
 
   ADD_MP4(obj, item, device) {
-    console.log("=888888", { ...obj }, item);
-    console.log("=888888", { ...obj.params3Array }, item);
-
     if (vc3d_glob?.curr_obj?.material) {
       if (!vc3d_glob.curr_obj.materialParams) {
         const materialParams = {
@@ -83,10 +73,6 @@ class React3d {
       } else {
         vc3d_glob.curr_obj.materialParams.video = item;
       }
-
-      // if (!vc3d_glob.animate) {
-      //   i3d_all.animate4();
-      // }
     }
   }
 
@@ -238,7 +224,7 @@ class React3d {
     }
   }
   find_obj_set_mats(node, el, params) {
-    console.log("params ===", params);
+    //console.log("params ===", params);
     if (
       node.type == "Scene" ||
       node.type == "Group" ||

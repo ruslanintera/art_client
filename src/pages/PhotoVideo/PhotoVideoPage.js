@@ -61,18 +61,11 @@ const Obj = observer(() => {
   const [params2Array, setParams2Array] = useState([]);
   const [params3Array, setParams3Array] = useState([]);
 
-  // const selectFileGLB = (e) => {
-  //   setFileGLB(e.target.files[0]);
-  // };
   const selectFilesJPG = (e) => {
-    //setFilesJPG(e.target.files[0]);
     setFilesJPG(e.target.files);
   };
   const selectFilesMP4 = (e) => {
-    //setFilesJPG(e.target.files[0]);
-    console.log("files", e.target.files);
     setFilesMP4(e.target.files);
-    console.log("filesMP4", filesMP4);
   };
 
   useEffect(() => {
@@ -111,7 +104,6 @@ const Obj = observer(() => {
         device.setManufacturerTotal(data.count);
       });
 
-      console.log("dddddddddd = ", id);
       const params3_JSON = JSON.parse(params3);
       const imgPathArray = params3_JSON.map((item, idx) => {
         return (
@@ -142,8 +134,6 @@ const Obj = observer(() => {
     fetchPhotoVideoUpdate(oneValue);
   }
   const onDone = (data) => {
-    console.log("udated data=", data);
-
     if (data?.record?.params2) {
       setOneValue({ ...oneValue, params2: data.record.params2 });
 
@@ -278,10 +268,6 @@ const Obj = observer(() => {
             })}
 
             {params2Array.map((item, idx) => {
-              //return <img src={item} alt={item} key={item + Date.now()}></img>;
-
-              console.log("21123 " + item + "__" + idx + "__" + Date.now());
-
               return (
                 <video
                   width="200"

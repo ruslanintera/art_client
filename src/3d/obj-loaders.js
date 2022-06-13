@@ -204,6 +204,7 @@ class ObjLoaders {
       new THREE.BoxGeometry(0.1, 0.1, 2),
       new THREE.MeshNormalMaterial()
     );
+    vc3d_glob.mouseHelper.visible = false;
     //vc3d_glob.mouseHelper.fix = 0;
     //!vc3d_glob.mouseHelper.MODEL3D = 1;
 
