@@ -43,30 +43,17 @@ class i3d_Events_func {
       vc3d_glob.ray_objects,
       true
     ); // true - чтобы пересекать внешние объекты типа .obj
-    var intersects_11 = intersectsOBJ[0];
-    //console.log("intersects_11?.object?.fix", intersects_11?.object?.fix);
-    //this.objNormal_3({ intersects });
-    this.objNormal_4({ intersects: intersectsOBJ });
 
     // if (vc3d_glob.curr_obj_all?.fix == 0 && vc3d_glob.curr_obj_all_PICTURE) {
     //   //console.log("3334444");
     //   var intersects_11 = intersectsOBJ[0];
-    //   //console.log("9090 intersects_11 = ", intersects_11);
+    //   ///console.log("9090 intersects_11 = ", intersects_11);
     //   if (intersects_11) {
-    //     //console.log("9091 intersects_11 = ", intersects_11);
+    //     ///console.log("9091 intersects_11 = ", intersects_11);
     //     this.objNormal_2({ intersects_N: intersects_11 });
     //   }
     //   return;
     // }
-
-    //var intersects_11 = intersectsOBJ[0];
-    var intersects_11 = intersects[0];
-    //console.log("9090 intersects_11 = ", intersects_11);
-    if (intersects_11?.object?.fix === 1) {
-      //console.log("99091 intersects_11 = ", intersects_11?.object?.fix);
-      //this.objNormal_3({ intersects_N: intersects_11 });
-      //this.objNormal_3({ intersects });
-    }
 
     //if (vc3d_glob.selected_to_move && vc3d_glob.curr_obj_all) {
     if (
@@ -371,6 +358,7 @@ class i3d_Events_func {
     //   vc3d_glob.ray_objects_movedBy,
     //   true
     // ); // true - чтобы пересекать внешние объекты типа .obj
+
     // vc3d_glob.curr_obj_all_PICTURE = this.getObjParent(intersects_movedBy);
 
     vc3d_glob.MouseUp = false; // пока MouseUp == false есть возможность срабатывания событий для длительного нажатия отменяем
@@ -442,47 +430,10 @@ class i3d_Events_func {
         }
         /*****22222222******************************* */
         if (vc3d_glob.curr_obj_all.fix == 2) {
-          //console.log("rot", vc3d_glob.curr_obj_all.rotation);
-          if (vc3d_glob.curr_obj_all_PICTURE) {
-            vc3d_glob.curr_obj_all_PICTURE = null;
-          } else {
-            vc3d_glob.curr_obj_all_PICTURE = Object.create(
-              vc3d_glob.curr_obj_all
-            ); // пока это текущий объект на который указали лучом. СТЕНА
-            //console.log(1);
-            if (
-              vc3d_glob.curr_obj?.material &&
-              vc3d_glob.curr_obj.materialParams?.video
-            ) {
-              const video = document.getElementById("video");
-              //video.src = "http://localhost:5001/user1/video1/sintel.mp4";
-              video.src = vc3d_glob.curr_obj.materialParams?.video;
-              //console.log(video);
-              console.log(
-                "vc3d_glob.curr_obj.materialParams?.video",
-                vc3d_glob.curr_obj.materialParams?.video
-              );
-              console.log("vc3d_glob.curr_obj_all", vc3d_glob.curr_obj_all);
-              console.log("vc3d_glob.curr_obj", vc3d_glob.curr_obj);
-              video.play();
-              const texture = new THREE.VideoTexture(video);
-              texture.needsUpdate = true;
-              texture.onUpdate = (item) => {
-                if (!vc3d_glob.animate) {
-                  //i3d_all.animate4();
-                  i3d_all.animate1();
-                  //vc3d_glob.renderer.render(vc3d_glob.SCENE, vc3d_glob.CAMERA);
-                }
-                //console.log("item 88899", item);
-                console.log("render");
-              };
-              //console.log("texture", texture);
-              const material1 = new THREE.MeshBasicMaterial({ map: texture });
-              //console.log("material1", material1);
-              //vc3d_glob.curr_obj_all_PICTURE.material = material1;
-              vc3d_glob.curr_obj.material = material1;
-            }
-          }
+          //console.log("332233");
+          vc3d_glob.curr_obj_all_PICTURE = Object.create(
+            vc3d_glob.curr_obj_all
+          ); // пока это текущий объект на который указали лучом. СТЕНА
 
           //console.log("curr_obj_all_PICTURE =", vc3d_glob.curr_obj_all_PICTURE);
         } else {
@@ -631,7 +582,7 @@ class i3d_Events_func {
     }
   }
   objNormal_2({ intersects_N, curr_obj_all }) {
-    //console.log("4=45 intersects_N", intersects_N);
+    //console.log("445 intersects_N", intersects_N);
     if (vc3d_glob.curr_obj) {
       if (intersects_N) {
         //var intersects_0 = intersects_N;
@@ -694,176 +645,6 @@ class i3d_Events_func {
       }
     }
   }
-  //objNormal_3({ intersects_N, curr_obj_all }) {
-
-  getParent(curr_obj) {
-    let curr_obj_all = Object.create(curr_obj); // пока это текущий объект на который указали лучом. СТЕНА
-    var bf = true; // найдем главного родителя объекта, но не сцену. Другими словами найдем комнату при щелчке на стену
-    do {
-      if (curr_obj_all?.parent?.type !== "Scene") {
-        curr_obj_all = curr_obj_all.parent;
-      } else {
-        bf = false;
-        break;
-      }
-    } while (bf);
-    return curr_obj_all;
-  }
-
-  objNormal_3({ intersects }) {
-    if (intersects && intersects.length > 0) {
-      var intersects_N = intersects[0];
-
-      if (intersects_N) {
-        vc3d_glob.curr_obj = intersects_N.object; // выбрали объект - элемент модели!
-
-        if (vc3d_glob.curr_obj) {
-          vc3d_glob.curr_obj_all = this.getParent(vc3d_glob.curr_obj);
-          //console.log("44==");
-
-          //var intersects_0 = intersects_N;
-          var point = intersects_N.point;
-
-          //console.log("point = ", point);
-          //console.log("CLICK vc3d_glob.curr_obj_all = ", vc3d_glob.curr_obj_all);
-
-          //22222222222222222222222222222222222222222222222222222222222222
-          const p = intersects_N.point;
-          vc3d_glob.mouseHelper.position.copy(p);
-          vc3d_glob.intersection.point.copy(p);
-          //curr_obj_all.position.copy(p);
-          if (vc3d_glob.curr_obj_all_PICTURE) {
-            //console.log("PICTURE =", vc3d_glob.curr_obj_all_PICTURE);
-            vc3d_glob.curr_obj_all_PICTURE.position.copy(p);
-          }
-
-          const n = intersects_N.face.normal.clone();
-          n.transformDirection(vc3d_glob.curr_obj.matrixWorld);
-          n.multiplyScalar(10);
-          n.add(intersects_N.point);
-
-          const okr = 1;
-          //console.log(
-          //   "n:  x",
-          //   Math.ceil(n.x * okr) / okr,
-          //   ",y",
-          //   Math.ceil(n.y * okr) / okr,
-          //   ",z",
-          //   Math.ceil(n.z * okr) / okr
-          // );
-          //console.log(
-          //   "point:  x",
-          //   Math.ceil(point.x * okr) / okr,
-          //   ",y",
-          //   Math.ceil(point.y * okr) / okr,
-          //   ",z",
-          //   Math.ceil(point.z * okr) / okr
-          // );
-
-          vc3d_glob.intersection.normal.copy(intersects_N.face.normal);
-          vc3d_glob.mouseHelper.lookAt(n);
-          //curr_obj_all.lookAt(n);
-          if (vc3d_glob.curr_obj_all_PICTURE) {
-            vc3d_glob.curr_obj_all_PICTURE.lookAt(n);
-          }
-
-          const positions = vc3d_glob.line.geometry.attributes.position;
-          positions.setXYZ(0, p.x, p.y, p.z);
-          positions.setXYZ(1, n.x, n.y, n.z);
-          positions.needsUpdate = true;
-
-          vc3d_glob.intersection.intersects = true;
-          /** */
-
-          if (!vc3d_glob.animate) {
-            i3d_all.animate2();
-          }
-        }
-      }
-    }
-  }
-  objNormal_4({ intersects }) {
-    //console.log("intersects", intersects);
-    if (!vc3d_glob.curr_obj_all_PICTURE) {
-      return;
-    }
-
-    if (intersects && intersects.length > 0) {
-      //var intersects_N = intersects[0];
-      var intersects_fix = intersects.filter((item) => item?.object?.fix === 1);
-      if (!intersects_fix) {
-        return;
-      }
-      var intersects_N = intersects_fix[0];
-
-      if (intersects_N) {
-        const curr_obj = intersects_N.object; // выбрали объект - элемент модели!
-
-        if (curr_obj) {
-          const curr_obj_all = this.getParent(curr_obj);
-          //console.log("44==");
-
-          //var intersects_0 = intersects_N;
-          var point = intersects_N.point;
-
-          //console.log("point = ", point);
-          //console.log("CLICK curr_obj_all = ", curr_obj_all);
-
-          //22222222222222222222222222222222222222222222222222222222222222
-          const p = intersects_N.point;
-          vc3d_glob.mouseHelper.position.copy(p);
-          vc3d_glob.intersection.point.copy(p);
-          //curr_obj_all.position.copy(p);
-          if (vc3d_glob.curr_obj_all_PICTURE) {
-            //console.log("PICTURE =", vc3d_glob.curr_obj_all_PICTURE);
-            vc3d_glob.curr_obj_all_PICTURE.position.copy(p);
-          }
-
-          const n = intersects_N.face.normal.clone();
-          n.transformDirection(curr_obj.matrixWorld);
-          n.multiplyScalar(10);
-          n.add(intersects_N.point);
-
-          const okr = 1;
-          //console.log(
-          //   "n:  x",
-          //   Math.ceil(n.x * okr) / okr,
-          //   ",y",
-          //   Math.ceil(n.y * okr) / okr,
-          //   ",z",
-          //   Math.ceil(n.z * okr) / okr
-          // );
-          //console.log(
-          //   "point:  x",
-          //   Math.ceil(point.x * okr) / okr,
-          //   ",y",
-          //   Math.ceil(point.y * okr) / okr,
-          //   ",z",
-          //   Math.ceil(point.z * okr) / okr
-          // );
-
-          vc3d_glob.intersection.normal.copy(intersects_N.face.normal);
-          vc3d_glob.mouseHelper.lookAt(n);
-          //curr_obj_all.lookAt(n);
-          if (vc3d_glob.curr_obj_all_PICTURE) {
-            vc3d_glob.curr_obj_all_PICTURE.lookAt(n);
-          }
-
-          const positions = vc3d_glob.line.geometry.attributes.position;
-          positions.setXYZ(0, p.x, p.y, p.z);
-          positions.setXYZ(1, n.x, n.y, n.z);
-          positions.needsUpdate = true;
-
-          vc3d_glob.intersection.intersects = true;
-          /** */
-
-          if (!vc3d_glob.animate) {
-            i3d_all.animate2();
-          }
-        }
-      }
-    }
-  }
 
   mouse_DOWN_Audio_Anim_Tween() {
     /*==== ЭТО НУЖНО ЧТОБЫ ПРЕРЫВАТЬ АУДИО ПРИВЯЗАННОЕ К ПРЕДЫДУЩЕЙ КНОПКЕ КОГДА НАЖАТА НОВАЯ КНОПКА: vc3d_glob.audio.stop(); ====*/
@@ -893,15 +674,13 @@ class i3d_Events_func {
     // }
   }
 
-  MouseUp8_1(event) {
+  MouseUp8(event) {
     event.preventDefault();
-    //console.log("MouseUp8");
     vc3d_glob.MouseUp = true; // MouseUp сработало значит события для длительного нажатия отменяем
     vc3d_glob.isDown = false;
   }
 
-  MouseUp8(event) {
-    //_WORK
+  MouseUp8_WORK(event) {
     event.preventDefault();
     vc3d_glob.MouseUp = true; // MouseUp сработало значит события для длительного нажатия отменяем
 

@@ -17,7 +17,8 @@ import {
   fetchPhotoVideoUpdate,
   fetchOnePhotoVideo,
   fetchPhotoVideoDelete,
-  fetchPhotoVideoUploadGLB,
+  fetchPhotoVideoUploadMP4,
+  fetchPhotoVideoUploadJPG,
 } from "../../http/commAPI";
 
 import { useParams } from "react-router-dom";
@@ -54,16 +55,24 @@ const Obj = observer(() => {
   });
   const [color, setColor] = useState("#fff");
 
-  const [fileGLB, setFileGLB] = useState(null);
+  //const [fileGLB, setFileGLB] = useState(null);
   const [filesJPG, setFilesJPG] = useState(null);
+  const [filesMP4, setFilesMP4] = useState(null);
+  const [params2Array, setParams2Array] = useState([]);
   const [params3Array, setParams3Array] = useState([]);
 
-  const selectFileGLB = (e) => {
-    setFileGLB(e.target.files[0]);
-  };
+  // const selectFileGLB = (e) => {
+  //   setFileGLB(e.target.files[0]);
+  // };
   const selectFilesJPG = (e) => {
     //setFilesJPG(e.target.files[0]);
     setFilesJPG(e.target.files);
+  };
+  const selectFilesMP4 = (e) => {
+    //setFilesJPG(e.target.files[0]);
+    console.log("files", e.target.files);
+    setFilesMP4(e.target.files);
+    console.log("filesMP4", filesMP4);
   };
 
   useEffect(() => {
@@ -101,14 +110,27 @@ const Obj = observer(() => {
         device.setManufacturer(data.rows);
         device.setManufacturerTotal(data.count);
       });
+
+      console.log("dddddddddd = ", id);
       const params3_JSON = JSON.parse(params3);
       const imgPathArray = params3_JSON.map((item, idx) => {
         return (
           process.env.REACT_APP_API_URL +
-          `user${store.user.id}/img${id}/${item}`
+          //`user${store.user.id}/img${id}/${item}`
+          `user${user}/img${id}/${item}`
         );
       });
       setParams3Array(imgPathArray);
+
+      const params2_JSON = JSON.parse(params2);
+      const videoPathArray = params2_JSON.map((item, idx) => {
+        return (
+          process.env.REACT_APP_API_URL +
+          //`user${store.user.id}/video${id}/${item}`
+          `user${user}/video${id}/${item}`
+        );
+      });
+      setParams2Array(videoPathArray);
     });
   }, [id]);
 
@@ -122,6 +144,20 @@ const Obj = observer(() => {
   const onDone = (data) => {
     console.log("udated data=", data);
 
+    if (data?.record?.params2) {
+      setOneValue({ ...oneValue, params2: data.record.params2 });
+
+      const params2_JSON = JSON.parse(data.record.params2);
+      const videoPathArray = params2_JSON.map((item, idx) => {
+        return (
+          process.env.REACT_APP_API_URL +
+          //`user${store.user.id}/video${id}/${item}`
+          `user${data.record.user}/video${id}/${item}`
+        );
+      });
+      setParams2Array(videoPathArray);
+    }
+
     if (data?.record?.params3) {
       setOneValue({ ...oneValue, params3: data.record.params3 });
 
@@ -129,13 +165,14 @@ const Obj = observer(() => {
       const imgPathArray = params3_JSON.map((item, idx) => {
         return (
           process.env.REACT_APP_API_URL +
-          `user${store.user.id}/img${id}/${item}`
+          //`user${store.user.id}/img${id}/${item}`
+          `user${data.record.user}/img${id}/${item}`
         );
       });
       setParams3Array(imgPathArray);
     }
   };
-  const uploadGLBJPG = () => {
+  const upload_MP4 = () => {
     const formData = new FormData();
     formData.append("id", oneValue.id);
     formData.append("name", oneValue.name);
@@ -147,12 +184,34 @@ const Obj = observer(() => {
     formData.append("params3", oneValue.params3);
     formData.append("type", oneValue.type);
     formData.append("user", oneValue.user);
-    formData.append("glb", fileGLB);
-    for (let i = 0; i < filesJPG.length; i++) {
-      formData.append(`images_${i}`, filesJPG[i]);
+    if (filesMP4) {
+      for (let i = 0; i < filesMP4.length; i++) {
+        formData.append(`videos_${i}`, filesMP4[i]);
+      }
+    }
+    fetchPhotoVideoUploadMP4(formData, oneValue.id).then((data) =>
+      onDone(data)
+    );
+  };
+  const upload_JPG = () => {
+    const formData = new FormData();
+    formData.append("id", oneValue.id);
+    formData.append("name", oneValue.name);
+    formData.append("manufacturer", oneValue.manufacturer);
+    formData.append("pathimg", oneValue.pathimg);
+    formData.append("color", oneValue.color);
+    formData.append("params1", oneValue.params1);
+    formData.append("params2", oneValue.params2);
+    formData.append("params3", oneValue.params3);
+    formData.append("type", oneValue.type);
+    formData.append("user", oneValue.user);
+    if (filesJPG) {
+      for (let i = 0; i < filesJPG.length; i++) {
+        formData.append(`images_${i}`, filesJPG[i]);
+      }
     }
 
-    fetchPhotoVideoUploadGLB(formData, oneValue.id).then((data) =>
+    fetchPhotoVideoUploadJPG(formData, oneValue.id).then((data) =>
       onDone(data)
     );
   };
@@ -212,8 +271,31 @@ const Obj = observer(() => {
                 setOneValue({ ...oneValue, color: e });
               }}
             />
-            {params3Array.map((item) => {
-              return <img src={item} alt={item} key={item + Date.now()}></img>;
+            {params3Array.map((item, idx) => {
+              return (
+                <img src={item} alt={item} key={item + idx + Date.now()}></img>
+              );
+            })}
+
+            {params2Array.map((item, idx) => {
+              //return <img src={item} alt={item} key={item + Date.now()}></img>;
+
+              console.log("21123 " + item + "__" + idx + "__" + Date.now());
+
+              return (
+                <video
+                  width="200"
+                  height="200"
+                  controls="controls"
+                  poster="video/duel.jpg"
+                  key={item + idx + Date.now()}
+                >
+                  <source
+                    src={item}
+                    type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'
+                  />
+                </video>
+              );
             })}
           </Col>
           <Col md={9}>
@@ -360,13 +442,17 @@ const Obj = observer(() => {
               UPDATE
             </Button>
             <hr />
-            GLB
+            MP4
             <Form.Control
               className="mt-3"
               type="file"
-              accept=".glb"
-              onChange={selectFileGLB}
+              accept=".mp4"
+              multiple
+              onChange={selectFilesMP4}
             />
+            <Button className="mt-1 ml-1 danger" onClick={(e) => upload_MP4(e)}>
+              UPDATE & UPLOAD MP4
+            </Button>
             <hr />
             JPG
             <Form.Control
@@ -376,13 +462,10 @@ const Obj = observer(() => {
               multiple
               onChange={selectFilesJPG}
             />
-            <hr />
-            <Button
-              className="mt-1 ml-1 danger"
-              onClick={(e) => uploadGLBJPG(e)}
-            >
-              UPDATE & UPLOAD
+            <Button className="mt-1 ml-1 danger" onClick={(e) => upload_JPG(e)}>
+              UPDATE & UPLOAD JPG
             </Button>
+            <hr />
           </Col>
         </Row>
       </Container>

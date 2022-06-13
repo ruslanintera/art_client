@@ -62,7 +62,8 @@ export let vc3d_glob = {
   //floor: "wall", // "floor, wall"
 
   mat_type: "fashion", //standard, phong, fashion
-  onlongtouch_times: 0, // 5 // счетчик количества срабатываний onlongtouch = сколько должно сработать onlongtouch, чтобы мы считали это долгим нажатием. Если долгое нажатие но mouse_UP не должно срабатывать
+  onlongtouch_times: 0, // 5 // счетчик количества срабатываний onlongtouch = сколько должно сработать onlongtouch,
+  // чтобы мы считали это долгим нажатием. Если долгое нажатие но mouse_UP не должно срабатывать
   touchduration_reg_iter: 170, //70, //40 скорость инкримента //length of time we want the user to touch before we do something
   touchduration_ONE_LONG_CLICK: 170, //40  скорость инкримента //length of time we want the user to touch before we do something
   touch_type: 2, // mouse_DOWN(event);
@@ -178,4 +179,5 @@ export let vc3d_glob = {
     easing: "Quadratic.EaseIn",
   },
   ray_objects: [], // тут те модели, которые можно выбирать r aycaster-ом
+  ray_objects_movedBy: [], // тут те модели, которые можно выбирать r aycaster-ом
 };

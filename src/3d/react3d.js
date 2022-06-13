@@ -10,7 +10,8 @@ import { i3d_base } from "./dev2020/f4_base";
 
 class React3d {
   ADD_IMAGE(obj, item, device) {
-    //console.log("888888", { ...obj }, item);
+    console.log("888888", { ...obj }, item);
+    console.log("888888", { ...obj.params3Array }, item);
 
     const textureLoader = new THREE.TextureLoader();
 
@@ -21,15 +22,7 @@ class React3d {
     specularMap.encoding = THREE.sRGBEncoding;
 
     const normalMap = textureLoader.load(item);
-    const materialParams = {
-      color: "#fff",
-      //specular: 0x222222,
-      shininess: 35,
-      map: item,
-      specularMap: item,
-      normalMap: item,
-      normalScale: new THREE.Vector2(0.8, 0.8),
-    };
+
     const materialParamsObj = {
       color: "#fff",
       //specular: 0x222222,
@@ -43,7 +36,23 @@ class React3d {
 
     if (vc3d_glob?.curr_obj?.material) {
       vc3d_glob.curr_obj.material = material;
-      vc3d_glob.curr_obj.materialParams = materialParams;
+
+      if (!vc3d_glob.curr_obj.materialParams) {
+        const materialParams = {
+          color: "#fff",
+          //specular: 0x222222,
+          shininess: 35,
+          map: item,
+          specularMap: item,
+          normalMap: item,
+          normalScale: new THREE.Vector2(0.8, 0.8),
+        };
+        vc3d_glob.curr_obj.materialParams = materialParams;
+      } else {
+        vc3d_glob.curr_obj.materialParams.map = item;
+        vc3d_glob.curr_obj.materialParams.specularMap = item;
+        vc3d_glob.curr_obj.materialParams.normalMap = item;
+      }
 
       // vc3d_glob.curr_obj.material.color = 0xdddddd;
       // vc3d_glob.curr_obj.material.specular = 0x222222;
@@ -60,6 +69,27 @@ class React3d {
       }
     }
   }
+
+  ADD_MP4(obj, item, device) {
+    console.log("=888888", { ...obj }, item);
+    console.log("=888888", { ...obj.params3Array }, item);
+
+    if (vc3d_glob?.curr_obj?.material) {
+      if (!vc3d_glob.curr_obj.materialParams) {
+        const materialParams = {
+          video: item,
+        };
+        vc3d_glob.curr_obj.materialParams = materialParams;
+      } else {
+        vc3d_glob.curr_obj.materialParams.video = item;
+      }
+
+      // if (!vc3d_glob.animate) {
+      //   i3d_all.animate4();
+      // }
+    }
+  }
+
   ADD_MODEL(m, device) {
     // m = model id
     try {
@@ -84,7 +114,7 @@ class React3d {
           JSON_params1 = { size: 1, fix: 0 };
         }
         //console.log("##@@@@@@ JSON_params1", JSON_params1);
-        console.log("device.getActive3dElement", device.getActive3dElement);
+        //console.log("device.getActive3dElement", device.getActive3dElement);
 
         if (vc3d_glob.currentRT && vc3d_glob.SCENE) {
           vc3d_glob.device = device;
@@ -151,11 +181,6 @@ class React3d {
       for (var i = vc3d_glob.SCENE.children.length - 1; i >= 0; i--) {
         if (vc3d_glob.SCENE.children[i].MODEL3D) {
           let model = vc3d_glob.SCENE.children[i];
-          if (model.fix == 1) {
-            model.fix = 1; // "fix":1,
-          } else {
-            model.fix = 0;
-          }
 
           //console.log("model", model);
 
@@ -185,6 +210,7 @@ class React3d {
       params3 = JSON.stringify(JSON_params3);
       SetOne = { ...SetOne, params3: params3 };
 
+      //console.log("21 SetOne = ", { ...SetOne });
       fetchSetUpdate(SetOne);
     } catch (e) {
       console.error("ERRR sidebar ==", e);
@@ -212,6 +238,7 @@ class React3d {
     }
   }
   find_obj_set_mats(node, el, params) {
+    console.log("params ===", params);
     if (
       node.type == "Scene" ||
       node.type == "Group" ||
@@ -250,6 +277,10 @@ class React3d {
           normalMap: normalMap,
           normalScale: new THREE.Vector2(0.8, 0.8),
         };
+        if (params.video) {
+          materialParams.video = params.video;
+          materialParamsObj.video = params.video;
+        }
         const material = new THREE.MeshPhongMaterial(materialParamsObj);
         node.material = material;
         node.materialParams = materialParams;

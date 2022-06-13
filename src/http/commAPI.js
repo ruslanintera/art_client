@@ -146,11 +146,12 @@ export const fetchPhotoVideoUpdate = async (obj) => {
   const { data } = await $authHost.post("api/photovideo/update/" + obj.id, obj);
   return data;
 };
-export const fetchPhotoVideoUploadGLB = async (obj, id) => {
-  const { data } = await $authHost.post(
-    "api/photovideo/uploadglbjpg/" + id,
-    obj
-  );
+export const fetchPhotoVideoUploadJPG = async (obj, id) => {
+  const { data } = await $authHost.post("api/photovideo/upload_jpg/" + id, obj);
+  return data;
+};
+export const fetchPhotoVideoUploadMP4 = async (obj, id) => {
+  const { data } = await $authHost.post("api/photovideo/upload_mp4/" + id, obj);
   return data;
 };
 export const fetchOnePhotoVideo = async (id) => {

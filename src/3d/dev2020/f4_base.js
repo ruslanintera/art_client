@@ -205,19 +205,27 @@ class i3d_Base {
       loader.load(model_URL, function (gltf) {
         var gltf_model = gltf.scene;
 
-        vc3d_glob.ray_objects.push(gltf.scene); // тут те модели, которые можно выбирать r aycaster-ом
         //parseInt(wl_1.move_type); //нужно ли двигать объект?
         if (fix) {
           gltf.scene.fix = fix;
         } else {
           gltf.scene.fix = 0;
         }
+        if (fix === 2) {
+          //vc3d_glob.ray_objects_movedBy.push(gltf.scene); // тут те модели, которые можно выбирать r aycaster-ом
+          vc3d_glob.ray_objects.push(gltf.scene); // тут те модели, которые можно выбирать r aycaster-ом
+        } else {
+          vc3d_glob.ray_objects.push(gltf.scene); // тут те модели, которые можно выбирать r aycaster-ом
+        }
+
         gltf.scene.MODEL_DATA = data; //
         gltf.scene.MODEL3D = 1; //
         gltf.scene.wtype = "gltf"; //
         // if (data.Set) {
         //   gltf.scene.Set = data.Set;
         // }
+
+        //console.log("m = ", m, "fix", fix);
 
         gltf.scene.m = m;
         gltf.scene.scale.set(s, s, s);
@@ -227,12 +235,10 @@ class i3d_Base {
         gltf.scene.model_id = data.id;
         gltf.scene.model_name = data.name;
         gltf.scene.model_unid = i3d_all.gener_name_to_input(16, "#aA");
-        console.log("222! fix", fix, "model_name", gltf.scene.model_name);
+        //console.log("222! fix", fix, "model_name", gltf.scene.model_name);
 
-        const cx = x || 0;
-        const cy = y || 0;
-        const cz = z || 0;
-        gltf.scene.position.set(cx, cy, cz);
+        gltf.scene.position.set(x, y, z);
+        gltf.scene.rotation.set(rx, ry, rz);
 
         let data_rows = [],
           data_count = 1; // список элементов модели
@@ -240,7 +246,7 @@ class i3d_Base {
         if (matsArray) {
           // раскрасим
           matsArray.forEach((item) => {
-            //console.log("matsArray item", item);
+            console.log("matsArray item", item);
 
             react3d.find_obj_set_mats(gltf.scene, item.el, item.params);
           });
@@ -261,6 +267,7 @@ class i3d_Base {
             // if (vc3d_glob.currentRT.Set) {
             //   gltf.scene.Set = vc3d_glob.currentRT.Set;
             // }
+            child.fix = gltf.scene.fix;
 
             // заполняем список элементов модели:
             data_rows.push({

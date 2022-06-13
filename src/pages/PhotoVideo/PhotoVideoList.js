@@ -24,24 +24,18 @@ const PhotoVideoList = observer(({ short }) => {
                   `user${obj.user}/img${obj.id}/${item}`
                 );
               });
-              // return (
-              //   <tr key={obj.id}>
-              //     {/* <td key={obj.id}>{obj.id}</td> */}
-              //     <td>
-              //       {obj.params3Array.map((item, idx) => {
-              //         return (
-              //           <img
-              //             onClick={() => react3d.ADD_IMAGE(obj.id, device)}
-              //             className={styles.imgList}
-              //             src={item}
-              //             alt={item}
-              //             key={item + idx}
-              //           ></img>
-              //         );
-              //       })}
-              //     </td>
-              //   </tr>
-              // );
+
+              if (!obj.params2) {
+                obj.params2 = "[]";
+              }
+              const params2_JSON = JSON.parse(obj.params2);
+              obj.params2Array = params2_JSON.map((item, idx) => {
+                return (
+                  process.env.REACT_APP_API_URL +
+                  `user${obj.user}/video${obj.id}/${item}`
+                );
+              });
+
               return <PhotoVideoItemTr key={obj.id} obj={obj} short={true} />;
             })}
           </tbody>
@@ -71,6 +65,22 @@ const PhotoVideoList = observer(({ short }) => {
                 `user${obj.user}/img${obj.id}/${item}`
               );
             });
+            const params2_JSON = JSON.parse(obj.params2);
+            obj.params2Array = params2_JSON.map((item, idx) => {
+              return (
+                process.env.REACT_APP_API_URL +
+                `user${obj.user}/video${obj.id}/${item}`
+              );
+            });
+
+            // const params2_JSON = JSON.parse(obj.params2);
+            // const videoPathArray = params2_JSON.map((item, idx) => {
+            //   return (
+            //     process.env.REACT_APP_API_URL +
+            //     `user${store.user.id}/video${id}/${item}`
+            //   );
+            // });
+
             return <PhotoVideoItemTr key={obj.id} obj={obj} />;
           })}
         </tbody>

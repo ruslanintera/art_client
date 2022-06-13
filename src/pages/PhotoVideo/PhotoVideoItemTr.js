@@ -19,9 +19,17 @@ const PhotoVideoItem = observer(({ obj, short }) => {
   const { store } = useContext(Context);
   //const [imgItemValue, setImgItemValue] = useState({});
   const [items, setItems] = useState([]);
+  const [itemsMP4, setItemsMP4] = useState([]);
 
   useEffect(() => {
-    setItems(obj.params3Array.map((item) => item)); // How to fix cannot update a component while rendering a different component warning
+    if (obj.params3Array) {
+      setItems(obj.params3Array.map((item) => item));
+    }
+    console.log("obj.params2Array=", obj.params2Array);
+    if (obj.params2Array) {
+      setItemsMP4(obj.params2Array.map((item) => item));
+    }
+    //setItemsMP4(obj.params2Array);
   }, []);
 
   if (short) {
@@ -37,6 +45,34 @@ const PhotoVideoItem = observer(({ obj, short }) => {
                 alt={item}
                 key={item}
               ></img>
+            );
+          })}
+        </td>
+        <td>
+          {itemsMP4.map((item, idx) => {
+            console.log("77777777 item", item);
+            return (
+              // <img
+              //   onClick={() => react3d.ADD_IMAGE(obj, item, device)}
+              //   className={styles.imgList}
+              //   src={item}
+              //   alt={item}
+              //   key={item}
+              // ></img>
+
+              <video
+                onClick={() => react3d.ADD_MP4(obj, item, device)}
+                width="100"
+                height="100"
+                controls="controls"
+                poster="video/duel.jpg"
+                key={item + idx + Date.now()}
+              >
+                <source
+                  src={item}
+                  type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'
+                />
+              </video>
             );
           })}
         </td>
@@ -67,6 +103,33 @@ const PhotoVideoItem = observer(({ obj, short }) => {
               alt={item}
               key={item}
             ></img>
+          );
+        })}
+      </td>
+      <td>
+        {itemsMP4.map((item, idx) => {
+          console.log("77777777 item", item);
+          return (
+            // <img
+            //   onClick={() => react3d.ADD_IMAGE(obj, item, device)}
+            //   className={styles.imgList}
+            //   src={item}
+            //   alt={item}
+            //   key={item}
+            // ></img>
+
+            <video
+              width="100"
+              height="100"
+              controls="controls"
+              poster="video/duel.jpg"
+              key={item + idx + Date.now()}
+            >
+              <source
+                src={item}
+                type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'
+              />
+            </video>
           );
         })}
       </td>
