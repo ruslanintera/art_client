@@ -7,6 +7,8 @@ export let vc3d_glob = {
     point: new THREE.Vector3(),
     normal: new THREE.Vector3(),
   },
+  videoNumGlobal: 1,
+
 
   set_temp_mat: false,
   delete_elem_selection_when_click_white_area: false, // вернем объекту его изначальный материал ?

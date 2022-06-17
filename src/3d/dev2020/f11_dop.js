@@ -38,99 +38,7 @@ class i3d_Dop {
     vc3d_glob.red_cube.MODEL3D = 1; //
     vc3d_glob.SCENE.add(vc3d_glob.red_cube);
   }
-  mouse_DOWN444(event) {
-    vc3d_glob.raycaster.setFromCamera(vc3d_glob.mouse, vc3d_glob.CAMERA);
-    var intersects = vc3d_glob.raycaster.intersectObjects(
-      vc3d_glob.ray_objects,
-      true
-    ); // true - чтобы пересекать внешние объекты типа .obj
-    vc3d_glob.MouseUp = false; // пока MouseUp == false есть возможность срабатывания событий для длительного нажатия отменяем
 
-    vc3d_glob.isDown = true;
-
-    if (intersects && intersects.length > 0) {
-      var intersects_0 = intersects[0];
-      vc3d_glob.curr_obj = intersects_0.object; // выбрали объект - элемент модели!
-
-      // определим элемент в таблице элементов 3Д модели
-      i3d_events_func.temp_mat_record_2021(
-        vc3d_glob.curr_obj.model_unid,
-        vc3d_glob.curr_obj.name
-      );
-
-      if (vc3d_glob.curr_obj.wtype === "gltf") {
-        const active3dElement = {
-          elementName: vc3d_glob.curr_obj.name,
-          rackName: vc3d_glob.currentRT.name,
-          dc: vc3d_glob.currentRT.Set.id,
-          cx: Math.ceil(intersects_0.point.x * 1000) / 1000,
-          cy: Math.ceil(intersects_0.point.y * 1000) / 1000,
-          cz: Math.ceil(intersects_0.point.z * 1000) / 1000,
-          model_unid: vc3d_glob.curr_obj.model_unid,
-          model_name: vc3d_glob.curr_obj.model_name,
-          el_name: vc3d_glob.curr_obj.el_name,
-        };
-        //console.log("CLICK active3dElement = ", { ...active3dElement });
-        //console.log("getActive3dElement", vc3d_glob.device.getActive3dElement);
-
-        vc3d_glob.device.setActive3dElement(active3dElement);
-      }
-
-      var bf = true; // найдем главного родителя объекта, но не сцену. Другими словами найдем комнату при щелчке на стену
-      vc3d_glob.curr_obj_all = Object.create(vc3d_glob.curr_obj); // пока это текущий объект на который указали лучом. СТЕНА
-
-      if (!vc3d_glob.curr_obj.square) {
-        var inter_i = 0;
-        do {
-          if (
-            vc3d_glob.curr_obj_all &&
-            vc3d_glob.curr_obj_all.parent &&
-            vc3d_glob.curr_obj_all.parent.type !== "Scene"
-          ) {
-            vc3d_glob.curr_obj_all = vc3d_glob.curr_obj_all.parent;
-
-            if (!vc3d_glob.curr_obj_all.visible) {
-              //c("DOWN Элемент не виден!!!  vc3d_glob.curr_obj_all.name = " + vc3d_glob.curr_obj_all.name + ", vc3d_glob.curr_obj_all.visible = " + vc3d_glob.curr_obj_all.visible);
-              inter_i++;
-              if (intersects[inter_i] && intersects[inter_i].object) {
-                vc3d_glob.curr_obj = intersects[inter_i].object;
-                vc3d_glob.curr_obj_all = Object.create(vc3d_glob.curr_obj);
-              }
-            }
-          } else {
-            bf = false;
-            break;
-          }
-        } while (bf);
-
-        //console.log("CLICK vc3d_glob.curr_obj_all = ", vc3d_glob.curr_obj_all);
-        //console.log("CLICK vc3d_glob.curr_obj = ", vc3d_glob.curr_obj);
-
-        /*****22222222******************************* */
-
-        this.objNormal({ intersects });
-
-        /************************************ */
-      } else {
-        //c("square!")
-      }
-
-      //////////////////////////////////////////////////////////////////////////////////////////////////////////
-      // временно или "постоянно" назначим материал выбранному объекту !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-      if (vc3d_glob.delete_elem_selection_when_click_white_area) {
-        i3d_events_func.temp_mat_curr_obj_2021(vc3d_glob.curr_obj);
-      }
-      //////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-      vc3d_glob.last_intersects_0 = null;
-
-      i3d_ao3.move_model(); // во время щелчка по элементу посчитаем значения vc3d_glob.raznica_inter. x,y,z для расчета движения элемента
-    } else {
-      i3d_ao3.click_white_area();
-      vc3d_glob.isDown_SKLAD_type = "";
-      vc3d_glob.isDown_SKLAD_RUN = false;
-    }
-  }
   mouse_DOWN676778(event) {
     vc3d_glob.raycaster.setFromCamera(vc3d_glob.mouse, vc3d_glob.CAMERA);
 
@@ -228,7 +136,6 @@ class i3d_Dop {
             //   intersects_1.point.z
             // );
 
-            //this.objNormal({ intersects });
             this.objNormal_2({ intersects_N: intersects_1 });
           }
         }

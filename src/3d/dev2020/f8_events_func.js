@@ -11,6 +11,7 @@ import { app } from "./f9_appvue.js";
 import { i3d_windows, i3d_windows1, windArray } from "./f10_windows.js";
 import { vc3d_glob } from "./f5_vc3d_glob.js";
 import { common } from "../../common/common";
+import { logDOM } from "@testing-library/react";
 
 class i3d_Events_func {
   MouseMove8(event) {
@@ -45,27 +46,12 @@ class i3d_Events_func {
     ); // true - чтобы пересекать внешние объекты типа .obj
     var intersects_11 = intersectsOBJ[0];
     //console.log("intersects_11?.object?.fix", intersects_11?.object?.fix);
-    //this.objNormal_3({ intersects });
     this.objNormal_4({ intersects: intersectsOBJ });
 
-    // if (vc3d_glob.curr_obj_all?.fix == 0 && vc3d_glob.curr_obj_all_PICTURE) {
-    //   //console.log("3334444");
-    //   var intersects_11 = intersectsOBJ[0];
-    //   //console.log("9090 intersects_11 = ", intersects_11);
-    //   if (intersects_11) {
-    //     //console.log("9091 intersects_11 = ", intersects_11);
-    //     this.objNormal_2({ intersects_N: intersects_11 });
-    //   }
-    //   return;
-    // }
-
-    //var intersects_11 = intersectsOBJ[0];
     var intersects_11 = intersects[0];
     //console.log("9090 intersects_11 = ", intersects_11);
     if (intersects_11?.object?.fix === 1) {
       //console.log("99091 intersects_11 = ", intersects_11?.object?.fix);
-      //this.objNormal_3({ intersects_N: intersects_11 });
-      //this.objNormal_3({ intersects });
     }
 
     //if (vc3d_glob.selected_to_move && vc3d_glob.curr_obj_all) {
@@ -105,15 +91,6 @@ class i3d_Events_func {
           return;
         }
 
-        // if (vc3d_glob.curr_obj_all?.fix == 0) {
-        //   var intersects_11 = intersectsOBJ[0];
-        //   if (intersects_11) {
-        //     this.objNormal_2({ intersects_N: intersects_11 });
-        //   }
-        // }
-
-        //if (true || vc3d_glob.curr_obj_all.fix == 2) {
-        //if (false && vc3d_glob.curr_obj_all.fix == 2) {
         if (vc3d_glob.curr_obj_all?.fix == 2) {
           //console.log("4 fff", vc3d_glob.curr_obj_all.fix);
           // vc3d_glob.curr_obj_all.position.x =
@@ -152,7 +129,6 @@ class i3d_Events_func {
             //   intersects_1.point.z
             // );
 
-            //this.objNormal({ intersects });
             this.objNormal_2({
               intersects_N: intersects_1,
               curr_obj_all: vc3d_glob.curr_obj_all,
@@ -367,12 +343,6 @@ class i3d_Events_func {
       true
     ); // true - чтобы пересекать внешние объекты типа .obj
 
-    // var intersects_movedBy = vc3d_glob.raycaster.intersectObjects(
-    //   vc3d_glob.ray_objects_movedBy,
-    //   true
-    // ); // true - чтобы пересекать внешние объекты типа .obj
-    // vc3d_glob.curr_obj_all_PICTURE = this.getObjParent(intersects_movedBy);
-
     vc3d_glob.MouseUp = false; // пока MouseUp == false есть возможность срабатывания событий для длительного нажатия отменяем
 
     vc3d_glob.isDown = true;
@@ -413,121 +383,57 @@ class i3d_Events_func {
         //console.log("CLICK vc3d_glob.curr_obj_all = ", vc3d_glob.curr_obj_all);
         //console.log("CLICK vc3d_glob.curr_obj = ", vc3d_glob.curr_obj);
 
-        if (false && vc3d_glob.curr_obj_all.fix === 2) {
-          //if (vc3d_glob.curr_obj_all.fix === 2) {
-          //console.log("222 fix", vc3d_glob.curr_obj_all.fix);
-          var intersects_1 = intersects[2];
-          if (intersects_1) {
-            //console.log("444 intersects_1", intersects_1);
-            vc3d_glob.curr_obj_all.position.x = intersects_1.point.x;
-            vc3d_glob.curr_obj_all.position.y = intersects_1.point.y;
-            vc3d_glob.curr_obj_all.position.z = intersects_1.point.z;
-
-            //console.log(
-            //   "intersects_0:",
-            //   intersects_0.point.x,
-            //   intersects_0.point.y,
-            //   intersects_0.point.z
-            // );
-            //console.log(
-            //   "intersects_1:",
-            //   intersects_1.point.x,
-            //   intersects_1.point.y,
-            //   intersects_1.point.z
-            // );
-
-            //this.objNormal({ intersects });
-            this.objNormal_2({ intersects_N: intersects_1 });
-          }
-        }
         /*****22222222******************************* */
+        console.log('vc3d_glob.curr_obj_all.fix = ', vc3d_glob.curr_obj_all.fix);
         if (vc3d_glob.curr_obj_all.fix == 2) {
           //console.log("rot", vc3d_glob.curr_obj_all.rotation);
           if (vc3d_glob.curr_obj_all_PICTURE) {
             vc3d_glob.curr_obj_all_PICTURE = null;
           } else {
-            vc3d_glob.curr_obj_all_PICTURE = Object.create(
-              vc3d_glob.curr_obj_all
-            ); // пока это текущий объект на который указали лучом. СТЕНА
-            //console.log(1);
-            if (
-              vc3d_glob.curr_obj?.material &&
-              vc3d_glob.curr_obj.materialParams?.video
-            ) {
-              /** */
-              const video = document.getElementById("video");
-              if (vc3d_glob.curr_obj.video === "play") {
-                video.pause();
-                vc3d_glob.curr_obj.video = "paused";
-              } else {
-                //video.src = "http://localhost:5001/user1/video1/sintel.mp4";
-                video.src = vc3d_glob.curr_obj.materialParams?.video;
-                //console.log(video);
-                // console.log(
-                //   "vc3d_glob.curr_obj.materialParams?.video",
-                //   vc3d_glob.curr_obj.materialParams?.video
-                // );
-                //console.log("vc3d_glob.curr_obj_all", vc3d_glob.curr_obj_all);
-                //console.log("vc3d_glob.curr_obj", vc3d_glob.curr_obj);
-                video.play();
-                const texture = new THREE.VideoTexture(video);
-                texture.needsUpdate = true;
-                texture.onUpdate = (item) => {
-                  if (!vc3d_glob.animate) {
-                    //i3d_all.animate4();
-                    i3d_all.animate1();
-                    //vc3d_glob.renderer.render(vc3d_glob.SCENE, vc3d_glob.CAMERA);
-                  }
-                  //console.log("item 88899", item);
-                  //console.log("render");
-                };
-                //console.log("texture", texture);
-                const material1 = new THREE.MeshBasicMaterial({ map: texture });
-                //console.log("material1", material1);
-                //vc3d_glob.curr_obj_all_PICTURE.material = material1;
-                vc3d_glob.curr_obj.material = material1;
-                vc3d_glob.curr_obj.video = "play";
-              }
-              /** * /
-              if (vc3d_glob.curr_obj.video) {
-              } else {
-                const video = document.createElement("video");
-                video.src = vc3d_glob.curr_obj.materialParams?.video;
-                //video.poster ='https://peach.blender.org/wp-content/uploads/title_anouncement.jpg?x11217';
-
-                //video.autoplay = false;
-                video.controls = true;
-                video.muted = false;
-                //video.height = 240; // 👈️ in px
-                //video.width = 320; // 👈️ in px
-
-                const box = document.getElementById("video_box");
-
-                box.appendChild(video);
-
-                video.play();
-                const texture = new THREE.VideoTexture(video);
-                texture.needsUpdate = true;
-                texture.onUpdate = (item) => {
-                  if (!vc3d_glob.animate) {
-                    //i3d_all.animate4();
-                    i3d_all.animate1();
-                    //vc3d_glob.renderer.render(vc3d_glob.SCENE, vc3d_glob.CAMERA);
-                  }
-                  //console.log("item 88899", item);
-                  console.log("render");
-                };
-                //console.log("texture", texture);
-                const material1 = new THREE.MeshBasicMaterial({ map: texture });
-                console.log("@#$ material1", material1);
-                //vc3d_glob.curr_obj_all_PICTURE.material = material1;
-                vc3d_glob.curr_obj.material = material1;
-              }
-                /**/
-            }
+            vc3d_glob.curr_obj_all_PICTURE = Object.create(vc3d_glob.curr_obj_all)
           }
 
-          //console.log("curr_obj_all_PICTURE =", vc3d_glob.curr_obj_all_PICTURE);
+          if (
+            vc3d_glob.curr_obj?.material &&
+            vc3d_glob.curr_obj.materialParams?.video
+          ) {
+            /** */
+            const vc3d_glob_curr_obj = Object.create(vc3d_glob.curr_obj) // но тут может быть проблема при удалении объекта
+            let video
+            if(vc3d_glob.curr_obj.videoNum && vc3d_glob.curr_obj.video) {
+              //video = document.getElementById(`video${vc3d_glob.curr_obj.videoNum}`);
+
+            } else {
+              video = document.getElementById(`video${vc3d_glob.videoNumGlobal}`);
+              video.onended = (event) => {
+                console.log('Video stopped event = ', event);
+                //vc3d_glob.curr_obj.videoState = "paused";
+                vc3d_glob_curr_obj.videoState = "paused";
+              };
+              vc3d_glob.curr_obj.video = video
+              vc3d_glob.curr_obj.videoNum = vc3d_glob.videoNumGlobal
+              vc3d_glob.curr_obj.video.src = vc3d_glob.curr_obj.materialParams?.video;
+              vc3d_glob.curr_obj.video.crossorigin = "anonymous";
+              vc3d_glob.videoNumGlobal++
+            }
+
+            if (vc3d_glob.curr_obj.videoState === "play") {
+              vc3d_glob.curr_obj.video.pause();
+              vc3d_glob.curr_obj.videoState = "paused";
+              console.log("paused");
+            } else {
+              vc3d_glob.curr_obj.video.play();
+              console.log("play");
+              const texture = new THREE.VideoTexture(vc3d_glob.curr_obj.video);
+              texture.needsUpdate = true;
+              texture.onUpdate = (item) => { if (!vc3d_glob.animate) { i3d_all.animate2() } }
+              const material1 = new THREE.MeshBasicMaterial({ map: texture });
+              vc3d_glob.curr_obj.material = material1;
+              vc3d_glob.curr_obj.videoState = "play";
+              i3d_all.animate4();
+
+            }
+          }
         } else {
           var intersects_11 = intersects[0];
           if (intersects_11) {
@@ -556,123 +462,6 @@ class i3d_Events_func {
     }
   }
 
-  objNormal({ intersects }) {
-    if (vc3d_glob.curr_obj) {
-      if (intersects && intersects.length > 0) {
-        //var intersects_0 = intersects[0];
-        var point = intersects[0].point;
-
-        //console.log("point = ", point);
-
-        //22222222222222222222222222222222222222222222222222222222222222
-        const p = intersects[0].point;
-        vc3d_glob.mouseHelper.position.copy(p);
-        vc3d_glob.intersection.point.copy(p);
-
-        const n = intersects[0].face.normal.clone();
-        n.transformDirection(vc3d_glob.curr_obj.matrixWorld);
-        n.multiplyScalar(10);
-        n.add(intersects[0].point);
-
-        const okr = 1;
-        //console.log(
-        //   "n:  x",
-        //   Math.ceil(n.x * okr) / okr,
-        //   ",y",
-        //   Math.ceil(n.y * okr) / okr,
-        //   ",z",
-        //   Math.ceil(n.z * okr) / okr
-        // );
-        //console.log(
-        //   "point:  x",
-        //   Math.ceil(point.x * okr) / okr,
-        //   ",y",
-        //   Math.ceil(point.y * okr) / okr,
-        //   ",z",
-        //   Math.ceil(point.z * okr) / okr
-        // );
-
-        vc3d_glob.intersection.normal.copy(intersects[0].face.normal);
-        vc3d_glob.mouseHelper.lookAt(n);
-
-        const positions = vc3d_glob.line.geometry.attributes.position;
-        positions.setXYZ(0, p.x, p.y, p.z);
-        positions.setXYZ(1, n.x, n.y, n.z);
-        positions.needsUpdate = true;
-
-        vc3d_glob.intersection.intersects = true;
-        /** */
-
-        if (!vc3d_glob.animate) {
-          i3d_all.animate2();
-        }
-      }
-    }
-  }
-  objNormal_2_ERR({ intersects_N, curr_obj_all }) {
-    //console.log("445 intersects_N", intersects_N);
-    if (vc3d_glob.curr_obj) {
-      if (intersects_N) {
-        //var intersects_0 = intersects_N;
-        var point = intersects_N.point;
-
-        //console.log("point = ", point);
-        //console.log("CLICK vc3d_glob.curr_obj_all = ", vc3d_glob.curr_obj_all);
-
-        //22222222222222222222222222222222222222222222222222222222222222
-        const p = intersects_N.point;
-        vc3d_glob.mouseHelper.position.copy(p);
-        vc3d_glob.intersection.point.copy(p);
-        //curr_obj_all.position.copy(p);
-        if (vc3d_glob.curr_obj_all_PICTURE) {
-          //console.log("PICTURE =", vc3d_glob.curr_obj_all_PICTURE);
-          vc3d_glob.curr_obj_all_PICTURE.position.copy(p);
-        }
-
-        const n = intersects_N.face.normal.clone();
-        n.transformDirection(vc3d_glob.curr_obj.matrixWorld);
-        n.multiplyScalar(10);
-        n.add(intersects_N.point);
-
-        const okr = 1;
-        //console.log(
-        //   "n:  x",
-        //   Math.ceil(n.x * okr) / okr,
-        //   ",y",
-        //   Math.ceil(n.y * okr) / okr,
-        //   ",z",
-        //   Math.ceil(n.z * okr) / okr
-        // );
-        //console.log(
-        //   "point:  x",
-        //   Math.ceil(point.x * okr) / okr,
-        //   ",y",
-        //   Math.ceil(point.y * okr) / okr,
-        //   ",z",
-        //   Math.ceil(point.z * okr) / okr
-        // );
-
-        vc3d_glob.intersection.normal.copy(intersects_N.face.normal);
-        vc3d_glob.mouseHelper.lookAt(n);
-        //curr_obj_all.lookAt(n);
-        if (vc3d_glob.curr_obj_all_PICTURE) {
-          vc3d_glob.curr_obj_all_PICTURE.lookAt(n);
-        }
-
-        const positions = vc3d_glob.line.geometry.attributes.position;
-        positions.setXYZ(0, p.x, p.y, p.z);
-        positions.setXYZ(1, n.x, n.y, n.z);
-        positions.needsUpdate = true;
-
-        vc3d_glob.intersection.intersects = true;
-        /** */
-
-        if (!vc3d_glob.animate) {
-          i3d_all.animate2();
-        }
-      }
-    }
-  }
   objNormal_2({ intersects_N, curr_obj_all }) {
     //console.log("4=45 intersects_N", intersects_N);
     if (vc3d_glob.curr_obj) {
@@ -688,38 +477,21 @@ class i3d_Events_func {
         vc3d_glob.mouseHelper.position.copy(p);
         vc3d_glob.intersection.point.copy(p);
         //curr_obj_all.position.copy(p);
-        if (vc3d_glob.curr_obj_all_PICTURE) {
-          //console.log("PICTURE =", vc3d_glob.curr_obj_all_PICTURE);
-          vc3d_glob.curr_obj_all_PICTURE.position.copy(p);
-        }
+        // if (vc3d_glob.curr_obj_all_PICTURE) {
+        //   //console.log("PICTURE =", vc3d_glob.curr_obj_all_PICTURE);
+        //   vc3d_glob.curr_obj_all_PICTURE.position.copy(p);
+        // }
 
         const n = intersects_N.face.normal.clone();
         n.transformDirection(vc3d_glob.curr_obj.matrixWorld);
         n.multiplyScalar(10);
         n.add(intersects_N.point);
 
-        const okr = 1;
-        //console.log(
-        //   "n:  x",
-        //   Math.ceil(n.x * okr) / okr,
-        //   ",y",
-        //   Math.ceil(n.y * okr) / okr,
-        //   ",z",
-        //   Math.ceil(n.z * okr) / okr
-        // );
-        //console.log(
-        //   "point:  x",
-        //   Math.ceil(point.x * okr) / okr,
-        //   ",y",
-        //   Math.ceil(point.y * okr) / okr,
-        //   ",z",
-        //   Math.ceil(point.z * okr) / okr
-        // );
-
         vc3d_glob.intersection.normal.copy(intersects_N.face.normal);
         vc3d_glob.mouseHelper.lookAt(n);
         //curr_obj_all.lookAt(n);
         if (vc3d_glob.curr_obj_all_PICTURE) {
+          vc3d_glob.curr_obj_all_PICTURE.position.copy(p);
           vc3d_glob.curr_obj_all_PICTURE.lookAt(n);
         }
 
@@ -737,7 +509,6 @@ class i3d_Events_func {
       }
     }
   }
-  //objNormal_3({ intersects_N, curr_obj_all }) {
 
   getParent(curr_obj) {
     let curr_obj_all = Object.create(curr_obj); // пока это текущий объект на который указали лучом. СТЕНА
@@ -753,78 +524,6 @@ class i3d_Events_func {
     return curr_obj_all;
   }
 
-  objNormal_3({ intersects }) {
-    if (intersects && intersects.length > 0) {
-      var intersects_N = intersects[0];
-
-      if (intersects_N) {
-        vc3d_glob.curr_obj = intersects_N.object; // выбрали объект - элемент модели!
-
-        if (vc3d_glob.curr_obj) {
-          vc3d_glob.curr_obj_all = this.getParent(vc3d_glob.curr_obj);
-          //console.log("44==");
-
-          //var intersects_0 = intersects_N;
-          var point = intersects_N.point;
-
-          //console.log("point = ", point);
-          //console.log("CLICK vc3d_glob.curr_obj_all = ", vc3d_glob.curr_obj_all);
-
-          //22222222222222222222222222222222222222222222222222222222222222
-          const p = intersects_N.point;
-          vc3d_glob.mouseHelper.position.copy(p);
-          vc3d_glob.intersection.point.copy(p);
-          //curr_obj_all.position.copy(p);
-          if (vc3d_glob.curr_obj_all_PICTURE) {
-            //console.log("PICTURE =", vc3d_glob.curr_obj_all_PICTURE);
-            vc3d_glob.curr_obj_all_PICTURE.position.copy(p);
-          }
-
-          const n = intersects_N.face.normal.clone();
-          n.transformDirection(vc3d_glob.curr_obj.matrixWorld);
-          n.multiplyScalar(10);
-          n.add(intersects_N.point);
-
-          const okr = 1;
-          //console.log(
-          //   "n:  x",
-          //   Math.ceil(n.x * okr) / okr,
-          //   ",y",
-          //   Math.ceil(n.y * okr) / okr,
-          //   ",z",
-          //   Math.ceil(n.z * okr) / okr
-          // );
-          //console.log(
-          //   "point:  x",
-          //   Math.ceil(point.x * okr) / okr,
-          //   ",y",
-          //   Math.ceil(point.y * okr) / okr,
-          //   ",z",
-          //   Math.ceil(point.z * okr) / okr
-          // );
-
-          vc3d_glob.intersection.normal.copy(intersects_N.face.normal);
-          vc3d_glob.mouseHelper.lookAt(n);
-          //curr_obj_all.lookAt(n);
-          if (vc3d_glob.curr_obj_all_PICTURE) {
-            vc3d_glob.curr_obj_all_PICTURE.lookAt(n);
-          }
-
-          const positions = vc3d_glob.line.geometry.attributes.position;
-          positions.setXYZ(0, p.x, p.y, p.z);
-          positions.setXYZ(1, n.x, n.y, n.z);
-          positions.needsUpdate = true;
-
-          vc3d_glob.intersection.intersects = true;
-          /** */
-
-          if (!vc3d_glob.animate) {
-            i3d_all.animate2();
-          }
-        }
-      }
-    }
-  }
   objNormal_4({ intersects }) {
     //console.log("intersects", intersects);
     if (!vc3d_glob.curr_obj_all_PICTURE) {
