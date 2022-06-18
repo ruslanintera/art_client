@@ -25,42 +25,29 @@ class i3d_Events_func {
     vc3d_glob.mouse.y =
       -((event.clientY - vc3d_glob.canvas_top) / vc3d_glob.SCREEN_HEIGHT) * 2 +
       1;
-    //console.log("1");
 
     vc3d_glob.raycaster.setFromCamera(vc3d_glob.mouse, vc3d_glob.CAMERA);
     if (!vc3d_glob.plane) {
       return;
     }
-    //console.log("2");
 
     var intersects = vc3d_glob.raycaster.intersectObject(vc3d_glob.plane);
     if (!intersects) {
       return;
     }
-    //console.log("3");
-
-    //vc3d_glob.raycaster.setFromCamera(vc3d_glob.mouse, vc3d_glob.CAMERA);
     var intersectsOBJ = vc3d_glob.raycaster.intersectObjects(
       vc3d_glob.ray_objects,
       true
     ); // true - чтобы пересекать внешние объекты типа .obj
     var intersects_11 = intersectsOBJ[0];
-    //console.log("intersects_11?.object?.fix", intersects_11?.object?.fix);
+
     this.objNormal_4({ intersects: intersectsOBJ });
 
-    var intersects_11 = intersects[0];
-    //console.log("9090 intersects_11 = ", intersects_11);
-    if (intersects_11?.object?.fix === 1) {
-      //console.log("99091 intersects_11 = ", intersects_11?.object?.fix);
-    }
-
-    //if (vc3d_glob.selected_to_move && vc3d_glob.curr_obj_all) {
     if (
       vc3d_glob.selected_to_move &&
       vc3d_glob.curr_obj_all &&
       (vc3d_glob.curr_obj_all.fix == 0 || vc3d_glob.curr_obj_all.fix == 2)
     ) {
-      //if (vc3d_glob.curr_obj_all && vc3d_glob.curr_obj_all) {
       if (intersects && intersects.length > 0) {
         vc3d_glob.CONTROLS.enabled = false; // отключает OrbitControl
 
@@ -92,48 +79,13 @@ class i3d_Events_func {
         }
 
         if (vc3d_glob.curr_obj_all?.fix == 2) {
-          //console.log("4 fff", vc3d_glob.curr_obj_all.fix);
-          // vc3d_glob.curr_obj_all.position.x =
-          // intersects[0].point.x - vc3d_glob.raznica_inter.x;
-          // //vc3d_glob.curr_obj_all.position.y = intersects[0].point.y - vc3d_glob.raznica_inter.y;
-          // vc3d_glob.curr_obj_all.position.z =
-          // intersects[0].point.z - vc3d_glob.raznica_inter.z;
-
-          //console.log("4 intersectsOBJ", intersectsOBJ);
-
-          const interObjFix = intersectsOBJ.filter((item) => {
-            //console.log("item.object?.fix", item.object?.fix);
-            return item.object?.fix === 1;
-          });
-          //console.log("4 interObjFix", interObjFix);
-
-          //var intersects_1 = intersectsOBJ[2];
-          var intersects_1 = interObjFix[0];
-          if (intersects_1) {
-            //console.log("4 interObjFix", interObjFix);
-            //console.log("444 intersects_1", intersects_1);
-            // vc3d_glob.curr_obj_all.position.x = intersects_1.point.x;
-            // vc3d_glob.curr_obj_all.position.y = intersects_1.point.y;
-            // vc3d_glob.curr_obj_all.position.z = intersects_1.point.z;
-
-            //console.log(
-            //   "intersects_0:",
-            //   intersects_0.point.x,
-            //   intersects_0.point.y,
-            //   intersects_0.point.z
-            // );
-            //console.log(
-            //   "intersects_1:",
-            //   intersects_1.point.x,
-            //   intersects_1.point.y,
-            //   intersects_1.point.z
-            // );
-
-            this.objNormal_2({
-              intersects_N: intersects_1,
-              curr_obj_all: vc3d_glob.curr_obj_all,
-            });
-          }
+          // const interObjFix = intersectsOBJ.filter((item) => {
+          //   return item.object?.fix === 1;
+          // });
+          // var intersects_1 = interObjFix[0];
+          // if (intersects_1) {
+          //   //this.objNormal_2({ intersects_N: intersects_1, curr_obj_all: vc3d_glob.curr_obj_all, });
+          // }
         } else {
           switch (vc3d_glob.floor) {
             case "floor":
@@ -200,25 +152,25 @@ class i3d_Events_func {
     }
   }
 
-  find_obj(node, model_unid, name, callbackfunc) {
-    //temp_set_mat = true когда временно назначаем синий цвет выделения объекту
+  find_obj({node, callbackfunc}) {
 
-    if (node.model_unid == model_unid && node.name == name) {
-      //
-
-      vc3d_glob.curr_obj = node;
-      callbackfunc(node); // в коллбэк функции что-то делаем с эементом, обычно перекрашиваем его
-      return node;
+    if(callbackfunc(node)) {
+      console.log('find_obj:  BEFORE RETURN');
+      return node
     }
+    //console.log('');
+    // if (node.model_unid == model_unid && node.name == name) {
+    //   //
+
+    //   vc3d_glob.curr_obj = node;
+    //   callbackfunc(node); // в коллбэк функции что-то делаем с эементом, обычно перекрашиваем его
+    //   return node;
+    // }
     if (
-      (node.type == "Scene" ||
-        node.type == "Group" ||
-        node.type == "Mesh" ||
-        node.type == "Object3D") &&
-      node.children
-    ) {
+      (node.type == "Scene" || node.type == "Group" || node.type == "Mesh" || node.type == "Object3D") && node.children) {
       for (var i = 0; i < node.children.length; i++) {
-        this.find_obj(node.children[i], model_unid, name, callbackfunc);
+        //this.find_obj({ node: node.children[i], model_unid, name, callbackfunc});
+        this.find_obj({ node: node.children[i], callbackfunc});
       }
     }
   }
@@ -386,7 +338,7 @@ class i3d_Events_func {
         /*****22222222******************************* */
         console.log('vc3d_glob.curr_obj_all.fix = ', vc3d_glob.curr_obj_all.fix);
         if (vc3d_glob.curr_obj_all.fix == 2) {
-          //console.log("rot", vc3d_glob.curr_obj_all.rotation);
+          console.log("243423243423 curr_obj", vc3d_glob.curr_obj);
           if (vc3d_glob.curr_obj_all_PICTURE) {
             vc3d_glob.curr_obj_all_PICTURE = null;
           } else {
@@ -398,23 +350,41 @@ class i3d_Events_func {
             vc3d_glob.curr_obj.materialParams?.video
           ) {
             /** */
-            const vc3d_glob_curr_obj = Object.create(vc3d_glob.curr_obj) // но тут может быть проблема при удалении объекта
+            //const vc3d_glob_curr_obj = Object.create(vc3d_glob.curr_obj) // но тут может быть проблема при удалении объекта
+            console.log('111 vc3d_glob.curr_obj', vc3d_glob.curr_obj.uuid); // uuid: "ADCA2328-EB10-46B5-BD5A-90A20B5F5191"
             let video
             if(vc3d_glob.curr_obj.videoNum && vc3d_glob.curr_obj.video) {
               //video = document.getElementById(`video${vc3d_glob.curr_obj.videoNum}`);
 
             } else {
               video = document.getElementById(`video${vc3d_glob.videoNumGlobal}`);
-              video.onended = (event) => {
-                console.log('Video stopped event = ', event);
-                //vc3d_glob.curr_obj.videoState = "paused";
-                vc3d_glob_curr_obj.videoState = "paused";
-              };
               vc3d_glob.curr_obj.video = video
               vc3d_glob.curr_obj.videoNum = vc3d_glob.videoNumGlobal
               vc3d_glob.curr_obj.video.src = vc3d_glob.curr_obj.materialParams?.video;
               vc3d_glob.curr_obj.video.crossorigin = "anonymous";
               vc3d_glob.videoNumGlobal++
+            }
+
+            const vc3d_glob_curr_obj_uuid = vc3d_glob.curr_obj.uuid
+            const callbackfunc = (node) => {
+              //console.log('77 node.uuid = ', node.uuid, ' === ', vc3d_glob_curr_obj_uuid);
+              if(node.uuid === vc3d_glob_curr_obj_uuid) { 
+                node.videoState = "stoped"
+                console.log('!BINGO! vc3d_glob_curr_obj_uuid = ', vc3d_glob_curr_obj_uuid);
+                return true 
+              }
+            }
+            vc3d_glob.curr_obj.video.onended = (event) => {
+              console.log('Video stopped event = ', event);
+              //vc3d_glob.curr_obj.videoState = "paused";
+              //vc3d_glob_curr_obj.videoState = "stoped";
+              //const videoObj = 
+              this.find_obj({ node: vc3d_glob.SCENE, callbackfunc})
+              // if(videoObj) {
+              //   videoObj.videoState = "stoped"
+              //   console.log('55055 videoObj.videoState = ', videoObj.videoState);
+              // }
+
             }
 
             if (vc3d_glob.curr_obj.videoState === "play") {
@@ -435,10 +405,10 @@ class i3d_Events_func {
             }
           }
         } else {
-          var intersects_11 = intersects[0];
-          if (intersects_11) {
-            this.objNormal_2({ intersects_N: intersects_11 });
-          }
+          // var intersects_11 = intersects[0];
+          // if (intersects_11) {
+          //   //this.objNormal_2({ intersects_N: intersects_11 });
+          // }
         }
         /************************************ */
       } else {
@@ -459,54 +429,6 @@ class i3d_Events_func {
       i3d_ao3.click_white_area();
       vc3d_glob.isDown_SKLAD_type = "";
       vc3d_glob.isDown_SKLAD_RUN = false;
-    }
-  }
-
-  objNormal_2({ intersects_N, curr_obj_all }) {
-    //console.log("4=45 intersects_N", intersects_N);
-    if (vc3d_glob.curr_obj) {
-      if (intersects_N) {
-        //var intersects_0 = intersects_N;
-        var point = intersects_N.point;
-
-        //console.log("point = ", point);
-        //console.log("CLICK vc3d_glob.curr_obj_all = ", vc3d_glob.curr_obj_all);
-
-        //22222222222222222222222222222222222222222222222222222222222222
-        const p = intersects_N.point;
-        vc3d_glob.mouseHelper.position.copy(p);
-        vc3d_glob.intersection.point.copy(p);
-        //curr_obj_all.position.copy(p);
-        // if (vc3d_glob.curr_obj_all_PICTURE) {
-        //   //console.log("PICTURE =", vc3d_glob.curr_obj_all_PICTURE);
-        //   vc3d_glob.curr_obj_all_PICTURE.position.copy(p);
-        // }
-
-        const n = intersects_N.face.normal.clone();
-        n.transformDirection(vc3d_glob.curr_obj.matrixWorld);
-        n.multiplyScalar(10);
-        n.add(intersects_N.point);
-
-        vc3d_glob.intersection.normal.copy(intersects_N.face.normal);
-        vc3d_glob.mouseHelper.lookAt(n);
-        //curr_obj_all.lookAt(n);
-        if (vc3d_glob.curr_obj_all_PICTURE) {
-          vc3d_glob.curr_obj_all_PICTURE.position.copy(p);
-          vc3d_glob.curr_obj_all_PICTURE.lookAt(n);
-        }
-
-        const positions = vc3d_glob.line.geometry.attributes.position;
-        positions.setXYZ(0, p.x, p.y, p.z);
-        positions.setXYZ(1, n.x, n.y, n.z);
-        positions.needsUpdate = true;
-
-        vc3d_glob.intersection.intersects = true;
-        /** */
-
-        if (!vc3d_glob.animate) {
-          i3d_all.animate2();
-        }
-      }
     }
   }
 
@@ -557,7 +479,6 @@ class i3d_Events_func {
           vc3d_glob.intersection.point.copy(p);
           //curr_obj_all.position.copy(p);
           if (vc3d_glob.curr_obj_all_PICTURE) {
-            //console.log("PICTURE =", vc3d_glob.curr_obj_all_PICTURE);
             vc3d_glob.curr_obj_all_PICTURE.position.copy(p);
           }
 

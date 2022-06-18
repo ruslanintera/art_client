@@ -10,6 +10,7 @@ import { i3d_base } from "./dev2020/f4_base";
 
 class React3d {
   ADD_IMAGE(obj, item, device) {
+    //console.log('ADD_IMAGE');
     const textureLoader = new THREE.TextureLoader();
     const diffuseMap = textureLoader.load(item);
     diffuseMap.encoding = THREE.sRGBEncoding;
@@ -64,6 +65,7 @@ class React3d {
   }
 
   ADD_MP4(obj, item, device) {
+    //console.log('ADD_MP4');
     if (vc3d_glob?.curr_obj?.material) {
       if (!vc3d_glob.curr_obj.materialParams) {
         const materialParams = {
@@ -232,47 +234,56 @@ class React3d {
       node.type == "Object3D"
       //) && node.children
     ) {
-      if (node.name === el && params.map) {
+      if (node.name === el && (params.map || params.video)) {
         //console.log("BINGO node.name", node.name);
         //console.log("BINGO2 params.map", params.map);
 
-        const textureLoader = new THREE.TextureLoader();
-        const item = params.map;
-        const diffuseMap = textureLoader.load(item);
-        diffuseMap.encoding = THREE.sRGBEncoding;
+        const materialParams = {}
 
-        const specularMap = textureLoader.load(item);
-        specularMap.encoding = THREE.sRGBEncoding;
+        if (params.map) {
 
-        const normalMap = textureLoader.load(item);
-        const materialParams = {
-          color: "#fff",
-          //specular: 0x222222,
-          shininess: 35,
-          map: item,
-          specularMap: item,
-          normalMap: item,
-          normalScale: new THREE.Vector2(0.8, 0.8),
-        };
-        const materialParamsObj = {
-          color: "#fff",
-          //specular: 0x222222,
-          shininess: 35,
-          map: diffuseMap,
-          specularMap: specularMap,
-          normalMap: normalMap,
-          normalScale: new THREE.Vector2(0.8, 0.8),
-        };
+          const textureLoader = new THREE.TextureLoader();
+          const item = params.map;
+          const diffuseMap = textureLoader.load(item);
+          diffuseMap.encoding = THREE.sRGBEncoding;
+
+          const specularMap = textureLoader.load(item);
+          specularMap.encoding = THREE.sRGBEncoding;
+
+          const normalMap = textureLoader.load(item);
+
+          materialParams.color = "#fff"
+          materialParams.shininess = 35
+          materialParams.normalScale = new THREE.Vector2(0.8, 0.8)
+
+          materialParams.map = item
+          materialParams.specularMap = item
+          materialParams.normalMap = item
+
+
+          const materialParamsObj = {
+            color: "#fff",
+            //specular: 0x222222,
+            shininess: 35,
+            map: diffuseMap,
+            specularMap: specularMap,
+            normalMap: normalMap,
+            normalScale: new THREE.Vector2(0.8, 0.8),
+          }
+          const material = new THREE.MeshPhongMaterial(materialParamsObj)
+          node.material = material
+        }
         if (params.video) {
           materialParams.video = params.video;
-          materialParamsObj.video = params.video;
+          //materialParamsObj.video = params.video;
+          console.log('89898989 params.video = ', params.video, 'node.uuid = ', node.uuid);
         }
-        const material = new THREE.MeshPhongMaterial(materialParamsObj);
-        node.material = material;
-        node.materialParams = materialParams;
+        //console.log('09092 materialParams = ', materialParams)
+        node.materialParams = materialParams
+
       } else {
         for (var i = 0; i < node.children.length; i++) {
-          this.find_obj_set_mats(node.children[i], el, params);
+          this.find_obj_set_mats(node.children[i], el, params)
         }
       }
     }

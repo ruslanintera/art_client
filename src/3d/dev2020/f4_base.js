@@ -180,7 +180,7 @@ class i3d_Base {
     matsArray,
     fix,
   }) {
-    //console.log("ADD MODEL data = ", data);
+    //console.log("ADD load_gltf_2021_params data = ", data);
 
     try {
       if (!m) {
@@ -203,14 +203,12 @@ class i3d_Base {
       const model_URL = process.env.REACT_APP_API_URL + data.model3d;
       //console.log("$$$ model_URL = ", model_URL);
       loader.load(model_URL, function (gltf) {
-        var gltf_model = gltf.scene;
+
+        //console.log('gltf.scene 33 children = = = ', gltf.scene?.children[0]?.children);
 
         //parseInt(wl_1.move_type); //нужно ли двигать объект?
-        if (fix) {
-          gltf.scene.fix = fix;
-        } else {
-          gltf.scene.fix = 0;
-        }
+        if (fix) { gltf.scene.fix = fix } else { gltf.scene.fix = 0 }
+
         if (fix === 2) {
           //vc3d_glob.ray_objects_movedBy.push(gltf.scene); // тут те модели, которые можно выбирать r aycaster-ом
           vc3d_glob.ray_objects.push(gltf.scene); // тут те модели, которые можно выбирать r aycaster-ом
@@ -221,11 +219,6 @@ class i3d_Base {
         gltf.scene.MODEL_DATA = data; //
         gltf.scene.MODEL3D = 1; //
         gltf.scene.wtype = "gltf"; //
-        // if (data.Set) {
-        //   gltf.scene.Set = data.Set;
-        // }
-
-        //console.log("m = ", m, "fix", fix);
 
         gltf.scene.m = m;
         gltf.scene.scale.set(s, s, s);
@@ -251,6 +244,11 @@ class i3d_Base {
         }
 
         gltf.scene.traverse(function (child) {
+          
+          // if(child.materialParams) {
+          //   //console.log('child 1= = = ', child.materialParams);
+          // }          
+          
           if (child.isMesh) {
             if (vc3d_glob.shadow) {
               child.castShadow = true;
@@ -285,6 +283,9 @@ class i3d_Base {
               child.material.emissive = new THREE.Color("#00f");
               child.material.emissiveIntensity = 1;
             }
+
+            //child.ttest = 123
+
           }
         });
 
