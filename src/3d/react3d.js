@@ -10,13 +10,14 @@ import { i3d_base } from "./dev2020/f4_base";
 
 class React3d {
   ADD_IMAGE(obj, item, device) {
-    //console.log('ADD_IMAGE');
+    //console.log('ADD_IMAGE  item = ', item);
+    const itemWithURL = process.env.REACT_APP_API_URL + item
     const textureLoader = new THREE.TextureLoader();
-    const diffuseMap = textureLoader.load(item);
+    const diffuseMap = textureLoader.load(itemWithURL);
     diffuseMap.encoding = THREE.sRGBEncoding;
-    const specularMap = textureLoader.load(item);
+    const specularMap = textureLoader.load(itemWithURL);
     specularMap.encoding = THREE.sRGBEncoding;
-    const normalMap = textureLoader.load(item);
+    const normalMap = textureLoader.load(itemWithURL);
     const materialParamsObj = {
       color: "#fff",
       //specular: 0x222222,
@@ -65,7 +66,7 @@ class React3d {
   }
 
   ADD_MP4(obj, item, device) {
-    //console.log('ADD_MP4');
+    //console.log('ADD_MP4  item = ', item);
     if (vc3d_glob?.curr_obj?.material) {
       if (!vc3d_glob.curr_obj.materialParams) {
         const materialParams = {
@@ -244,13 +245,15 @@ class React3d {
 
           const textureLoader = new THREE.TextureLoader();
           const item = params.map;
-          const diffuseMap = textureLoader.load(item);
+          const itemWithURL = process.env.REACT_APP_API_URL + params.map;
+          
+          const diffuseMap = textureLoader.load(itemWithURL);
           diffuseMap.encoding = THREE.sRGBEncoding;
 
-          const specularMap = textureLoader.load(item);
+          const specularMap = textureLoader.load(itemWithURL);
           specularMap.encoding = THREE.sRGBEncoding;
 
-          const normalMap = textureLoader.load(item);
+          const normalMap = textureLoader.load(itemWithURL);
 
           materialParams.color = "#fff"
           materialParams.shininess = 35
@@ -276,9 +279,8 @@ class React3d {
         if (params.video) {
           materialParams.video = params.video;
           //materialParamsObj.video = params.video;
-          console.log('89898989 params.video = ', params.video, 'node.uuid = ', node.uuid);
+          //console.log('89898989 params.video = ', params.video, 'node.uuid = ', node.uuid);
         }
-        //console.log('09092 materialParams = ', materialParams)
         node.materialParams = materialParams
 
       } else {

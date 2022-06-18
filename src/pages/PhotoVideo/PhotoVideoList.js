@@ -20,7 +20,7 @@ const PhotoVideoList = observer(({ short }) => {
               const params3_JSON = JSON.parse(obj.params3);
               obj.params3Array = params3_JSON.map((item, idx) => {
                 return (
-                  process.env.REACT_APP_API_URL +
+                  //process.env.REACT_APP_API_URL +
                   `user${obj.user}/img${obj.id}/${item}`
                 );
               });
@@ -31,7 +31,7 @@ const PhotoVideoList = observer(({ short }) => {
               const params2_JSON = JSON.parse(obj.params2);
               obj.params2Array = params2_JSON.map((item, idx) => {
                 return (
-                  process.env.REACT_APP_API_URL +
+                  //process.env.REACT_APP_API_URL +
                   `user${obj.user}/video${obj.id}/${item}`
                 );
               });
@@ -61,25 +61,17 @@ const PhotoVideoList = observer(({ short }) => {
             const params3_JSON = JSON.parse(obj.params3);
             obj.params3Array = params3_JSON.map((item, idx) => {
               return (
-                process.env.REACT_APP_API_URL +
+                //process.env.REACT_APP_API_URL +
                 `user${obj.user}/img${obj.id}/${item}`
               );
             });
             const params2_JSON = JSON.parse(obj.params2);
             obj.params2Array = params2_JSON.map((item, idx) => {
               return (
-                process.env.REACT_APP_API_URL +
+                //process.env.REACT_APP_API_URL +
                 `user${obj.user}/video${obj.id}/${item}`
               );
             });
-
-            // const params2_JSON = JSON.parse(obj.params2);
-            // const videoPathArray = params2_JSON.map((item, idx) => {
-            //   return (
-            //     process.env.REACT_APP_API_URL +
-            //     `user${store.user.id}/video${id}/${item}`
-            //   );
-            // });
 
             return <PhotoVideoItemTr key={obj.id} obj={obj} />;
           })}

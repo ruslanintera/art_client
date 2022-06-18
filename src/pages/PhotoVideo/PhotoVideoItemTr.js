@@ -37,7 +37,7 @@ const PhotoVideoItem = observer(({ obj, short }) => {
               <img
                 onClick={() => react3d.ADD_IMAGE(obj, item, device)}
                 className={styles.imgList}
-                src={item}
+                src={process.env.REACT_APP_API_URL + item}
                 alt={item}
                 key={item}
               ></img>
@@ -56,7 +56,7 @@ const PhotoVideoItem = observer(({ obj, short }) => {
                 key={item + idx + Date.now()}
               >
                 <source
-                  src={item}
+                  src={process.env.REACT_APP_API_URL + item}
                   type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'
                 />
               </video>

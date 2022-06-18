@@ -155,7 +155,7 @@ class i3d_Events_func {
   find_obj({node, callbackfunc}) {
 
     if(callbackfunc(node)) {
-      console.log('find_obj:  BEFORE RETURN');
+      //console.log('find_obj:  BEFORE RETURN');
       return node
     }
     //console.log('');
@@ -336,14 +336,15 @@ class i3d_Events_func {
         //console.log("CLICK vc3d_glob.curr_obj = ", vc3d_glob.curr_obj);
 
         /*****22222222******************************* */
-        console.log('vc3d_glob.curr_obj_all.fix = ', vc3d_glob.curr_obj_all.fix);
+        //console.log('vc3d_glob.curr_obj_all.fix = ', vc3d_glob.curr_obj_all.fix);
         if (vc3d_glob.curr_obj_all.fix == 2) {
-          console.log("243423243423 curr_obj", vc3d_glob.curr_obj);
+          //console.log("243423243423 curr_obj", vc3d_glob.curr_obj);
           if (vc3d_glob.curr_obj_all_PICTURE) {
             vc3d_glob.curr_obj_all_PICTURE = null;
           } else {
             vc3d_glob.curr_obj_all_PICTURE = Object.create(vc3d_glob.curr_obj_all)
           }
+          //vc3d_glob.curr_obj_all_PICTURE = null;
 
           if (
             vc3d_glob.curr_obj?.material &&
@@ -351,58 +352,59 @@ class i3d_Events_func {
           ) {
             /** */
             //const vc3d_glob_curr_obj = Object.create(vc3d_glob.curr_obj) // но тут может быть проблема при удалении объекта
-            console.log('111 vc3d_glob.curr_obj', vc3d_glob.curr_obj.uuid); // uuid: "ADCA2328-EB10-46B5-BD5A-90A20B5F5191"
-            let video
-            if(vc3d_glob.curr_obj.videoNum && vc3d_glob.curr_obj.video) {
-              //video = document.getElementById(`video${vc3d_glob.curr_obj.videoNum}`);
+            //console.log('111 vc3d_glob.curr_obj', vc3d_glob.curr_obj.uuid); // uuid: "ADCA2328-EB10-46B5-BD5A-90A20B5F5191"
+            //console.log('00000000000000', vc3d_glob.curr_obj.materialParams?.video);
+            try {
 
-            } else {
-              video = document.getElementById(`video${vc3d_glob.videoNumGlobal}`);
-              vc3d_glob.curr_obj.video = video
-              vc3d_glob.curr_obj.videoNum = vc3d_glob.videoNumGlobal
-              vc3d_glob.curr_obj.video.src = vc3d_glob.curr_obj.materialParams?.video;
-              vc3d_glob.curr_obj.video.crossorigin = "anonymous";
-              vc3d_glob.videoNumGlobal++
-            }
-
-            const vc3d_glob_curr_obj_uuid = vc3d_glob.curr_obj.uuid
-            const callbackfunc = (node) => {
-              //console.log('77 node.uuid = ', node.uuid, ' === ', vc3d_glob_curr_obj_uuid);
-              if(node.uuid === vc3d_glob_curr_obj_uuid) { 
-                node.videoState = "stoped"
-                console.log('!BINGO! vc3d_glob_curr_obj_uuid = ', vc3d_glob_curr_obj_uuid);
-                return true 
+              let video
+              if(vc3d_glob.curr_obj.videoNum && vc3d_glob.curr_obj.video) {
+                //video = document.getElementById(`video${vc3d_glob.curr_obj.videoNum}`);
+  
+              } else {
+                video = document.getElementById(`video${vc3d_glob.videoNumGlobal}`);
+                vc3d_glob.curr_obj.video = video
+                vc3d_glob.curr_obj.videoNum = vc3d_glob.videoNumGlobal
+                vc3d_glob.curr_obj.video.src = process.env.REACT_APP_API_URL + vc3d_glob.curr_obj.materialParams?.video;
+                vc3d_glob.curr_obj.video.crossorigin = "anonymous";
+                vc3d_glob.videoNumGlobal++
               }
-            }
-            vc3d_glob.curr_obj.video.onended = (event) => {
-              console.log('Video stopped event = ', event);
-              //vc3d_glob.curr_obj.videoState = "paused";
-              //vc3d_glob_curr_obj.videoState = "stoped";
-              //const videoObj = 
-              this.find_obj({ node: vc3d_glob.SCENE, callbackfunc})
-              // if(videoObj) {
-              //   videoObj.videoState = "stoped"
-              //   console.log('55055 videoObj.videoState = ', videoObj.videoState);
-              // }
+  
+              //console.log('888 = ', process.env.REACT_APP_API_URL + vc3d_glob.curr_obj.materialParams?.video);
+  
+              const vc3d_glob_curr_obj_uuid = vc3d_glob.curr_obj.uuid
+              const callbackfunc = (node) => {
+                if(node.uuid === vc3d_glob_curr_obj_uuid) { 
+                  node.videoState = "stoped"
+                  return true 
+                }
+              }
+              vc3d_glob.curr_obj.video.onended = (event) => {
+                //console.log('Video stopped event = ', event);
+                this.find_obj({ node: vc3d_glob.SCENE, callbackfunc})
+              }  
 
+
+              if (vc3d_glob.curr_obj.videoState === "play") {
+                vc3d_glob.curr_obj.video.pause();
+                vc3d_glob.curr_obj.videoState = "paused";
+                console.log("paused");
+              } else {
+                vc3d_glob.curr_obj.video.play();
+                console.log("play");
+                const texture = new THREE.VideoTexture(vc3d_glob.curr_obj.video);
+                texture.needsUpdate = true;
+                texture.onUpdate = (item) => { if (!vc3d_glob.animate) { i3d_all.animate2() } }
+                const material1 = new THREE.MeshBasicMaterial({ map: texture });
+                vc3d_glob.curr_obj.material = material1;
+                vc3d_glob.curr_obj.videoState = "play";
+
+                i3d_all.animate4();
+              }
+
+            } catch (e) {
+              console.error("Video Error ", e)
             }
 
-            if (vc3d_glob.curr_obj.videoState === "play") {
-              vc3d_glob.curr_obj.video.pause();
-              vc3d_glob.curr_obj.videoState = "paused";
-              console.log("paused");
-            } else {
-              vc3d_glob.curr_obj.video.play();
-              console.log("play");
-              const texture = new THREE.VideoTexture(vc3d_glob.curr_obj.video);
-              texture.needsUpdate = true;
-              texture.onUpdate = (item) => { if (!vc3d_glob.animate) { i3d_all.animate2() } }
-              const material1 = new THREE.MeshBasicMaterial({ map: texture });
-              vc3d_glob.curr_obj.material = material1;
-              vc3d_glob.curr_obj.videoState = "play";
-              i3d_all.animate4();
-
-            }
           }
         } else {
           // var intersects_11 = intersects[0];
