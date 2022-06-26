@@ -61,7 +61,6 @@ class ObjLoaders {
       opacity: 0.8,
     });
 
-    // 0 - empty, 1 - rack, 2 - ремонт, 3 - замена, 22 - 2+ ремонтов, 33 - 2+ замен, 23 - и ремонты и замены нужны
     vc3d_glob.rack_repair2_material = new THREE.MeshBasicMaterial({
       color: vc3d_glob.rack_repair2_color,
       transparent: true,

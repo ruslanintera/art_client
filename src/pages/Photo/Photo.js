@@ -10,28 +10,28 @@ import { useHistory } from "react-router-dom"
 import { observer } from "mobx-react-lite"
 import { Context } from "../../index"
 
-import { fetchPhotoVideo, fetchPhotoVideoCreate } from "../../http/commAPI"
-import PhotoVideoList from "./PhotoVideoList"
-import PagesPhotoVideo from "./PagesPhotoVideo"
+import { fetchPhoto, fetchPhotoCreate } from "../../http/commAPI"
+import PhotoList from "./PhotoList"
+import PagesPhoto from "./PagesPhoto"
 import { PHOTO_ROUTE } from "../../utils/consts"
 
-const PhotoVideo = observer(() => {
+const Photo = observer(() => {
   const { device } = useContext(Context)
   const history = useHistory()
   const [oneValue, setOneValue] = useState({ name: "" })
 
   useEffect(() => {
-    fetchPhotoVideo({
-      page: device.getPhotoVideoPage,
-      limit: device.getPhotoVideoLimit,
+    fetchPhoto({
+      page: device.getPhotoPage,
+      limit: device.getPhotoLimit,
     }).then((data) => {
-      device.setPhotoVideo(data.rows)
-      device.setPhotoVideoTotal(data.count)
+      device.setPhoto(data.rows)
+      device.setPhotoTotal(data.count)
     })
-  }, [device.getPhotoVideoPage])
+  }, [device.getPhotoPage])
 
   async function CREATE(event) {
-    const data = await fetchPhotoVideoCreate(oneValue) //
+    const data = await fetchPhotoCreate(oneValue) //
     history.push(PHOTO_ROUTE + "/" + data.id)
   }
 
@@ -43,7 +43,7 @@ const PhotoVideo = observer(() => {
           defaultActiveKey="tab_page_1"
           id="uncontrolled-tab-example"
         >
-          <Tab className="p-1" eventKey="tab_page_1" title="PhotoVideo">
+          <Tab className="p-1" eventKey="tab_page_1" title="Photo">
             <h4>
               <strong>3D Модели</strong>
             </h4>
@@ -51,8 +51,8 @@ const PhotoVideo = observer(() => {
             <Row className="mt-2">
               {/* <Col md={3}></Col> */}
               <Col md={12}>
-                <PagesPhotoVideo />
-                <PhotoVideoList />
+                <PagesPhoto />
+                <PhotoList />
               </Col>
             </Row>
           </Tab>
@@ -93,4 +93,4 @@ const PhotoVideo = observer(() => {
   )
 })
 
-export default PhotoVideo
+export default Photo

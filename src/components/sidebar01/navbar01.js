@@ -1,31 +1,31 @@
-import React, { Component, useContext, useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import Nav from "react-bootstrap/Nav";
-// import Navbar from "react-bootstrap/Navbar";
-// import {NavLink} from "react-router-dom";
+import React, { Component, useContext, useState, useEffect } from "react"
+import { Link } from "react-router-dom"
+import Nav from "react-bootstrap/Nav"
+// import Navbar from "react-bootstrap/Navbar"
+// import {NavLink} from "react-router-dom"
 
-//import './sidebar.css';
-//import logo from './sidebar/images/logo.jpg';
-import { observer } from "mobx-react-lite";
-import { Context } from "../../index";
+//import './sidebar.css'
+//import logo from './sidebar/images/logo.jpg'
+import { observer } from "mobx-react-lite"
+import { Context } from "../../index"
 import {
   LOGIN_ROUTE,
   HOME_ROUTE,
   MODEL_ROUTE,
   SET_ROUTE,
   PHOTO_ROUTE,
-} from "../../utils/consts";
-import { useHistory } from "react-router-dom";
+} from "../../utils/consts"
+import { useHistory } from "react-router-dom"
 
 const SideBar = observer((props) => {
-  const { device } = useContext(Context);
+  const { device } = useContext(Context)
 
-  const { store } = useContext(Context);
-  const history = useHistory();
+  const { store } = useContext(Context)
+  const history = useHistory()
 
   const handleToggle = () => {
-    device.setIsActive(!device.isActive);
-  };
+    device.setIsActive(!device.isActive)
+  }
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -102,7 +102,7 @@ const SideBar = observer((props) => {
         </div>
       </div>
     </nav>
-  );
-});
+  )
+})
 
-export default SideBar;
+export default SideBar

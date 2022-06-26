@@ -1,13 +1,13 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Container } from "react-bootstrap";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Button from "react-bootstrap/Button";
-//import { Button, Dropdown, Form, Row, Col } from "react-bootstrap";
-import { Form } from "react-bootstrap";
+import React, { useContext, useEffect, useState } from "react"
+import { Container } from "react-bootstrap"
+import Row from "react-bootstrap/Row"
+import Col from "react-bootstrap/Col"
+import Button from "react-bootstrap/Button"
+//import { Button, Dropdown, Form, Row, Col } from "react-bootstrap"
+import { Form } from "react-bootstrap"
 
-import { observer } from "mobx-react-lite";
-import { Context } from "../../index";
+import { observer } from "mobx-react-lite"
+import { Context } from "../../index"
 
 import {
   fetchModelType3d,
@@ -17,25 +17,17 @@ import {
   fetchOneModelType3d,
   fetchModelType3dDelete,
   fetchModelType3dUploadGLB,
-} from "../../http/commAPI";
+} from "../../http/commAPI"
 
-import { useParams } from "react-router-dom";
-import { useHistory } from "react-router-dom";
-import { MODEL_ROUTE } from "../../utils/consts";
-
-import { vc3d_glob } from "../../3d/dev2020/f5_vc3d_glob";
-import { i3d_base } from "../../3d/dev2020/f4_base";
-import { i3d_all } from "../../3d/dev2020/f7_assist";
-import objLoaders from "../../3d/obj-loaders.js";
-import { common } from "../../common/common";
-
-import { HexColorPicker } from "react-colorful";
-//import "react-colorful/dist/index.css";
+import { useParams } from "react-router-dom"
+import { useHistory } from "react-router-dom"
+import { MODEL_ROUTE } from "../../utils/consts"
+import { HexColorPicker } from "react-colorful"
 
 const Obj = observer(() => {
-  const history = useHistory();
-  const { device } = useContext(Context);
-  const { id } = useParams();
+  const history = useHistory()
+  const { device } = useContext(Context)
+  const { id } = useParams()
   const [oneValue, setOneValue] = useState({
     id: "",
     name: "",
@@ -48,140 +40,120 @@ const Obj = observer(() => {
     dts: "",
     dt: "",
     user: 0,
-  });
-  const [color, setColor] = useState("#fff");
-
-  const [fileGLB, setFileGLB] = useState(null);
-  const [filesJPG, setFilesJPG] = useState(null);
+  })
+  const [color, setColor] = useState("#fff")
+  const [fileGLB, setFileGLB] = useState(null)
+  const [filesJPG, setFilesJPG] = useState(null)
+  const [params3Array, setParams3Array] = useState([])
 
   const selectFileGLB = (e) => {
-    setFileGLB(e.target.files[0]);
-  };
+    setFileGLB(e.target.files[0])
+  }
   const selectFilesJPG = (e) => {
-    setFilesJPG(e.target.files[0]);
-  };
+    setFilesJPG(e.target.files[0])
+  }
 
   useEffect(() => {
     fetchOneModelType3d(id).then((data) => {
-      device.setModelType3dOne(data);
-      if (!device.getModelType3dOne) return;
+      device.setModelType3dOne(data)
+      if (!device.getModelType3dOne) return
 
-      const {
-        id,
-        name,
-        manufacturer,
-        model3d,
-        color,
-        params1,
-        params2,
-        params3,
-        dts,
-        dt,
-        user,
-      } = device.getModelType3dOne;
-      setOneValue({
-        id,
-        name,
-        manufacturer,
-        model3d,
-        color,
-        params1,
-        params2,
-        params3,
-        dts,
-        dt,
-        user,
-      });
-      if (color) setColor(color);
-
-      //console.log("fetchOneModelType3d    oneValue ===", oneValue);
+      const { id, name, manufacturer, model3d, color, params1, params2, params3, dts, dt, user } = device.getModelType3dOne
+      setOneValue({ id, name, manufacturer, model3d, color, params1, params2, params3, dts, dt, user })
+      if (color) setColor(color)
 
       fetchManufacturer(null, null, 1, 999).then((data) => {
-        //console.log("fetchManufacturer           data.rows = ", data.rows, "data.count = ", data.count)
-        device.setManufacturer(data.rows);
-        device.setManufacturerTotal(data.count);
-        //device.getManufacturer.map(obj =>console.log("MMMMMMMMMMMMMMMMMMMMMMMMMMMM obj ========", obj))
-      });
-    });
-  }, [id]);
+        device.setManufacturer(data.rows)
+        device.setManufacturerTotal(data.count)
+      })
+
+      // const params3_JSON = JSON.parse(params3)
+      // const imgPathArray = params3_JSON.map((item, idx) => {
+      //   return (process.env.REACT_APP_API_URL +`user${user}/img${id}/${item}`)
+      // })
+      // setParams3Array(imgPathArray)
+      console.log('oneValue = ', oneValue);
+      console.log('oneValue.params3 = ', oneValue.params3);
+
+      if (params3) {
+        const imgPathArray = []
+        imgPathArray.push(process.env.REACT_APP_API_URL + params3)
+        setParams3Array(imgPathArray)
+      } else {
+        setParams3Array([])
+      }
+
+    })
+  }, [id])
 
   function DELETE(event) {
-    fetchModelType3dDelete(oneValue.id);
-    history.push(MODEL_ROUTE + "/");
+    fetchModelType3dDelete(oneValue.id)
+    history.push(MODEL_ROUTE + "/")
   }
   function UPDATE(event) {
-    //console.log("UPDATE oneValue ===", oneValue);
-    fetchModelType3dUpdate(oneValue);
+    fetchModelType3dUpdate(oneValue)
   }
   function UPDATE_2(event) {
-    //console.log("UPDATE_2 oneValue ===", oneValue);
+    //console.log("UPDATE_2 oneValue ===", oneValue)
     //{id, name } = oneValue
-    const oneValue_2 = { id: oneValue.id, name: oneValue.name };
-    fetchModelType3dUpdate(oneValue_2);
+    const oneValue_2 = { id: oneValue.id, name: oneValue.name }
+    fetchModelType3dUpdate(oneValue_2)
   }
   const onDone = (data) => {
-    //console.log("udated data=", data);
-  };
-  const uploadGLBJPG = () => {
-    //console.log("fileGLB", fileGLB, "filesJPG", filesJPG)
-    const formData = new FormData();
-    formData.append("id", oneValue.id);
-    formData.append("name", oneValue.name);
-    formData.append("manufacturer", oneValue.manufacturer);
-    formData.append("model3d", oneValue.model3d);
-    formData.append("color", oneValue.color);
-    formData.append("params1", oneValue.params1);
-    formData.append("params2", oneValue.params2);
-    formData.append("params3", oneValue.params3);
-    formData.append("dts", oneValue.dts);
-    formData.append("dt", oneValue.dt);
-    formData.append("user", oneValue.user);
+    console.log("MODEL udated data=", data)
+      const { id, name, manufacturer, model3d, color, params1, params2, params3, dts, dt, user } = data.record
+      console.log('id >>>>>>>>>>>>>>>>>', id);
+      setOneValue({ id, name, manufacturer, model3d, color, params1, params2, params3, dts, dt, user })
 
-    formData.append("glb", fileGLB);
-    formData.append("imgs", filesJPG);
+    //if (data?.record?.params3) {
+    if (params3) {
+      // setOneValue({ ...oneValue, params3: data.record.params3 })
+
+      // const params3_JSON = JSON.parse(data.record.params3)
+      // const imgPathArray = params3_JSON.map((item, idx) => {
+      //   return (process.env.REACT_APP_API_URL +`user${data.record.user}/model${id}/${item}`)
+      // })
+      // setParams3Array(imgPathArray)
+      const imgPathArray = []
+      imgPathArray.push(process.env.REACT_APP_API_URL + params3)
+      setParams3Array(imgPathArray)
+
+    } else {
+      setParams3Array([])
+    }
+
+  }
+  const uploadGLBJPG = () => {
+    const formData = new FormData()
+    formData.append("id", oneValue.id)
+    formData.append("name", oneValue.name)
+    formData.append("manufacturer", oneValue.manufacturer)
+    formData.append("model3d", oneValue.model3d)
+    formData.append("color", oneValue.color)
+    formData.append("params1", oneValue.params1)
+    formData.append("params2", oneValue.params2)
+    formData.append("params3", oneValue.params3)
+    formData.append("dts", oneValue.dts)
+    formData.append("dt", oneValue.dt)
+    formData.append("user", oneValue.user)
+
+    formData.append("glb", fileGLB)
+    formData.append("imgs", filesJPG)
     fetchModelType3dUploadGLB(formData, oneValue.id).then((data) =>
       onDone(data)
-    );
-  };
+    )
+  }
 
   async function CREATE(event) {
-    const data = await fetchModelType3dCreate(oneValue); //
-    //console.log("CREATE data = =  = = =", data, "CREATE data.id = =  = = =", data.id)
-
-    device.setModelType3dOne(data);
-    const {
-      id,
-      name,
-      manufacturer,
-      model3d,
-      color,
-      params1,
-      params2,
-      params3,
-      dts,
-      dt,
-      user,
-    } = device.getModelType3dOne;
-    //console.log("CREATE ===", name, manufacturer, model3d, "p1 ===", params1, "p2 ===", params2, user)
-
-    setOneValue({
-      id,
-      name,
-      manufacturer,
-      model3d,
-      color,
-      params1,
-      params2,
-      params3,
-      dts,
-      dt,
-      user,
-    });
-    history.push(MODEL_ROUTE + "/" + data.id);
+    const data = await fetchModelType3dCreate(oneValue) //
+    device.setModelType3dOne(data)
+    const { id, name, manufacturer, model3d, color, params1, params2, params3, dts, dt, user } = device.getModelType3dOne
+    setOneValue({ id, name, manufacturer, model3d, color, params1, params2, params3, dts, dt, user })
+    history.push(MODEL_ROUTE + "/" + data.id)
   }
 
   if (!device.getModelType3dOne) {
-    return <h1 className="work_page navbar">Данные отсутствуют</h1>;
+    return <h1 className="work_page navbar">Данные отсутствуют</h1>
   }
 
   return (
@@ -198,10 +170,20 @@ const Obj = observer(() => {
             <HexColorPicker
               color={color}
               onChange={(e) => {
-                setColor(e);
-                setOneValue({ ...oneValue, color: e });
+                setColor(e)
+                setOneValue({ ...oneValue, color: e })
               }}
             />
+
+            {params3Array.map((item, idx) => {
+              return (<img src={item} alt={item} key={item + idx + Date.now()}></img>)
+            })}
+
+            {/* { oneValue.params3 
+              ? <img src={process.env.REACT_APP_API_URL + oneValue.params3} alt={oneValue.params3}></img>
+              : 'no pics'
+            } */}
+
           </Col>
           <Col md={9}>
             <table>
@@ -241,11 +223,11 @@ const Obj = observer(() => {
                     <select
                       value={oneValue.manufacturer}
                       onChange={(e) => {
-                        //console.log("!!!!!! e.target.value = ", e.target.value, {...oneValue, manufacturer: e.target.value});
+                        //console.log("!!!!!! e.target.value = ", e.target.value, {...oneValue, manufacturer: e.target.value})
                         return setOneValue({
                           ...oneValue,
                           manufacturer: e.target.value,
-                        });
+                        })
                       }}
                       // className={fClassName(true)}
                     >
@@ -286,8 +268,8 @@ const Obj = observer(() => {
                       className="form-control pad1"
                       value={oneValue.color}
                       onChange={(e) => {
-                        setOneValue({ ...oneValue, color: e.target.value });
-                        setColor(e.target.value);
+                        setOneValue({ ...oneValue, color: e.target.value })
+                        setColor(e.target.value)
                       }}
                     />
                   </td>
@@ -376,7 +358,7 @@ const Obj = observer(() => {
         </Row>
       </Container>
     </div>
-  );
-});
+  )
+})
 
-export default Obj;
+export default Obj

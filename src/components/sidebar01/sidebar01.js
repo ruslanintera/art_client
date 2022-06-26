@@ -5,12 +5,12 @@ import React, {
   useEffect,
   useCallback,
   useMemo,
-} from "react";
-import { Link } from "react-router-dom";
+} from "react"
+import { Link } from "react-router-dom"
 
-import { observer } from "mobx-react-lite";
-import { Context } from "../../index";
-import { ROUTE_3D } from "../../utils/consts";
+import { observer } from "mobx-react-lite"
+import { Context } from "../../index"
+import { ROUTE_3D } from "../../utils/consts"
 import {
   Alert,
   Container,
@@ -20,52 +20,37 @@ import {
   Tab,
   Button,
   ListGroup,
-} from "react-bootstrap";
+} from "react-bootstrap"
 import {
   fetchModelType3d,
-  fetchPhotoVideo,
+  fetchPhoto,
   fetchModelType3dUpdate,
-} from "../../http/commAPI";
+} from "../../http/commAPI"
 
-import ModelType3dList from "../../pages/ModelType3d/ModelType3dList";
-import PagesModelType3d from "../../pages/ModelType3d/PagesModelType3d";
+import ModelType3dList from "../../pages/ModelType3d/ModelType3dList"
+import PagesModelType3d from "../../pages/ModelType3d/PagesModelType3d"
 
-import PhotoVideoList from "../../pages/PhotoVideo/PhotoVideoList";
-import PagesPhotoVideo from "../../pages/PhotoVideo/PagesPhotoVideo";
+import PhotoList from "../../pages/Photo/PhotoList"
+import PagesPhoto from "../../pages/Photo/PagesPhoto"
 
-import { useHistory } from "react-router-dom";
-import { vc3d_glob } from "../../3d/dev2020/f5_vc3d_glob";
+import { useHistory } from "react-router-dom"
+import { vc3d_glob } from "../../3d/dev2020/f5_vc3d_glob"
 
-import JoyStick from "../joyStick/joyStick";
-import RangeSlider from "../rangeSlider/rangeSlider";
-import { react3d } from "../../3d/react3d";
+import JoyStick from "../joyStick/joyStick"
+import RangeSlider from "../rangeSlider/rangeSlider"
+import { react3d } from "../../3d/react3d"
 
 const SideBar = observer((props) => {
-  let rootElement = props.rootElement;
-  const { device } = useContext(Context);
-  const history = useHistory();
-  const [parentVal, setParentVal] = useState(10);
-  //model
-  // const [oneValue, setOneValue] = useState({
-  //   id: "",
-  //   name: "",
-  //   manufacturer: 0,
-  //   model3d: "",
-  //   color: "",
-  //   params1: "",
-  //   params2: "",
-  //   params3: "",
-  //   dts: "",
-  //   dt: "",
-  //   user: 0,
-  // });
-
-  const [setOneValue, setSetOneValue] = useState([]);
+  let rootElement = props.rootElement
+  const { device } = useContext(Context)
+  const history = useHistory()
+  const [parentVal, setParentVal] = useState(10)
+  const [setOneValue, setSetOneValue] = useState([])
 
   const sliderValueChanged = useCallback((val) => {
-    //console.log("NEW VALUE", val);
-    setParentVal(val);
-  });
+    //console.log("NEW VALUE", val)
+    setParentVal(val)
+  })
 
   const sliderProps = useMemo(
     () => ({
@@ -77,58 +62,33 @@ const SideBar = observer((props) => {
       onChange: (e) => sliderValueChanged(e),
     }),
     [parentVal]
-  );
+  )
 
   useEffect(() => {
-    //const getSetOne = device.getSetOne;
-    setSetOneValue(device.getSetOne);
-    //console.log("=== getSetOneData = ", { ...setOneValue });
-  });
+    //const getSetOne = device.getSetOne
+    setSetOneValue(device.getSetOne)
+    //console.log("=== getSetOneData = ", { ...setOneValue })
+  })
 
   useEffect(() => {
     fetchModelType3d({
       page: device.getModelType3dPage,
       limit: device.getModelType3dLimit,
     }).then((data) => {
-      device.setModelType3d(data.rows);
-      device.setModelType3dTotal(data.count);
-    });
-  }, [device.getModelType3dPage]);
+      device.setModelType3d(data.rows)
+      device.setModelType3dTotal(data.count)
+    })
+  }, [device.getModelType3dPage])
 
   useEffect(() => {
-    fetchPhotoVideo({
-      page: device.getPhotoVideoPage,
-      limit: device.getPhotoVideoLimit,
+    fetchPhoto({
+      page: device.getPhotoPage,
+      limit: device.getPhotoLimit,
     }).then((data) => {
-      device.setPhotoVideo(data.rows);
-      device.setPhotoVideoTotal(data.count);
-    });
-  }, [device.getPhotoVideoPage]);
-
-  // function UPDATE(event) {
-  //   //console.log("UPDATE_2 oneValue ===", oneValue);
-  //   //const oneValue_2 = { id: oneValue.id, name: oneValue.name };
-  //   const oneValue_2 = {
-  //     id: oneValue.id,
-  //     name: oneValue.name,
-  //     params3: oneValue.params3,
-  //   };
-  //   fetchModelType3dUpdate(oneValue_2);
-  // }
-  // function UPDATE_SET(event) {
-
-  //   getSetOneData = device.getSetOne;
-  //   //console.log("88 getSetOneData = ", {...getSetOneData,});
-
-  //   //console.log("UPDATE_2 oneValue ===", oneValue);
-  //   //const oneValue_2 = { id: oneValue.id, name: oneValue.name };
-  //   const oneValue_2 = {
-  //     id: oneValue.id,
-  //     name: oneValue.name,
-  //     params3: oneValue.params3,
-  //   };
-  //   fetchModelType3dUpdate(oneValue_2);
-  // }
+      device.setPhoto(data.rows)
+      device.setPhotoTotal(data.count)
+    })
+  }, [device.getPhotoPage])
 
   return (
     <nav id="sidebar" className={device.isActive ? "active" : null}>
@@ -218,8 +178,8 @@ const SideBar = observer((props) => {
                 </Container>
                 <Row className="mt-2">
                   <Col md={12}>
-                    <PagesPhotoVideo />
-                    <PhotoVideoList short={true} />
+                    <PagesPhoto />
+                    <PhotoList short={true} />
                   </Col>
                 </Row>
               </Tab>
@@ -268,7 +228,7 @@ const SideBar = observer((props) => {
           <Button
             className="mr-1"
             onClick={(e) => {
-              react3d.SAVE(device);
+              react3d.SAVE(device)
             }}
           >
             SAVE
@@ -276,7 +236,7 @@ const SideBar = observer((props) => {
           <Button
             className="mr-1"
             onClick={(e) => {
-              react3d.DELETE(device);
+              react3d.DELETE(device)
             }}
           >
             DELETE
@@ -291,7 +251,7 @@ const SideBar = observer((props) => {
         <JoyStick /> */}
       </div>
     </nav>
-  );
-});
+  )
+})
 
-export default SideBar;
+export default SideBar

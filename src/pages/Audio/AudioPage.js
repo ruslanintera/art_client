@@ -4,16 +4,17 @@ import { Button, Form, Row, Col } from "react-bootstrap"
 
 import { observer } from "mobx-react-lite"
 import { Context } from "../../index"
+import styles from "./AudioPage.module.css"
 
 import {
-  fetchPhotoVideo,
+  fetchAudio,
   fetchManufacturer,
-  fetchPhotoVideoCreate,
-  fetchPhotoVideoUpdate,
-  fetchOnePhotoVideo,
-  fetchPhotoVideoDelete,
-  fetchPhotoVideoUploadMP4,
-  fetchPhotoVideoUploadJPG,
+  fetchAudioCreate,
+  fetchAudioUpdate,
+  fetchOneAudio,
+  fetchAudioDelete,
+  fetchAudioUploadMP4,
+  fetchAudioUploadJPG,
 } from "../../http/commAPI"
 
 import { useParams } from "react-router-dom"
@@ -56,12 +57,34 @@ const Obj = observer(() => {
   }
 
   useEffect(() => {
-    fetchOnePhotoVideo(id).then((data) => {
-      device.setPhotoVideoOne(data)
-      if (!device.getPhotoVideoOne) return
+    fetchOneAudio(id).then((data) => {
+      device.setAudioOne(data)
+      if (!device.getAudioOne) return
 
-      const { id, name, manufacturer, pathimg, color, params1, params2, params3, type, user, } = device.getPhotoVideoOne
-      setOneValue({ id, name, manufacturer, pathimg, color, params1, params2, params3, type, user, })
+      const {
+        id,
+        name,
+        manufacturer,
+        pathimg,
+        color,
+        params1,
+        params2,
+        params3,
+        type,
+        user,
+      } = device.getAudioOne
+      setOneValue({
+        id,
+        name,
+        manufacturer,
+        pathimg,
+        color,
+        params1,
+        params2,
+        params3,
+        type,
+        user,
+      })
       if (color) setColor(color)
 
       fetchManufacturer(null, null, 1, 999).then((data) => {
@@ -92,11 +115,11 @@ const Obj = observer(() => {
   }, [id])
 
   function DELETE(event) {
-    fetchPhotoVideoDelete(oneValue.id)
+    fetchAudioDelete(oneValue.id)
     history.push(PHOTO_ROUTE + "/")
   }
   function UPDATE(event) {
-    fetchPhotoVideoUpdate(oneValue)
+    fetchAudioUpdate(oneValue)
   }
   const onDone = (data) => {
     if (data?.record?.params2) {
@@ -144,7 +167,7 @@ const Obj = observer(() => {
         formData.append(`videos_${i}`, filesMP4[i])
       }
     }
-    fetchPhotoVideoUploadMP4(formData, oneValue.id).then((data) =>
+    fetchAudioUploadMP4(formData, oneValue.id).then((data) =>
       onDone(data)
     )
   }
@@ -166,16 +189,16 @@ const Obj = observer(() => {
       }
     }
 
-    fetchPhotoVideoUploadJPG(formData, oneValue.id).then((data) =>
+    fetchAudioUploadJPG(formData, oneValue.id).then((data) =>
       onDone(data)
     )
   }
 
   async function CREATE(event) {
-    const data = await fetchPhotoVideoCreate(oneValue) //
+    const data = await fetchAudioCreate(oneValue) //
     //console.log("CREATE data = =  = = =", data, "CREATE data.id = =  = = =", data.id)
 
-    device.setPhotoVideoOne(data)
+    device.setAudioOne(data)
     const {
       id,
       name,
@@ -187,7 +210,7 @@ const Obj = observer(() => {
       params3,
       type,
       user,
-    } = device.getPhotoVideoOne
+    } = device.getAudioOne
 
     setOneValue({
       id,
@@ -204,7 +227,7 @@ const Obj = observer(() => {
     history.push(PHOTO_ROUTE + "/" + data.id)
   }
 
-  if (!device.getPhotoVideoOne) {
+  if (!device.getAudioOne) {
     return <h3 className="work_page navbar">Данные отсутствуют</h3>
   }
 
@@ -262,7 +285,7 @@ const Obj = observer(() => {
               <tbody>
                 <tr>
                   <td>id</td>
-                  <td>{device.getPhotoVideoOne.id}</td>
+                  <td>{device.getAudioOne.id}</td>
                   <td></td>
                 </tr>
                 <tr>

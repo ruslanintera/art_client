@@ -1,10 +1,11 @@
 import React, { useContext } from "react"
 import { observer } from "mobx-react-lite"
 import { Context } from "../../index"
-import PhotoVideoItemTr from "./PhotoVideoItemTr"
-import styles from "./PhotoVideoPage.module.css"
+import VideoItemTr from "./VideoItemTr"
+import { react3d } from "../../3d/react3d"
+import styles from "./VideoPage.module.css"
 
-const PhotoVideoList = observer(({ short }) => {
+const VideoList = observer(({ short }) => {
   const { device } = useContext(Context)
 
   if (short) {
@@ -12,7 +13,7 @@ const PhotoVideoList = observer(({ short }) => {
       <>
         <table>
           <tbody>
-            {device.getPhotoVideo.map((obj) => {
+            {device.getVideo.map((obj) => {
               if (!obj.params3) {
                 obj.params3 = "[]"
               }
@@ -35,7 +36,7 @@ const PhotoVideoList = observer(({ short }) => {
                 )
               })
 
-              return <PhotoVideoItemTr key={obj.id} obj={obj} short={true} />
+              return <VideoItemTr key={obj.id} obj={obj} short={true} />
             })}
           </tbody>
         </table>
@@ -53,7 +54,7 @@ const PhotoVideoList = observer(({ short }) => {
           </tr>
         </thead>
         <tbody>
-          {device.getPhotoVideo.map((obj) => {
+          {device.getVideo.map((obj) => {
             if (!obj.params3) {
               obj.params3 = "[]"
             }
@@ -72,7 +73,7 @@ const PhotoVideoList = observer(({ short }) => {
               )
             })
 
-            return <PhotoVideoItemTr key={obj.id} obj={obj} />
+            return <VideoItemTr key={obj.id} obj={obj} />
           })}
         </tbody>
       </table>
@@ -80,4 +81,4 @@ const PhotoVideoList = observer(({ short }) => {
   )
 })
 
-export default PhotoVideoList
+export default VideoList

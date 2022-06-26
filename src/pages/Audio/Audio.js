@@ -10,28 +10,28 @@ import { useHistory } from "react-router-dom"
 import { observer } from "mobx-react-lite"
 import { Context } from "../../index"
 
-import { fetchPhotoVideo, fetchPhotoVideoCreate } from "../../http/commAPI"
-import PhotoVideoList from "./PhotoVideoList"
-import PagesPhotoVideo from "./PagesPhotoVideo"
+import { fetchAudio, fetchAudioCreate } from "../../http/commAPI"
+import AudioList from "./AudioList"
+import PagesAudio from "./PagesAudio"
 import { PHOTO_ROUTE } from "../../utils/consts"
 
-const PhotoVideo = observer(() => {
+const Audio = observer(() => {
   const { device } = useContext(Context)
   const history = useHistory()
   const [oneValue, setOneValue] = useState({ name: "" })
 
   useEffect(() => {
-    fetchPhotoVideo({
-      page: device.getPhotoVideoPage,
-      limit: device.getPhotoVideoLimit,
+    fetchAudio({
+      page: device.getAudioPage,
+      limit: device.getAudioLimit,
     }).then((data) => {
-      device.setPhotoVideo(data.rows)
-      device.setPhotoVideoTotal(data.count)
+      device.setAudio(data.rows)
+      device.setAudioTotal(data.count)
     })
-  }, [device.getPhotoVideoPage])
+  }, [device.getAudioPage])
 
   async function CREATE(event) {
-    const data = await fetchPhotoVideoCreate(oneValue) //
+    const data = await fetchAudioCreate(oneValue) //
     history.push(PHOTO_ROUTE + "/" + data.id)
   }
 
@@ -43,7 +43,7 @@ const PhotoVideo = observer(() => {
           defaultActiveKey="tab_page_1"
           id="uncontrolled-tab-example"
         >
-          <Tab className="p-1" eventKey="tab_page_1" title="PhotoVideo">
+          <Tab className="p-1" eventKey="tab_page_1" title="Audio">
             <h4>
               <strong>3D Модели</strong>
             </h4>
@@ -51,8 +51,8 @@ const PhotoVideo = observer(() => {
             <Row className="mt-2">
               {/* <Col md={3}></Col> */}
               <Col md={12}>
-                <PagesPhotoVideo />
-                <PhotoVideoList />
+                <PagesAudio />
+                <AudioList />
               </Col>
             </Row>
           </Tab>
@@ -93,4 +93,4 @@ const PhotoVideo = observer(() => {
   )
 })
 
-export default PhotoVideo
+export default Audio

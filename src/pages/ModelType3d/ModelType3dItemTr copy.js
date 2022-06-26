@@ -1,11 +1,21 @@
 import React, { useContext } from "react";
+import { Card, Col } from "react-bootstrap";
+import Image from "react-bootstrap/Image";
+import star from "../../assets/star.png";
 import { useHistory } from "react-router-dom";
 import { MODEL_ROUTE, ROUTE_3D } from "../../utils/consts";
+
 import { observer } from "mobx-react-lite";
 import { Context } from "../../index";
-//import { vc3d_glob } from "../../3d/dev2020/f5_vc3d_glob";
+// import { fetchOneModelType3d, fetchOneDC } from "../../http/commAPI";
+// import { common } from "../../common/common";
+// import { i3d_base } from "../../3d/dev2020/f4_base";
+
+import { vc3d_glob } from "../../3d/dev2020/f5_vc3d_glob";
 import { react3d } from "../../3d/react3d";
-import styles from "./ModelType3d.module.css"
+// import { i3d_base } from "../../3d/dev2020/f4_base";
+// import { i3d_all } from "../../3d/dev2020/f7_assist";
+// import objLoaders from "../../3d/obj-loaders.js";
 
 const ModelType3dItem = observer(({ obj, short }) => {
   //console.log("objobjobjobjobjobjobjo ", obj);

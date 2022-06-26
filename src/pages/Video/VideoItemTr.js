@@ -10,9 +10,9 @@ import { Context } from "../../index"
 
 import { vc3d_glob } from "../../3d/dev2020/f5_vc3d_glob"
 import { react3d } from "../../3d/react3d"
-import styles from "./PhotoVideoPage.module.css"
+import styles from "./VideoPage.module.css"
 
-const PhotoVideoItem = observer(({ obj, short }) => {
+const VideoItem = observer(({ obj, short }) => {
   const history = useHistory()
   const { device } = useContext(Context)
   const { store } = useContext(Context)
@@ -69,24 +69,16 @@ const PhotoVideoItem = observer(({ obj, short }) => {
 
   return (
     <tr>
-      <td
-        className={"mt-3 comm_num"}
-        onClick={() => history.push(PHOTO_ROUTE + "/" + obj.id)}
-      >
+      <td className={"mt-3 comm_num"} onClick={() => history.push(PHOTO_ROUTE + "/" + obj.id)}>
         {obj.id}
       </td>
-
       <td className="community_name">{obj.name}</td>
-      {/* <td className="community_name">{obj.manufacturer}</td>
-      <td className="community_name">{obj.pathimg}</td>
-      <td className="community_name">{obj.color}</td>
-      <td className="community_name">{obj.type}</td> */}
       <td>
         {items.map((item) => {
           return (
             <img
               className={styles.imgList}
-              src={item}
+              src={process.env.REACT_APP_API_URL + item}
               alt={item}
               key={item}
             ></img>
@@ -97,14 +89,6 @@ const PhotoVideoItem = observer(({ obj, short }) => {
         {itemsMP4.map((item, idx) => {
           console.log("77777777 item", item)
           return (
-            // <img
-            //   onClick={() => react3d.ADD_IMAGE(obj, item, device)}
-            //   className={styles.imgList}
-            //   src={item}
-            //   alt={item}
-            //   key={item}
-            // ></img>
-
             <video
               width="100"
               height="100"
@@ -113,7 +97,7 @@ const PhotoVideoItem = observer(({ obj, short }) => {
               key={item + idx + Date.now()}
             >
               <source
-                src={item}
+                src={process.env.REACT_APP_API_URL + item}
                 type='video/mp4 codecs="avc1.42E01E, mp4a.40.2"'
               />
             </video>
@@ -124,4 +108,4 @@ const PhotoVideoItem = observer(({ obj, short }) => {
   )
 })
 
-export default PhotoVideoItem
+export default VideoItem

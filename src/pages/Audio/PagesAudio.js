@@ -2,12 +2,12 @@ import React, { useContext } from "react";
 import { observer } from "mobx-react-lite";
 import { Context } from "../../index";
 import { Pagination } from "react-bootstrap";
-import "./pages.css";
+//import "./pages.css";
 
-const PagesModelType3d = observer(() => {
+const PagesPhotoVideo = observer(() => {
   const { device } = useContext(Context);
   const pageCount = Math.ceil(
-    device.getModelType3dTotal / device.getModelType3dLimit
+    device.getPhotoVideoTotal / device.getPhotoVideoLimit
   );
   const pages = [];
 
@@ -16,12 +16,13 @@ const PagesModelType3d = observer(() => {
   }
 
   return (
-    <Pagination className="mt-0 pagination">
+    <Pagination className="mt-0" style={{ border: "1px solid #f00" }}>
       {pages.map((page) => (
         <Pagination.Item
           key={page}
-          active={device.getModelType3dPage === page}
-          onClick={() => device.setModelType3dPage(page)}
+          active={device.getPhotoVideoPage === page}
+          //active={true}
+          onClick={() => device.setPhotoVideoPage(page)}
         >
           {page}
         </Pagination.Item>
@@ -30,4 +31,4 @@ const PagesModelType3d = observer(() => {
   );
 });
 
-export default PagesModelType3d;
+export default PagesPhotoVideo;

@@ -23,31 +23,15 @@ const Set = observer(() => {
     params3: "",
   });
 
-  useEffect(() => {
-    fetchSet(
-      null,
-      null,
-      null,
-      null,
-      null,
-      device.getDCPage,
-      device.getDCLimit
-    ).then((data) => {
+  useEffect(() => { 
+    fetchSet({ page: device.getDCPage, limit: device.getDCLimit}).then((data) => {
       device.setDC(data.rows);
       device.setDCTotal(data.count);
     });
   }, []);
 
   useEffect(() => {
-    fetchSet(
-      null,
-      null,
-      null,
-      null,
-      null,
-      device.getDCPage,
-      device.getDCLimit
-    ).then((data) => {
+    fetchSet({ page: device.getDCPage, limit: device.getDCLimit}).then((data) => {
       device.setDC(data.rows);
       device.setDCTotal(data.count);
     });

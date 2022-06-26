@@ -1,25 +1,38 @@
 import React, { useContext, useEffect, useState } from "react"
 import { Container } from "react-bootstrap"
-import { Button, Form, Row, Col } from "react-bootstrap"
+import Row from "react-bootstrap/Row"
+import Col from "react-bootstrap/Col"
+import Button from "react-bootstrap/Button"
+//import { Button, Dropdown, Form, Row, Col } from "react-bootstrap"
+import { Form } from "react-bootstrap"
 
 import { observer } from "mobx-react-lite"
 import { Context } from "../../index"
+import styles from "./VideoPage.module.css"
 
 import {
-  fetchPhotoVideo,
+  fetchVideo,
   fetchManufacturer,
-  fetchPhotoVideoCreate,
-  fetchPhotoVideoUpdate,
-  fetchOnePhotoVideo,
-  fetchPhotoVideoDelete,
-  fetchPhotoVideoUploadMP4,
-  fetchPhotoVideoUploadJPG,
+  fetchVideoCreate,
+  fetchVideoUpdate,
+  fetchOneVideo,
+  fetchVideoDelete,
+  fetchVideoUploadMP4,
+  fetchVideoUploadJPG,
 } from "../../http/commAPI"
 
 import { useParams } from "react-router-dom"
 import { useHistory } from "react-router-dom"
 import { PHOTO_ROUTE } from "../../utils/consts"
+
+import { vc3d_glob } from "../../3d/dev2020/f5_vc3d_glob"
+import { i3d_base } from "../../3d/dev2020/f4_base"
+import { i3d_all } from "../../3d/dev2020/f7_assist"
+import objLoaders from "../../3d/obj-loaders.js"
+import { common } from "../../common/common"
+
 import { HexColorPicker } from "react-colorful"
+//import "react-colorful/dist/index.css"
 
 const Obj = observer(() => {
   const history = useHistory()
@@ -56,12 +69,34 @@ const Obj = observer(() => {
   }
 
   useEffect(() => {
-    fetchOnePhotoVideo(id).then((data) => {
-      device.setPhotoVideoOne(data)
-      if (!device.getPhotoVideoOne) return
+    fetchOneVideo(id).then((data) => {
+      device.setVideoOne(data)
+      if (!device.getVideoOne) return
 
-      const { id, name, manufacturer, pathimg, color, params1, params2, params3, type, user, } = device.getPhotoVideoOne
-      setOneValue({ id, name, manufacturer, pathimg, color, params1, params2, params3, type, user, })
+      const {
+        id,
+        name,
+        manufacturer,
+        pathimg,
+        color,
+        params1,
+        params2,
+        params3,
+        type,
+        user,
+      } = device.getVideoOne
+      setOneValue({
+        id,
+        name,
+        manufacturer,
+        pathimg,
+        color,
+        params1,
+        params2,
+        params3,
+        type,
+        user,
+      })
       if (color) setColor(color)
 
       fetchManufacturer(null, null, 1, 999).then((data) => {
@@ -92,11 +127,11 @@ const Obj = observer(() => {
   }, [id])
 
   function DELETE(event) {
-    fetchPhotoVideoDelete(oneValue.id)
+    fetchVideoDelete(oneValue.id)
     history.push(PHOTO_ROUTE + "/")
   }
   function UPDATE(event) {
-    fetchPhotoVideoUpdate(oneValue)
+    fetchVideoUpdate(oneValue)
   }
   const onDone = (data) => {
     if (data?.record?.params2) {
@@ -144,7 +179,7 @@ const Obj = observer(() => {
         formData.append(`videos_${i}`, filesMP4[i])
       }
     }
-    fetchPhotoVideoUploadMP4(formData, oneValue.id).then((data) =>
+    fetchVideoUploadMP4(formData, oneValue.id).then((data) =>
       onDone(data)
     )
   }
@@ -166,16 +201,16 @@ const Obj = observer(() => {
       }
     }
 
-    fetchPhotoVideoUploadJPG(formData, oneValue.id).then((data) =>
+    fetchVideoUploadJPG(formData, oneValue.id).then((data) =>
       onDone(data)
     )
   }
 
   async function CREATE(event) {
-    const data = await fetchPhotoVideoCreate(oneValue) //
+    const data = await fetchVideoCreate(oneValue) //
     //console.log("CREATE data = =  = = =", data, "CREATE data.id = =  = = =", data.id)
 
-    device.setPhotoVideoOne(data)
+    device.setVideoOne(data)
     const {
       id,
       name,
@@ -187,7 +222,7 @@ const Obj = observer(() => {
       params3,
       type,
       user,
-    } = device.getPhotoVideoOne
+    } = device.getVideoOne
 
     setOneValue({
       id,
@@ -204,7 +239,7 @@ const Obj = observer(() => {
     history.push(PHOTO_ROUTE + "/" + data.id)
   }
 
-  if (!device.getPhotoVideoOne) {
+  if (!device.getVideoOne) {
     return <h3 className="work_page navbar">Данные отсутствуют</h3>
   }
 
@@ -262,7 +297,7 @@ const Obj = observer(() => {
               <tbody>
                 <tr>
                   <td>id</td>
-                  <td>{device.getPhotoVideoOne.id}</td>
+                  <td>{device.getVideoOne.id}</td>
                   <td></td>
                 </tr>
                 <tr>

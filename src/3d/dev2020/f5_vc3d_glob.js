@@ -10,9 +10,8 @@ export let vc3d_glob = {
   videoNumGlobal: 1,
 
 
-  set_temp_mat: false,
+  set_temp_mat: true,
   delete_elem_selection_when_click_white_area: false, // вернем объекту его изначальный материал ?
-  // 0 - empty, 1 - rack, 2 - ремонт, 3 - замена:
   rack_empty_color: "#eee",
   rack_empty_DARK_color: "#888",
   rack_BLUE_color: "#00f",
